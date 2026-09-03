@@ -25,7 +25,7 @@ def limpiar_valor_numerico(serie):
 # 2. Carga optimizada de datos con caché
 @st.cache_data
 def cargar_datos_macro_meso():
-    ruta = r"C:\Archivos CEMBU\Datos procesados\macro meso\base_de_datos_consolidada 23-08-26.xlsx"
+    ruta = "base_de_datos_consolidada 23-08-26.xlsx"
     if os.path.exists(ruta):
         df = pd.read_excel(ruta, sheet_name="Datos_Formato_Largo")
         return df
