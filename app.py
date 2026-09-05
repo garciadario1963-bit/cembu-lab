@@ -1,9 +1,8 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
 import os
 
-# 1. Configuración de página e identidad visual en la pestaña
+# 1. Configuración estricta de la pestaña (Dice SOLO 'CEMBU')
 st.set_page_config(
     page_title="CEMBU",
     page_icon="🏛️",
@@ -11,88 +10,74 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Definición de la Paleta Institucional CEMBU
-COLOR_TERRACOTA = "#E3532B"
-COLOR_VERDE_AGUA = "#338B85"
+# Paleta de Colores Oficiales CEMBU
+COLOR_NARANJA = "#E3532B"
+COLOR_VERDE = "#338B85"
 COLOR_AMARILLO = "#E8AC33"
 COLOR_VIOLETA = "#77569B"
+COLOR_GRIS_TEXTO = "#6E6E6E"
 COLOR_FONDO_GRIS = "#F8F9FA"
 
-# CSS Personalizado para elevar el diseño visual
+# Links de logos oficiales integrados
+LOGO_CEMBU_URL = "https://raw.githubusercontent.com/streamlit/3d-house-sizes-demo/main/images/cembu.png" # Placeholder/vínculo dinámico
+
+# CSS para replicar la tipografía y estética exacta del manual de marca
 st.markdown(f"""
     <style>
-    /* Tipografía y fuentes generales */
+    /* Estilos globales */
     html, body, [class*="css"] {{
-        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        font-family: 'Helvetica Neue', Arial, sans-serif;
+        font-size: 18px !important;
     }}
     
-    /* Títulos Principales */
-    h1 {{
-        color: {COLOR_TERRACOTA};
+    /* Supertítulo / Categoría de marca */
+    .cembu-super {{
+        color: {COLOR_GRIS_TEXTO};
+        font-size: 1rem !important;
         font-weight: 700;
-        letter-spacing: -0.5px;
-        margin-bottom: 0px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 2px;
     }}
     
-    h2, h3 {{
-        color: {COLOR_VERDE_AGUA};
-        font-weight: 600;
-    }}
-
-    /* Fondo y diseño del Menú Lateral */
-    section[data-testid="stSidebar"] {{
-        background-color: {COLOR_FONDO_GRIS};
-        border-right: 3px solid {COLOR_VERDE_AGUA};
-    }}
-    
-    /* Estilizado de Tarjetas Institucionales (Cards) */
-    .cembu-card {{
-        background-color: #FFFFFF;
-        border-radius: 8px;
-        padding: 20px;
-        border-left: 5px solid {COLOR_TERRACOTA};
-        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        margin-bottom: 20px;
-    }}
-    
-    .cembu-card-header {{
-        color: {COLOR_TERRACOTA};
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin-bottom: 8px;
-    }}
-
-    .cembu-badge {{
-        background-color: {COLOR_VERDE_AGUA};
-        color: white;
-        padding: 4px 12px;
-        border-radius: 12px;
-        font-size: 0.85rem;
-        font-weight: 600;
-        display: inline-block;
+    /* Título Principal Naranja */
+    .cembu-title {{
+        color: {COLOR_NARANJA};
+        font-size: 3rem !important;
+        font-weight: 800;
+        line-height: 1.1;
         margin-bottom: 10px;
     }}
+    
+    /* Bajada / Subtítulo en cursiva */
+    .cembu-sub {{
+        font-style: italic;
+        color: #333333;
+        font-size: 1.25rem !important;
+        border-top: 1px solid #E0E0E0;
+        padding-top: 10px;
+        margin-top: 10px;
+    }}
 
-    /* Botones estilo CEMBU */
-    .stButton>button {{
-        background-color: {COLOR_VERDE_AGUA};
-        color: white !important;
-        font-weight: 600;
-        border-radius: 6px;
-        border: none;
-        padding: 8px 16px;
-        transition: all 0.3s ease;
+    /* Menú Lateral */
+    section[data-testid="stSidebar"] {{
+        background-color: {COLOR_FONDO_GRIS};
+        border-right: 3px solid {COLOR_VERDE};
     }}
     
-    .stButton>button:hover {{
-        background-color: {COLOR_TERRACOTA};
-        color: white !important;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    /* Tarjetas de Módulo */
+    .cembu-card {{
+        background-color: #FFFFFF;
+        border-radius: 10px;
+        padding: 25px;
+        border-left: 6px solid {COLOR_NARANJA};
+        box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        margin-bottom: 25px;
     }}
     </style>
 """, unsafe_allow_html=True)
 
-# 2. Carga Inteligente de Base de Datos
+# 2. Función de carga de datos segura
 @st.cache_data
 def cargar_datos():
     nombre_archivo = "base_de_datos_consolidada 23-08-26.xlsx"
@@ -103,81 +88,83 @@ def cargar_datos():
     ]
     for ruta in rutas_posibles:
         if os.path.exists(ruta):
-            return pd.read_excel(ruta), None
+            try:
+                return pd.read_excel(ruta), None
+            except Exception:
+                return None, f"El archivo '{nombre_archivo}' no se pudo leer."
     return None, f"No se encontró el archivo '{nombre_archivo}'."
 
-# 3. Menú Lateral con Iconografía Refinada
-st.sidebar.markdown(f"<h2 style='color: {COLOR_TERRACOTA}; margin-bottom: 0;'>CEMBU</h2>", unsafe_allow_html=True)
-st.sidebar.markdown("<p style='font-size: 0.85rem; color: #6c757d;'>Centro de Estudios M. B. Ugarte</p>", unsafe_allow_html=True)
+# 3. Menú Lateral con la Identidad Institucional
+st.sidebar.markdown(f"<div class='cembu-super'>FAMILIA DE MARCAS</div>", unsafe_allow_html=True)
+st.sidebar.markdown(f"<div class='cembu-title' style='font-size: 2.2rem !important;'>CEMBU</div>", unsafe_allow_html=True)
+st.sidebar.markdown("<p style='font-style: italic; color: #555; font-size: 0.95rem;'>Conocimiento para la transformación social</p>", unsafe_allow_html=True)
 st.sidebar.markdown("---")
 
 opcion_menu = st.sidebar.radio(
     "Navegación del Portal:",
     [
         "🏛️ Presentación e Inicio",
-        "📊 Macro & Meso Económico",
+        "📊 CEMBU LAB (Base de Datos)",
         "🔀 Cruce de Variables",
         "👥 Microdatos (Censo / EPH)",
-        "🇦🇷 CEMBU Matria",
-        "🌐 CEMBU OHD",
-        "💼 Proyectos & Consultoría",
-        "📰 Publicaciones & Difusión"
+        "🇦🇷 CEMBU MATRIA",
+        "🌐 CEMBU OHD (Hegemonía Dólar)",
+        "💼 CEMBU PROYS & SERV. CONS.",
+        "📰 PUBS / DIF. (Publicaciones)"
     ]
 )
 
 df, error_carga = cargar_datos()
 
-# 4. Modulo: Presentación e Inicio
+# 4. Renderizado según la sección elegida
 if "Presentación e Inicio" in opcion_menu:
     
-    # Encabezado Limpio Institucional
-    st.markdown(f"""
-        <div style="border-bottom: 3px solid {COLOR_TERRACOTA}; padding-bottom: 10px; margin-bottom: 25px;">
-            <h1>Centro de Estudios Manuel Baldomero Ugarte</h1>
-            <p style="font-size: 1.1rem; color: #555; margin-top: 5px;">Plataforma Integrada de Inteligencia Territorial y Analítica Económica</p>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown("<div class='cembu-super'>FAMILIA DE MARCAS CEMBU</div>", unsafe_allow_html=True)
+    st.markdown("<div class='cembu-title'>CEMBU</div>", unsafe_allow_html=True)
+    st.markdown("<div class='cembu-sub'>Centro de Estudios Manuel Baldomero Ugarte — Conocimiento para la transformación social</div>", unsafe_allow_html=True)
+    
+    st.markdown("<br>", unsafe_allow_html=True)
 
-    # Tarjeta de Propósito Institucional
     st.markdown(f"""
         <div class="cembu-card">
-            <div class="cembu-badge">Plataforma Oficial</div>
-            <div class="cembu-card-header">Propósito Institucional</div>
-            <p style="color: #333; line-height: 1.6; margin: 0;">
+            <div style="color: {COLOR_VERDE}; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; margin-bottom: 5px;">Plataforma Institucional Integrada</div>
+            <p style="color: #222; line-height: 1.7; font-size: 1.15rem; margin: 0;">
                 El <strong>CEMBU</strong> es una plataforma orientada a la generación, procesamiento y modelización de datos cuantitativos y cualitativos para el diseño de políticas públicas de desarrollo territorial, con foco estratégico en la Provincia de Buenos Aires y la CABA.
             </p>
         </div>
     """, unsafe_allow_html=True)
 
-    # Estado de la Base de Datos
     if df is not None:
-        st.markdown(f"""
-            <div style="background-color: #E8F5E9; border-left: 5px solid {COLOR_VERDE_AGUA}; padding: 12px 20px; border-radius: 6px; margin-bottom: 20px;">
-                <span style="color: #2E7D32; font-weight: bold;"> Base de datos integrada correctamente</span>
-            </div>
-        """, unsafe_allow_html=True)
-        
-        with st.expander("🔍 Explorar Estructura de la Base de Datos Consolidada", expanded=False):
+        st.success(" Base de datos integrada correctamente.")
+        with st.expander("🔍 Explorar Vista Previa de Datos", expanded=False):
             st.dataframe(df.head(10), use_container_width=True)
     else:
-        st.warning(f"⚠️ {error_carga}")
+        st.info(f"ℹ️ **Estado de Datos:** {error_carga}")
 
-# 5. Resto de los módulos (Estructura base estilizada)
-elif "Macro & Meso Económico" in opcion_menu:
-    st.markdown(f"<h1>📊 Módulo Macro & Meso Económico</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='font-size: 1.05rem; color: #666;'>Indicadores coyunturales, precios, actividad y análisis territorial.</p>", unsafe_allow_html=True)
-    st.write("---")
+elif "CEMBU LAB" in opcion_menu:
+    st.markdown("<div class='cembu-super'>CEMBU</div>", unsafe_allow_html=True)
+    st.markdown("<div class='cembu-title'>LAB.</div>", unsafe_allow_html=True)
+    st.markdown("<div class='cembu-sub'>Base de datos y modelos predictivos — Inteligencia territorial para el desarrollo</div>", unsafe_allow_html=True)
 
-elif "Cruce de Variables" in opcion_menu:
-    st.markdown(f"<h1>🔀 Cruce de Variables</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='font-size: 1.05rem; color: #666;'>Matriz de correlación entre variables estructurales y percepción social.</p>", unsafe_allow_html=True)
-    st.write("---")
+elif "CEMBU MATRIA" in opcion_menu:
+    st.markdown("<div class='cembu-super'>CEMBU</div>", unsafe_allow_html=True)
+    st.markdown("<div class='cembu-title'>MATRIA</div>", unsafe_allow_html=True)
+    st.markdown("<div class='cembu-sub'>Empresas sociales — Clusters, ZEE 360, Fondo de Hábitat</div>", unsafe_allow_html=True)
 
-elif "Microdatos" in opcion_menu:
-    st.markdown(f"<h1>👥 Módulo de Microdatos</h1>", unsafe_allow_html=True)
-    st.markdown("<p style='font-size: 1.05rem; color: #666;'>Procesamiento avanzado de microdatos (Censo y EPH).</p>", unsafe_allow_html=True)
-    st.write("---")
+elif "CEMBU OHD" in opcion_menu:
+    st.markdown("<div class='cembu-super'>CEMBU</div>", unsafe_allow_html=True)
+    st.markdown("<div class='cembu-title'>OHD</div>", unsafe_allow_html=True)
+    st.markdown("<div class='cembu-sub'>Observatorio monetario — Hegemonía del dólar</div>", unsafe_allow_html=True)
+
+elif "PROYS" in opcion_menu:
+    st.markdown("<div class='cembu-super'>CEMBU</div>", unsafe_allow_html=True)
+    st.markdown("<div class='cembu-title'>PROYS. / SERV. CONS.</div>", unsafe_allow_html=True)
+    st.markdown("<div class='cembu-sub'>Consultoría territorial y líneas de base — Inteligencia electoral</div>", unsafe_allow_html=True)
+
+elif "PUBS" in opcion_menu:
+    st.markdown("<div class='cembu-super'>CEMBU</div>", unsafe_allow_html=True)
+    st.markdown("<div class='cembu-title'>PUBS/DIF.</div>", unsafe_allow_html=True)
+    st.markdown("<div class='cembu-sub'>Publicaciones y difusión — Notas, informes, redes</div>", unsafe_allow_html=True)
 
 else:
-    st.markdown(f"<h1>{opcion_menu}</h1>", unsafe_allow_html=True)
-    st.info("Módulo en fase de integración dentro del sistema CEMBU.")
+    st.markdown(f"<div class='cembu-title'>{opcion_menu}</div>", unsafe_allow_html=True)
