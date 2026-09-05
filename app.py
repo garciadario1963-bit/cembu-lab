@@ -3,329 +3,116 @@ import pandas as pd
 import plotly.express as px
 import os
 
-# 1. Configuración de página y marca
+# 1. Configuración de página e identidad visual en la pestaña (Solo CEMBU)
 st.set_page_config(
-    page_title="Observatorio CEMBU Lab",
+    page_title="Observatorio CEMBU",
     page_icon="📊",
     layout="wide"
 )
 
-# Paleta Institucional CEMBU Lab
+# Paleta Institucional CEMBU
 COLOR_TERRACOTA = "#E3532B"
 COLOR_VERDE_AGUA = "#338B85"
 COLOR_AMARILLO = "#E8AC33"
 COLOR_VIOLETA = "#77569B"
 
-# Inyección de CSS para aplicar la estética visual CEMBU
+# Estilos visuales institucionales
 st.markdown(f"""
     <style>
     /* Estilos generales y títulos */
     h1, h2, h3 {{
         color: {COLOR_TERRACOTA};
-        font-family: 'Helvetica Neue', sans-serif;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }}
-    /* Tarjeta institucional */
-    .card-cembu {{
+    
+    /* Personalización del menú lateral */
+    section[data-testid="stSidebar"] {{
         background-color: #f8f9fa;
-        padding: 20px;
-        border-radius: 10px;
-        border-left: 5px solid {COLOR_TERRACOTA};
-        margin-bottom: 20px;
+        border-right: 2px solid {COLOR_VERDE_AGUA};
     }}
-    .card-destacado {{
-        background-color: #e6f2f2;
-        padding: 15px;
-        border-radius: 8px;
-        border-left: 5px solid {COLOR_VERDE_AGUA};
-        margin-bottom: 15px;
+    
+    /* Color de acento en botones */
+    .stButton>button {{
+        background-color: {COLOR_VERDE_AGUA};
+        color: white;
+        border-radius: 6px;
+        border: none;
+    }}
+    .stButton>button:hover {{
+        background-color: {COLOR_TERRACOTA};
+        color: white;
     }}
     </style>
 """, unsafe_allow_html=True)
 
-# Función auxiliar robusta para convertir números
-def limpiar_valor_numerico(serie):
-    s_clean = serie.astype(str).str.replace("%", "", regex=False).str.strip()
-    s_clean = s_clean.str.replace(",", ".", regex=False)
-    return pd.to_numeric(s_clean, errors="coerce")
-
-# 2. Carga optimizada de datos con caché
+# 2. Función para cargar datos (sirve para Local y Web)
 @st.cache_data
-def cargar_datos_macro_meso():
-    ruta = r"C:\Archivos CEMBU\Datos procesados\macro meso\base_de_datos_consolidada 23-08-26.xlsx"
-    if os.path.exists(ruta):
-        df = pd.read_excel(ruta, sheet_name="Datos_Formato_Largo")
-        return df
-    else:
-        st.error(f"No se encontró el archivo consolidado en: {ruta}")
-        return pd.DataFrame()
+def cargar_datos():
+    nombre_archivo = "base_de_datos_consolidada 23-08-26.xlsx"
+    
+    # Intentar buscar en rutas locales probables
+    rutas_posibles = [
+        nombre_archivo,
+        os.path.join("Datos procesados", "macro meso", nombre_archivo),
+        os.path.join(r"C:\Archivos CEMBU\Datos procesados\macro meso", nombre_archivo)
+    ]
+    
+    for ruta in rutas_posibles:
+        if os.path.exists(ruta):
+            return pd.read_excel(ruta), None
+            
+    return None, f"No se encontró el archivo '{nombre_archivo}'. Verificá que esté en la misma carpeta o subido al repositorio."
 
-df_largo = cargar_datos_macro_meso()
+# 3. Menú Lateral de Navegación
+st.sidebar.title("Menú Institucional")
+st.sidebar.markdown("---")
 
-# Mapeo de Tipos de Variable a las 5 Dimensiones Teóricas
-MAPEO_DIMENSIONES = {
-    "Población / Demografía": "1. Demografía, Hábitat y Estructura Social",
-    "Vivienda / Hábitat": "1. Demografía, Hábitat y Estructura Social",
-    "Barrios populares": "1. Demografía, Hábitat y Estructura Social",
-    "Educación": "2. Estructura Productiva, Empleo y Capital Humano",
-    "Empleo / Actividad económica": "2. Estructura Productiva, Empleo y Capital Humano",
-    "Actividad Económica": "2. Estructura Productiva, Empleo y Capital Humano",
-    "Infraestructura": "3. Infraestructura y Equipamiento Urbano",
-    "Salud": "3. Infraestructura y Equipamiento Urbano",
-    "Tecnología / Conectividad": "3. Infraestructura y Equipamiento Urbano",
-    "Elecciones / Resultados electorales": "4. Comportamiento Electoral y Representación Política",
-    "Percepción / Imagen política": "5. Percepción Ciudadana, Imagen y Clima de Opinión",
-    "Situación económica percibida": "5. Percepción Ciudadana, Imagen y Clima de Opinión"
-}
-
-if not df_largo.empty:
-    df_largo["Dimensión"] = df_largo["Tipo"].map(MAPEO_DIMENSIONES).fillna("Otras Dimensiones / Macro")
-
-# 3. Encabezado principal y botón de recarga
-col_title, col_btn = st.columns([4, 1])
-
-with col_title:
-    st.title("📊 Observatorio CEMBU Lab")
-    st.caption("Base de datos e Inteligencia Territorial para el Desarrollo | Centro de Estudios Manuel Baldomero Ugarte")
-
-with col_btn:
-    st.write("")
-    if st.button("🔄 Actualizar Base"):
-        st.cache_data.clear()
-        st.rerun()
-
-# 4. Navegación lateral estructurada por Módulos Institucionales
-st.sidebar.header("Menú Institucional")
-modulo = st.sidebar.radio(
+opcion_menu = st.sidebar.radio(
     "Seleccioná el módulo:",
     [
         "🏛️ Presentación e Inicio",
-        "📈 Macro & Meso Económico / Territorial", 
-        "🔀 Cruce de Variables (Estructural vs. Percepción)", 
+        "📈 Macro & Meso Económico / Territorial",
+        "🔀 Cruce de Variables (Estructural vs. Percepción)",
         "👥 Microdatos (Censo + EPH)",
         "🇦🇷 CEMBU Matria (Modelo Productivo)",
         "🌐 CEMBU OHD (Hegemonía del Dólar)",
         "💼 CEMBU Proys & Consultoría",
-        "📚 Publicaciones y Difusión"
+        "📰 Publicaciones y Difusión"
     ]
 )
 
-# MÓDULO 0: PRESENTACIÓN E INICIO
-if modulo == "🏛️ Presentación e Inicio":
-    st.title("Centro de Estudios Manuel Baldomero Ugarte (CEMBU)")
-    st.subheader("Plataforma Integrada de Inteligencia Territorial")
+# Intentar cargar la base de datos
+df, error_carga = cargar_datos()
+
+if error_carga:
+    st.warning(f"⚠️ Aviso sobre la Base de Datos: {error_carga}")
+
+# 4. Contenido según sección seleccionada
+if "Presentación e Inicio" in opcion_menu:
+    st.title("Observatorio CEMBU")
+    st.subheader("Centro de Estudios Manuel Baldomero Ugarte")
     
-    st.markdown("""
-    <div class="card-cembu">
-    <b>Propósito Institucional:</b><br>
-    El <b>CEMBU Lab</b> es la plataforma orientada a la generación, procesamiento y modelización de datos 
-    para el diseño de políticas públicas de desarrollo territorial, con foco en la Provincia de Buenos Aires y la CABA.
-    </div>
-    """, unsafe_allow_html=True)
+    st.info("""
+    **Propósito Institucional:**  
+    El **CEMBU** es la plataforma orientada a la generación, procesamiento y modelización de datos para el diseño de políticas públicas de desarrollo territorial, con foco en la Provincia de Buenos Aires y la CABA.
+    """)
     
-    col1, col2 = st.columns(2)
-    with col1:
-        st.markdown("### 🎯 Objeto de Trabajo")
-        st.write("Abordamos la desconexión técnica entre la producción académica y la toma de decisiones en los gobiernos locales, superando la fragmentación de la información estadística.")
-    with col2:
-        st.markdown("### 🏗️ Estructura del Sistema")
-        st.write("1. **Infraestructura de Datos:** Integración de múltiples fuentes a escala micro, meso y macro.")
-        st.write("2. **Modelización Predictiva:** Trabajo conjunto con Exactas (UBA) para simulaciones complejas.")
-        st.write("3. **Transferencia Territorial:** Tableros interactivos para gestión pública y privada.")
+    if df is not None:
+        st.success(" Base de datos cargada correctamente.")
+        st.write("Vista previa de los datos:", df.head())
 
-# MÓDULO 1: MACRO & MESO
-elif modulo == "📈 Macro & Meso Económico / Territorial":
-    st.subheader("🏛️ Módulo Macro, Meso y Territorial")
+elif "Macro & Meso Económico" in opcion_menu:
+    st.title("📈 Módulo Macro & Meso Económico / Territorial")
+    st.write("Análisis de indicadores coyunturales y estructurales.")
 
-    if df_largo.empty:
-        st.stop()
+elif "Cruce de Variables" in opcion_menu:
+    st.title("🔀 Cruce de Variables (Estructural vs. Percepción)")
+    st.write("Matriz de cruce entre variables objetivas e indicadores de opinión pública.")
 
-    col1, col2, col3 = st.columns(3)
+elif "Microdatos" in opcion_menu:
+    st.title("👥 Módulo de Microdatos (Censo + EPH)")
+    st.write("Procesamiento de datos censales y de la Encuesta Permanente de Hogares.")
 
-    with col1:
-        dimensiones_disponibles = sorted(list(df_largo["Dimensión"].unique()))
-        dim_sel = st.selectbox("1. Dimensión de Análisis (Marco Teórico):", dimensiones_disponibles)
-
-    df_dim = df_largo[df_largo["Dimensión"] == dim_sel]
-
-    with col2:
-        niveles_disponibles = sorted(list(df_dim["Nivel_Analisis"].dropna().unique()))
-        nivel_sel = st.selectbox("2. Nivel de Análisis (Escala):", niveles_disponibles)
-
-    df_nivel = df_dim[df_dim["Nivel_Analisis"] == nivel_sel]
-
-    with col3:
-        fuentes_disponibles = sorted(list(df_nivel["Fuente"].dropna().unique()))
-        if fuentes_disponibles:
-            fuente_sel = st.selectbox("3. Fuente de Datos:", fuentes_disponibles)
-            df_fuente = df_nivel[df_nivel["Fuente"] == fuente_sel]
-        else:
-            fuente_sel = None
-            df_fuente = pd.DataFrame()
-
-    st.markdown("---")
-
-    if df_fuente.empty:
-        st.info("ℹ️ No existen registros disponibles para la combinación de Dimensión, Escala y Fuente seleccionadas.")
-    else:
-        variables_disponibles = sorted(list(df_fuente["Variable"].dropna().unique()))
-        var_sel = st.selectbox("4. Seleccioná el Indicador / Variable a analizar:", variables_disponibles)
-
-        df_var = df_fuente[df_fuente["Variable"] == var_sel].copy()
-
-        # Limpieza numérica
-        df_var["Valor_Num"] = limpiar_valor_numerico(df_var["Valor"])
-
-        # Filtrar filas sin valor numérico válido
-        df_var = df_var.dropna(subset=["Valor_Num"])
-
-        # Control de escala
-        val_max = df_var["Valor_Num"].max() if not df_var.empty else 0
-        val_min = df_var["Valor_Num"].min() if not df_var.empty else 0
-
-        es_proporcion_pura = (pd.notna(val_max) and pd.notna(val_min) and val_min >= -1.0 and val_max <= 1.0)
-
-        if es_proporcion_pura:
-            df_var["Valor_Grafico"] = (df_var["Valor_Num"] * 100).round(2)
-        else:
-            df_var["Valor_Grafico"] = df_var["Valor_Num"].round(2)
-
-        # Filtros territoriales a nivel municipal
-        if nivel_sel == "Meso_Municipal":
-            st.markdown("##### 📍 Filtros Territoriales (GBA / AMBA)")
-            col_f1, col_f2 = st.columns(2)
-            
-            with col_f1:
-                cordones = ["Todos"] + sorted([str(x) for x in df_var["Cordón"].dropna().unique()])
-                cordon_sel = st.selectbox("Filtrar por Cordón:", cordones)
-            
-            with col_f2:
-                sectores = ["Todos"] + sorted([str(x) for x in df_var["Sector_Geografico"].dropna().unique()])
-                sector_sel = st.selectbox("Filtrar por Sector:", sectores)
-
-            if cordon_sel != "Todos":
-                df_var = df_var[df_var["Cordón"] == cordon_sel]
-            if sector_sel != "Todos":
-                df_var = df_var[df_var["Sector_Geografico"] == sector_sel]
-
-        # Visualización de datos
-        st.markdown(f"### 📈 Resultados: {var_sel}")
-        st.caption(f"Fuente: **{fuente_sel}** | Dimensión: **{dim_sel}** | Escala: **{nivel_sel}**")
-
-        label_y = "Diferencial (%)" if "Dif" in var_sel else ("Valor (%)" if "%" in var_sel or es_proporcion_pura else "Valor")
-
-        if df_var.empty:
-            st.warning("⚠️ No se encontraron valores numéricos válidos para esta variable en la base actual.")
-        elif "Municipio" in df_var.columns and df_var["Municipio"].notna().any():
-            fig = px.bar(
-                df_var,
-                x="Municipio",
-                y="Valor_Grafico",
-                color="Cordón" if "Cordón" in df_var.columns else None,
-                labels={"Valor_Grafico": label_y},
-                title=f"{var_sel} por Municipio",
-                color_discrete_sequence=[COLOR_TERRACOTA, COLOR_VERDE_AGUA, COLOR_AMARILLO, COLOR_VIOLETA]
-            )
-            st.plotly_chart(fig, use_container_width=True)
-        else:
-            fig = px.line(
-                df_var,
-                x="Periodo",
-                y="Valor_Grafico",
-                markers=True,
-                labels={"Valor_Grafico": label_y},
-                title=f"Evolución Temporal: {var_sel}",
-                color_discrete_sequence=[COLOR_TERRACOTA]
-            )
-            st.plotly_chart(fig, use_container_width=True)
-
-        with st.expander("🔍 Ver Tabla de Datos Detallada"):
-            cols_mostrar = [c for c in ["Municipio", "Región", "Periodo", "Variable", "Valor_Grafico", "Cordón", "Fuente"] if c in df_var.columns]
-            df_mostrar = df_var[cols_mostrar].rename(columns={"Valor_Grafico": "Valor Procesado"})
-            st.dataframe(df_mostrar, use_container_width=True)
-
-# MÓDULO 2: CRUCE DE VARIABLES
-elif modulo == "🔀 Cruce de Variables (Estructural vs. Percepción)":
-    st.subheader("🔀 Cruce de Variables Municipales")
-    st.caption("Compará dos indicadores a nivel municipal para identificar patrones y relaciones territoriales.")
-
-    df_mun = df_largo[df_largo["Nivel_Analisis"] == "Meso_Municipal"].copy()
-
-    if df_mun.empty:
-        st.warning("No hay datos municipales disponibles para cruzar.")
-    else:
-        vars_disponibles = sorted(list(df_mun["Variable"].unique()))
-
-        c1, c2 = st.columns(2)
-        with c1:
-            var_x = st.selectbox("Eje X (Variable 1 - ej. Estructural):", vars_disponibles, index=0)
-        with c2:
-            var_y = st.selectbox("Eje Y (Variable 2 - ej. Percepción):", vars_disponibles, index=min(1, len(vars_disponibles)-1))
-
-        df_x = df_mun[(df_mun["Variable"] == var_x) & (df_mun["Periodo"].notna()) & (df_mun["Periodo"].astype(str).str.strip() != "")].copy()
-        df_y = df_mun[(df_mun["Variable"] == var_y) & (df_mun["Periodo"].notna()) & (df_mun["Periodo"].astype(str).str.strip() != "")].copy()
-
-        df_x["Val_X"] = limpiar_valor_numerico(df_x["Valor"])
-        df_y["Val_Y"] = limpiar_valor_numerico(df_y["Valor"])
-
-        if df_x["Val_X"].min() >= -1.0 and df_x["Val_X"].max() <= 1.0:
-            df_x["Val_X"] = (df_x["Val_X"] * 100).round(2)
-        else:
-            df_x["Val_X"] = df_x["Val_X"].round(2)
-
-        if df_y["Val_Y"].min() >= -1.0 and df_y["Val_Y"].max() <= 1.0:
-            df_y["Val_Y"] = (df_y["Val_Y"] * 100).round(2)
-        else:
-            df_y["Val_Y"] = df_y["Val_Y"].round(2)
-
-        df_x_sub = df_x[["Municipio", "Val_X", "Cordón", "Sector_Geografico"]].rename(columns={"Val_X": var_x})
-        df_y_sub = df_y[["Municipio", "Val_Y"]].rename(columns={"Val_Y": var_y})
-
-        df_cruce = pd.merge(df_x_sub, df_y_sub, on="Municipio", how="inner").dropna(subset=[var_x, var_y])
-
-        if df_cruce.empty:
-            st.info("No se encontraron coincidencias municipales válidas entre las dos variables seleccionadas.")
-        else:
-            if df_cruce[var_x].nunique() == 1:
-                st.warning(f"⚠️ La variable '{var_x}' tiene el valor único {df_cruce[var_x].iloc[0]} en todos los municipios. Es un dato regional/AMBA.")
-            if df_cruce[var_y].nunique() == 1:
-                st.warning(f"⚠️ La variable '{var_y}' tiene el valor único {df_cruce[var_y].iloc[0]} en todos los municipios. Es un dato regional/AMBA.")
-
-            fig_scatter = px.scatter(
-                df_cruce,
-                x=var_x,
-                y=var_y,
-                text="Municipio",
-                color="Cordón",
-                title=f"Cruce: {var_x} vs. {var_y}",
-                color_discrete_sequence=[COLOR_TERRACOTA, COLOR_VERDE_AGUA, COLOR_AMARILLO, COLOR_VIOLETA]
-            )
-            fig_scatter.update_traces(textposition='top center', marker=dict(size=12))
-            st.plotly_chart(fig_scatter, use_container_width=True)
-
-            with st.expander("🔍 Ver Tabla del Cruce"):
-                st.dataframe(df_cruce, use_container_width=True)
-
-# MÓDULO 3: MICRODATOS
-elif modulo == "👥 Microdatos (Censo + EPH)":
-    st.subheader("👥 Módulo de Microdatos Integrados")
-    st.info("Espacio reservado para las consultas de la Matriz Maestra Integrada (Censo + EPH).")
-
-# MÓDULO 4: MATRIA
-elif modulo == "🇦🇷 CEMBU Matria (Modelo Productivo)":
-    st.subheader("🇦🇷 CEMBU Matria")
-    st.write("Modelo de desarrollo productivo con bienestar territorial y articulación internacional.")
-
-# MÓDULO 5: OHD
-elif modulo == "🌐 CEMBU OHD (Hegemonía del Dólar)":
-    st.subheader("🌐 CEMBU OHD – Observatorio de la Hegemonía del Dólar")
-    st.write("Análisis teórico-histórico del sistema monetario y los regímenes de acumulación internacional.")
-
-# MÓDULO 6: PROYS & CONSULTORÍA
-elif modulo == "💼 CEMBU Proys & Consultoría":
-    st.subheader("💼 CEMBU Proys. & Servicios de Consultoría")
-    st.write("Líneas de servicio de consultoría territorial, electoral y sistemas de monitoreo para gestión de gobierno.")
-
-# MÓDULO 7: PUBLICACIONES
 else:
-    st.subheader("📚 Publicaciones y Difusión")
-    st.write("Informes técnicos, documentos de trabajo, dashboards interactivos y comunicación digital del CEMBU.")
+    st.title(opcion_menu)
+    st.write("Módulo en desarrollo dentro del Observatorio CEMBU.")
