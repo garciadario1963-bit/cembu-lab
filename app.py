@@ -4,7 +4,7 @@ import plotly.express as px
 import os
 
 # -----------------------------------------------------------------------------
-# 1. CONFIGURACIÓN DE PÁGINA & ESTILOS VISUALES (CEMBU BRANDING)
+# 1. CONFIGURACIÓN DE PÁGINA
 # -----------------------------------------------------------------------------
 st.set_page_config(
     page_title="CEMBU - Centro de Estudios Manuel Baldomero Ugarte",
@@ -13,60 +13,54 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Carga de FontAwesome para contar con los íconos oficiales SVG de las 7 redes
+# -----------------------------------------------------------------------------
+# 2. INYECCIÓN CSS CORREGIDA (Evita renderizado de código crudo en pantalla)
+# -----------------------------------------------------------------------------
 st.markdown("""
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-    /* Fondo General Institucional */
+<style>
     .stApp {
-        background-color: #F4F6F8;
+        background-color: #F4F6F8 !important;
         font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     }
-
-    /* Ajuste Barra Lateral */
     section[data-testid="stSidebar"] {
-        background-color: #EAEFF4;
+        background-color: #EAEFF4 !important;
         border-right: 1px solid #D0D7DE;
     }
-    
-    /* Encabezados Principales */
     .cembu-super {
         color: #555555;
         font-size: 0.9rem;
         font-weight: 700;
         letter-spacing: 2px;
         text-transform: uppercase;
-        margin-bottom: -5px;
+        margin-bottom: 2px;
     }
     .cembu-title {
         color: #111111;
-        font-size: 2.5rem;
+        font-size: 2.3rem;
         font-weight: 800;
         letter-spacing: -0.5px;
         margin-bottom: 5px;
+        line-height: 1.2;
     }
     .cembu-sub {
         color: #E3532B;
-        font-size: 1.1rem;
+        font-size: 1.05rem;
         font-weight: 600;
-        margin-bottom: 25px;
+        margin-bottom: 20px;
     }
-
-    /* Estilo Íconos Oficiales Redes */
-    .social-icon {
+    .social-link {
         color: #FFFFFF !important;
-        font-size: 1.25rem;
-        margin-left: 16px;
-        text-decoration: none;
-        transition: color 0.2s ease, transform 0.2s ease;
-        display: inline-block;
+        margin-left: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none !important;
+        transition: transform 0.2s ease, opacity 0.2s ease;
     }
-    .social-icon:hover {
+    .social-link:hover {
         transform: scale(1.2);
-        color: #E3532B !important;
+        opacity: 0.85;
     }
-
-    /* Tarjetas de Contenido (Mosaico) con Sombras y Bordes */
     .card-gancho {
         border: 1px solid #D8E0E8;
         border-radius: 8px;
@@ -85,16 +79,14 @@ st.markdown("""
         display: inline-block;
         margin-bottom: 10px;
     }
-
-    /* Ocultar elementos por defecto */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
-    </style>
+</style>
 """, unsafe_allow_html=True)
 
 
 # -----------------------------------------------------------------------------
-# 2. FUNCIÓN DE CARGA DINÁMICA DE NOTICIAS (EXCEL O VALOR POR DEFECTO)
+# 3. FUNCIÓN DE CARGA DINÁMICA DE NOTICIAS
 # -----------------------------------------------------------------------------
 @st.cache_data(ttl=300)
 def cargar_noticia_semanal():
@@ -123,12 +115,19 @@ def cargar_noticia_semanal():
 
 
 # -----------------------------------------------------------------------------
-# 3. NAVEGACIÓN LATERAL CON LOGO INSTITUCIONAL
+# 4. NAVEGACIÓN LATERAL CON LOGO
 # -----------------------------------------------------------------------------
 with st.sidebar:
-    logo_path = "logo_cembu.png"
-    if os.path.exists(logo_path):
-        st.image(logo_path, use_container_width=True)
+    # Busca el archivo de imagen del logo (soporta varios nombres comunes)
+    posibles_logos = ["logo_cembu.png", "logo.png", "logo_cembu.jpg", "logo.jpg"]
+    logo_encontrado = None
+    for nombre_logo in posibles_logos:
+        if os.path.exists(nombre_logo):
+            logo_encontrado = nombre_logo
+            break
+
+    if logo_encontrado:
+        st.image(logo_encontrado, use_container_width=True)
     else:
         st.markdown("## 🏛️ **CEMBU**")
     
@@ -151,42 +150,56 @@ with st.sidebar:
 
 
 # -----------------------------------------------------------------------------
-# 4. PORTADA DINÁMICA TIPO PORTAL (ESTILO CLACSO / NOTICIAS)
+# 5. PORTADA PRINCIPAL
 # -----------------------------------------------------------------------------
 if "📰 Portada & Difusión" in opcion_menu:
     
     noticia = cargar_noticia_semanal()
 
-    # --- DIRECCIONES REALES DE REDES SOCIALES ---
+    # URLs de Redes Sociales
     url_whatsapp = "https://wa.me/"
-    url_x        = "https://x.com/cembu"
-    url_linkedin = "https://linkedin.com/company/cembu"
-    url_youtube  = "https://youtube.com/@cembu"
-    url_instagram= "https://instagram.com/cembu"
-    url_facebook = "https://facebook.com/cembu"
-    url_telegram = "https://t.me/cembu"
+    url_x        = "https://x.com/"
+    url_linkedin = "https://linkedin.com/"
+    url_youtube  = "https://youtube.com/"
+    url_instagram= "https://instagram.com/"
+    url_facebook = "https://facebook.com/"
+    url_telegram = "https://t.me/"
 
-    # BARRA SUPERIOR CON LOS 7 ÍCONOS OFICIALES
+    # BARRA SUPERIOR DE REDES CON ÍCONOS SVG PUROS (Garantiza visualización perfecta)
     st.markdown(f"""
         <div style="display: flex; justify-content: space-between; align-items: center; background: #111827; color: #FFFFFF; padding: 10px 20px; border-radius: 8px; margin-bottom: 25px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
             <div style="font-weight: 600; font-size: 0.9rem;">🏛️ <strong>CEMBU</strong> — Centro de Estudios Manuel Baldomero Ugarte</div>
             <div style="display: flex; align-items: center;">
-                <a href="{url_whatsapp}" target="_blank" class="social-icon" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="{url_x}" target="_blank" class="social-icon" title="X (Twitter)"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="{url_linkedin}" target="_blank" class="social-icon" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-                <a href="{url_youtube}" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
-                <a href="{url_instagram}" target="_blank" class="social-icon" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
-                <a href="{url_facebook}" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-                <a href="{url_telegram}" target="_blank" class="social-icon" title="Telegram"><i class="fa-brands fa-telegram"></i></a>
+                <a href="{url_whatsapp}" target="_blank" class="social-link" title="WhatsApp">
+                    <svg width="20" height="20" fill="#25D366" viewBox="0 0 24 24"><path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.758.459 3.474 1.33 4.982l-1.413 5.161 5.283-1.386a9.937 9.937 0 004.782 1.228h.005c5.507 0 9.991-4.479 9.991-9.986 0-2.668-1.038-5.176-2.925-7.063A9.927 9.927 0 0012.012 2z"/></svg>
+                </a>
+                <a href="{url_x}" target="_blank" class="social-link" title="X (Twitter)">
+                    <svg width="18" height="18" fill="#FFFFFF" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                </a>
+                <a href="{url_linkedin}" target="_blank" class="social-link" title="LinkedIn">
+                    <svg width="18" height="18" fill="#0A66C2" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.78a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26z"/></svg>
+                </a>
+                <a href="{url_youtube}" target="_blank" class="social-link" title="YouTube">
+                    <svg width="20" height="20" fill="#FF0000" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                </a>
+                <a href="{url_instagram}" target="_blank" class="social-link" title="Instagram">
+                    <svg width="18" height="18" fill="#E4405F" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                </a>
+                <a href="{url_facebook}" target="_blank" class="social-link" title="Facebook">
+                    <svg width="18" height="18" fill="#1877F2" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                </a>
+                <a href="{url_telegram}" target="_blank" class="social-link" title="Telegram">
+                    <svg width="18" height="18" fill="#26A5E4" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm5.262 7.26a.603.603 0 0 1 .582.077c.182.146.257.387.195.612l-2.09 9.84a.602.602 0 0 1-.84.415l-3.37-1.39-1.63 1.57a.603.603 0 0 1-1.02-.43v-2.32l5.72-5.17c.13-.12.05-.34-.12-.31l-7.08 4.47-2.65-.83a.603.603 0 0 1-.02-1.14l11.66-4.5a.603.603 0 0 1 .71.105z"/></svg>
+                </a>
             </div>
         </div>
     """, unsafe_allow_html=True)
 
-    # CABECERA PRINCIPAL CON LOGO Y MARCA
+    # CABECERA CON LOGO (SI EXISTE EL ARCHIVO DE IMAGEN)
     col_logo, col_titulo = st.columns([1, 4])
     with col_logo:
-        if os.path.exists("logo_cembu.png"):
-            st.image("logo_cembu.png", use_container_width=True)
+        if logo_encontrado:
+            st.image(logo_encontrado, use_container_width=True)
     with col_titulo:
         st.markdown("<div class='cembu-super'>CENTRO DE ESTUDIOS MANUEL BALDOMERO UGARTE</div>", unsafe_allow_html=True)
         st.markdown("<div class='cembu-title'>Observatorio de Coyuntura, Modelización & Territorio</div>", unsafe_allow_html=True)
@@ -200,7 +213,6 @@ if "📰 Portada & Difusión" in opcion_menu:
     col_principal, col_secundaria = st.columns([2.2, 1.2], gap="large")
 
     with col_principal:
-        # GANCHO PRINCIPAL SEMANAL
         st.markdown(f'<span class="badge-tag" style="background-color: #E3532B;">{noticia.get("etiqueta", "Destacado")}</span>', unsafe_allow_html=True)
         
         st.image(
@@ -219,7 +231,6 @@ if "📰 Portada & Difusión" in opcion_menu:
             st.button("📥 Descargar Base de Datos", key="btn_data_main", use_container_width=True)
 
     with col_secundaria:
-        # TARJETAS SECUNDARIAS
         st.markdown("""
             <div class="card-gancho" style="border-left: 5px solid #E3532B;">
                 <span class="badge-tag" style="background-color: #E3532B;">CEMBU LAB</span>
@@ -249,29 +260,24 @@ if "📰 Portada & Difusión" in opcion_menu:
 
 
 # -----------------------------------------------------------------------------
-# 5. RESTO DE SECCIONES DEL PROYECTO
+# 6. RESTO DE SECCIONES
 # -----------------------------------------------------------------------------
 elif "📊 CEMBU LAB" in opcion_menu:
     st.markdown("<div class='cembu-super'>LABORATORIO DE COYUNTURA</div>", unsafe_allow_html=True)
     st.markdown("<div class='cembu-title'>CEMBU LAB</div>", unsafe_allow_html=True)
-    st.write("Seguimiento de datos de alta frecuencia y modelización de variables económicas.")
 
 elif "🌐 CEMBU MATRIA" in opcion_menu:
     st.markdown("<div class='cembu-super'>TERRITORIO & PLANIFICACIÓN</div>", unsafe_allow_html=True)
     st.markdown("<div class='cembu-title'>CEMBU MATRIA</div>", unsafe_allow_html=True)
-    st.write("Observatorio de Unidades de Producción Soberana (UPS) y geopolítica productiva.")
 
 elif "📈 CEMBU OHD" in opcion_menu:
     st.markdown("<div class='cembu-super'>SISTEMA FINANCIERO INTERNACIONAL</div>", unsafe_allow_html=True)
     st.markdown("<div class='cembu-title'>CEMBU OHD</div>", unsafe_allow_html=True)
-    st.write("Monitoreo de Bancos Centrales (Fed, BCE, BoJ) y hegemonía del dólar.")
 
 elif "📂 Base de Microdatos" in opcion_menu:
     st.markdown("<div class='cembu-super'>REPOSITORIO ABIERTO</div>", unsafe_allow_html=True)
     st.markdown("<div class='cembu-title'>Microdatos Normalizados</div>", unsafe_allow_html=True)
-    st.write("Bases procesadas de EPH, Censos e indicadores sociales.")
 
 elif "🏛️ Institucional" in opcion_menu:
     st.markdown("<div class='cembu-super'>ACERCA DEL CENTRO DE ESTUDIOS</div>", unsafe_allow_html=True)
     st.markdown("<div class='cembu-title'>Centro Ugarte (CEMBU)</div>", unsafe_allow_html=True)
-    st.write("Investigación aplicada a la planificación económica e integración regional.")
