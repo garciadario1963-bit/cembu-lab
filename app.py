@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 
 # 1. CONFIGURACIÓN DE PÁGINA
@@ -137,7 +138,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. HEADER NEGRO SUPERIOR CORREGIDO
+# 3. HEADER NEGRO SUPERIOR
 st.markdown('''
 <div class="top-black-banner">
     <div class="cembu-logo-title">CEMBU</div>
@@ -185,18 +186,131 @@ with col3:
 
 st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
-# B) Sección de Noticias & Mapa
+# B) Sección del Carrusel + Mapa
 col_left, col_right = st.columns([1.1, 1], gap="small")
 
 with col_left:
     st.markdown("""
-        <div class="white-block">
-            <span class="badge badge-red">NOTICIAS & NOVEDADES</span>
-            <div class="block-title">CLACSO EN LA FILUNI</div>
-            <div class="block-sub">Presentación de publicaciones y avances del observatorio en la Feria Internacional del Libro de las Universitarias - UNAM México.</div>
-            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&auto=format&fit=crop&q=60" style="width:100%; border-radius:6px; height:200px; object-fit:cover;">
+        <div class="white-block" style="padding-bottom: 8px;">
+            <span class="badge badge-red">NOVEDADES & ACTIVIDADES</span>
+            <div class="block-title">CLACSO EN LA FILUNI & MONITOR TERRITORIAL</div>
+            <div class="block-sub" style="margin-bottom: 8px;">Nuestras últimas actividades académicas y avances en análisis regional.</div>
         </div>
     """, unsafe_allow_html=True)
+    
+    # HTML + JS AUTOROTATIVO DEL CARRUSEL DE 2 IMÁGENES
+    carrusel_html = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <style>
+        body { margin: 0; font-family: 'Inter', sans-serif; background: transparent; }
+        .carousel-container {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            overflow: hidden;
+            border-radius: 6px;
+        }
+        .slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .slide.active {
+            opacity: 1;
+        }
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .caption {
+            position: absolute;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.85);
+            color: #fff;
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 12px;
+            box-sizing: border-box;
+        }
+        .dots-container {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .dot.active-dot {
+            background-color: #EA580C;
+        }
+    </style>
+    </head>
+    <body>
+
+    <div class="carousel-container">
+        <div class="dots-container">
+            <span class="dot active-dot" onclick="setSlide(0)"></span>
+            <span class="dot" onclick="setSlide(1)"></span>
+        </div>
+
+        <!-- Slide 1: Evento CLACSO -->
+        <div class="slide active">
+            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&auto=format&fit=crop&q=60" alt="CLACSO">
+            <div class="caption"><b>1 / 2 — CLACSO EN LA FILUNI:</b> Participación institucional en México.</div>
+        </div>
+
+        <!-- Slide 2: Mapa / Cartografía -->
+        <div class="slide">
+            <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=700&auto=format&fit=crop&q=60" alt="Monitor Territorial">
+            <div class="caption"><b>2 / 2 — MONITOR TERRITORIAL:</b> Mapeo dinámico e infraestructura regional.</div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                dots[i].classList.remove('active-dot');
+            });
+            slides[index].classList.add('active');
+            dots[index].classList.add('active-dot');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function setSlide(index) {
+            currentSlide = index;
+            showSlide(currentSlide);
+        }
+
+        // Rotación automática cada 3.5 segundos
+        setInterval(nextSlide, 3500);
+    </script>
+
+    </body>
+    </html>
+    """
+    components.html(carrusel_html, height=230)
 
 with col_right:
     st.markdown("""
