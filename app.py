@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-# 1. Configuración de página
+# 1. CONFIGURACIÓN DE PÁGINA
 st.set_page_config(
     page_title="CEMBU - Centro de Estudios Manuel Baldomero Ugarte",
     page_icon="🏛️",
@@ -9,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. Estilos CSS personalizados
+# 2. ESTILOS CSS
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap');
@@ -28,9 +28,8 @@ st.markdown("""
     .top-black-banner {
         background-color: #0B0F19;
         color: #FFFFFF;
-        padding: 24px 40px 0px 40px;
+        padding: 24px 40px 14px 40px;
         text-align: center;
-        position: relative;
         border-bottom: 3px solid #EA580C;
     }
 
@@ -38,35 +37,25 @@ st.markdown("""
         font-family: 'Playfair Display', serif;
         font-size: 3.2rem;
         font-weight: 900;
-        color: #EA580C; /* Naranja CEMBU */
+        color: #EA580C;
         letter-spacing: 2px;
         margin: 0 0 4px 0;
         line-height: 1;
     }
 
     .cembu-subtitle {
-        font-size: 0.9rem;
-        color: #E2E8F0;
+        font-size: 0.88rem;
+        color: #CBD5E1;
         font-weight: 400;
-        margin-bottom: 20px;
+        margin-bottom: 18px;
     }
 
-    .social-icons-top {
-        position: absolute;
-        top: 24px;
-        right: 40px;
-        display: flex;
-        gap: 12px;
-        color: #94A3B8;
-    }
-
-    /* MENÚ DE NAVEGACIÓN SUPERIOR */
+    /* NAVEGACIÓN SUPERIOR */
     .top-nav-bar {
         display: flex;
         justify-content: center;
-        gap: 28px;
-        padding-top: 10px;
-        padding-bottom: 14px;
+        gap: 32px;
+        padding-top: 12px;
         border-top: 1px solid #1E293B;
     }
 
@@ -75,16 +64,16 @@ st.markdown("""
         font-size: 0.85rem;
         font-weight: 600;
         text-decoration: none;
-        padding-bottom: 4px;
-        transition: all 0.2s;
+        cursor: pointer;
     }
 
     .nav-item.active {
         color: #EA580C;
         border-bottom: 2px solid #EA580C;
+        padding-bottom: 4px;
     }
 
-    /* CUERPO Y GRILLAS */
+    /* CUERPO PRINCIPAL */
     .content-container {
         padding: 24px 40px;
     }
@@ -148,15 +137,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. HEADER NEGRO CON NAVEGACIÓN INTEGRADA ARRIBA
-st.markdown("""
+# 3. HEADER NEGRO SUPERIOR CORREGIDO
+st.markdown('''
 <div class="top-black-banner">
-    <div class="social-icons-top">
-        <span>📷</span> <span>𝕏</span> <span>in</span> <span>▶</span>
-    </div>
     <div class="cembu-logo-title">CEMBU</div>
     <div class="cembu-subtitle">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div>
-    
     <div class="top-nav-bar">
         <span class="nav-item active">Tablero de Control</span>
         <span class="nav-item">CEMBU LAB</span>
@@ -166,7 +151,7 @@ st.markdown("""
         <span class="nav-item">Institucional</span>
     </div>
 </div>
-""", unsafe_allow_html=True)
+''', unsafe_allow_html=True)
 
 # 4. CONTENIDO PRINCIPAL
 st.markdown('<div class="content-container">', unsafe_allow_html=True)
@@ -200,15 +185,16 @@ with col3:
 
 st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
-# B) Carrusel y Mapa
+# B) Sección de Noticias & Mapa
 col_left, col_right = st.columns([1.1, 1], gap="small")
 
 with col_left:
     st.markdown("""
         <div class="white-block">
+            <span class="badge badge-red">NOTICIAS & NOVEDADES</span>
             <div class="block-title">CLACSO EN LA FILUNI</div>
-            <div class="block-sub">Feria Internacional del Libro de las Universitarias - UNAM México</div>
-            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&auto=format&fit=crop&q=60" style="width:100%; border-radius:6px; height:210px; object-fit:cover;">
+            <div class="block-sub">Presentación de publicaciones y avances del observatorio en la Feria Internacional del Libro de las Universitarias - UNAM México.</div>
+            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&auto=format&fit=crop&q=60" style="width:100%; border-radius:6px; height:200px; object-fit:cover;">
         </div>
     """, unsafe_allow_html=True)
 
@@ -224,11 +210,11 @@ with col_right:
         'lat': [-34.6037, -34.6625, -34.5583, -34.7242, -34.9214],
         'lon': [-58.3816, -58.3647, -58.4622, -58.3800, -57.9545]
     })
-    st.map(df_mapa, latitude='lat', longitude='lon', zoom=9, height=200)
+    st.map(df_mapa, latitude='lat', longitude='lon', zoom=9, height=210)
 
 st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
-# C) Tarjetas inferiores de módulos
+# C) Módulos inferiores
 m1, m2, m3 = st.columns(3, gap="small")
 
 with m1:
@@ -236,7 +222,7 @@ with m1:
         <div class="white-block">
             <span class="badge badge-red">CEMBU LAB</span>
             <div class="block-title">Modelos & Algoritmos</div>
-            <div class="block-sub">Planificación del desarrollo mediante simulaciones de agentes.</div>
+            <div class="block-sub">Planificación del desarrollo mediante simulaciones de agentes y coyuntura.</div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -245,7 +231,7 @@ with m2:
         <div class="white-block">
             <span class="badge badge-teal">MATRIA</span>
             <div class="block-title">Unidades de Producción (UPS)</div>
-            <div class="block-sub">Relevamiento territorial de encadenamientos productivos.</div>
+            <div class="block-sub">Relevamiento territorial de encadenamientos productivos y matriz insumo-producto.</div>
         </div>
     """, unsafe_allow_html=True)
 
@@ -254,7 +240,7 @@ with m3:
         <div class="white-block">
             <span class="badge badge-purple">OHD MONETARIO</span>
             <div class="block-title">Tasas & Liquidez Global</div>
-            <div class="block-sub">Seguimiento semanal de tasas Fed, BCE, BoJ e indicadores.</div>
+            <div class="block-sub">Seguimiento semanal de tasas Fed, BCE, BoJ e indicadores monetarios.</div>
         </div>
     """, unsafe_allow_html=True)
 
