@@ -1,84 +1,110 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import plotly.graph_objects as go
 import os
 
 # -----------------------------------------------------------------------------
 # 1. CONFIGURACIÓN DE PÁGINA
 # -----------------------------------------------------------------------------
 st.set_page_config(
-    page_title="CEMBU - Centro de Estudios Manuel Baldomero Ugarte",
+    page_title="CEMBU - Observatorio de Coyuntura, Modelización & Territorio",
     page_icon="🏛️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 # -----------------------------------------------------------------------------
-# 2. INYECCIÓN CSS CORREGIDA (Evita renderizado de código crudo en pantalla)
+# 2. ESTILOS CSS AVANZADOS (DISEÑO HERO & TRIÁNGULO)
 # -----------------------------------------------------------------------------
 st.markdown("""
 <style>
     .stApp {
-        background-color: #F4F6F8 !important;
-        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #F8FAFC !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
+    
+    /* Sidebar refinado */
     section[data-testid="stSidebar"] {
-        background-color: #EAEFF4 !important;
-        border-right: 1px solid #D0D7DE;
+        background-color: #0F172A !important;
+        color: #F8FAFC !important;
     }
-    .cembu-super {
-        color: #555555;
-        font-size: 0.9rem;
-        font-weight: 700;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        margin-bottom: 2px;
+    section[data-testid="stSidebar"] * {
+        color: #E2E8F0 !important;
     }
-    .cembu-title {
-        color: #111111;
-        font-size: 2.3rem;
+    
+    /* Hero Section Top */
+    .hero-container {
+        background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+        border-radius: 12px;
+        padding: 24px 30px;
+        color: #FFFFFF;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+    }
+    
+    .hero-title {
+        font-size: 2.2rem;
         font-weight: 800;
+        color: #FFFFFF;
         letter-spacing: -0.5px;
-        margin-bottom: 5px;
-        line-height: 1.2;
+        margin-bottom: 8px;
+        line-height: 1.15;
     }
-    .cembu-sub {
-        color: #E3532B;
+    
+    .hero-sub {
         font-size: 1.05rem;
-        font-weight: 600;
-        margin-bottom: 20px;
+        color: #94A3B8;
+        font-weight: 400;
+        margin-bottom: 0px;
     }
+    
+    /* Card del Triángulo Estratégico */
+    .triangle-box {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-left: 5px solid #EA580C;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+        margin-bottom: 25px;
+    }
+    
+    .triangle-item {
+        background-color: #F8FAFC;
+        border: 1px solid #E2E8F0;
+        border-radius: 8px;
+        padding: 14px 16px;
+        height: 100%;
+        transition: transform 0.2s ease;
+    }
+    .triangle-item:hover {
+        transform: translateY(-2px);
+        border-color: #CBD5E1;
+    }
+    .triangle-letter {
+        font-weight: 800;
+        font-size: 1.2rem;
+        color: #EA580C;
+        margin-bottom: 4px;
+    }
+    .triangle-desc {
+        font-size: 0.9rem;
+        color: #334155;
+        line-height: 1.4;
+    }
+
+    /* Redes sociales en barra */
     .social-link {
         color: #FFFFFF !important;
-        margin-left: 12px;
+        margin-left: 14px;
         display: inline-flex;
         align-items: center;
-        justify-content: center;
         text-decoration: none !important;
-        transition: transform 0.2s ease, opacity 0.2s ease;
+        transition: opacity 0.2s ease;
     }
-    .social-link:hover {
-        transform: scale(1.2);
-        opacity: 0.85;
-    }
-    .card-gancho {
-        border: 1px solid #D8E0E8;
-        border-radius: 8px;
-        padding: 18px;
-        background-color: #FFFFFF;
-        box-shadow: 0 3px 8px rgba(0,0,0,0.05);
-        margin-bottom: 16px;
-    }
-    .badge-tag {
-        font-size: 0.75rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        padding: 4px 10px;
-        border-radius: 4px;
-        color: #FFFFFF;
-        display: inline-block;
-        margin-bottom: 10px;
-    }
+    .social-link:hover { opacity: 0.75; }
+
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
 </style>
@@ -86,40 +112,10 @@ st.markdown("""
 
 
 # -----------------------------------------------------------------------------
-# 3. FUNCIÓN DE CARGA DINÁMICA DE NOTICIAS
-# -----------------------------------------------------------------------------
-@st.cache_data(ttl=300)
-def cargar_noticia_semanal():
-    archivo_excel = "noticia_semanal.xlsx"
-    archivo_csv = "noticia_semanal.csv"
-    
-    noticia_default = {
-        "etiqueta": "Informe Destacado Semanal",
-        "titulo": "📊 Monitor de Coyuntura Global & Tasas Centrales",
-        "copete": "Análisis de la trayectoria de las tasas de interés de la Fed, BCE y BoJ. Evaluamos la liquidez internacional y sus efectos de transmisión en la economía regional.",
-        "imagen_url": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
-        "epirafe_img": "Actualización semanal de variables macroeconómicas e indicadores clave."
-    }
-
-    try:
-        if os.path.exists(archivo_excel):
-            df = pd.read_excel(archivo_excel)
-            return df.iloc[0].to_dict()
-        elif os.path.exists(archivo_csv):
-            df = pd.read_csv(archivo_csv)
-            return df.iloc[0].to_dict()
-    except Exception:
-        pass
-    
-    return noticia_default
-
-
-# -----------------------------------------------------------------------------
-# 4. NAVEGACIÓN LATERAL CON LOGO
+# 3. NAVEGACIÓN LATERAL CON LOGO
 # -----------------------------------------------------------------------------
 with st.sidebar:
-    # Busca el archivo de imagen del logo (soporta varios nombres comunes)
-    posibles_logos = ["logo_cembu.png", "logo.png", "logo_cembu.jpg", "logo.jpg"]
+    posibles_logos = ["1_CEMBU.png", "logo_cembu.png", "logo.png", "logo_cembu.jpg"]
     logo_encontrado = None
     for nombre_logo in posibles_logos:
         if os.path.exists(nombre_logo):
@@ -131,15 +127,15 @@ with st.sidebar:
     else:
         st.markdown("## 🏛️ **CEMBU**")
     
-    st.markdown("**Portal CEMBU**")
-    st.caption("Investigación, Coyuntura y Datos")
+    st.markdown("### **Portal CEMBU**")
+    st.caption("Conocimiento para la transformación social")
     
     opcion_menu = st.radio(
         "Navegación:",
         [
-            "📰 Portada & Difusión",
+            "🌐 Tablero de Control & Territorio",
             "📊 CEMBU LAB (Coyuntura)",
-            "🌐 CEMBU MATRIA (Territorio)",
+            "🗺️ CEMBU MATRIA (Territorio)",
             "📈 CEMBU OHD (Monetario & Int.)",
             "📂 Base de Microdatos (EPH/Censo)",
             "🏛️ Institucional & Equipo"
@@ -150,30 +146,27 @@ with st.sidebar:
 
 
 # -----------------------------------------------------------------------------
-# 5. PORTADA PRINCIPAL
+# 4. TABLERO PRINCIPAL / PORTADA
 # -----------------------------------------------------------------------------
-if "📰 Portada & Difusión" in opcion_menu:
+if "🌐 Tablero de Control" in opcion_menu or "📰 Portada" in opcion_menu:
     
-    noticia = cargar_noticia_semanal()
-
-    # URLs de Redes Sociales
+    # Redes Sociales Top Bar
     url_whatsapp = "https://wa.me/"
     url_x        = "https://x.com/"
     url_linkedin = "https://linkedin.com/"
     url_youtube  = "https://youtube.com/"
-    url_instagram= "https://instagram.com/"
-    url_facebook = "https://facebook.com/"
-    url_telegram = "https://t.me/"
-
-    # BARRA SUPERIOR DE REDES CON ÍCONOS SVG PUROS (Garantiza visualización perfecta)
+    
+    # 1. ENCABEZADO DE MARCA & HERO
     st.markdown(f"""
-        <div style="display: flex; justify-content: space-between; align-items: center; background: #111827; color: #FFFFFF; padding: 10px 20px; border-radius: 8px; margin-bottom: 25px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);">
-            <div style="font-weight: 600; font-size: 0.9rem;">🏛️ <strong>CEMBU</strong> — Centro de Estudios Manuel Baldomero Ugarte</div>
+        <div style="display: flex; justify-content: space-between; align-items: center; background: #0F172A; color: #FFFFFF; padding: 12px 24px; border-radius: 10px; margin-bottom: 20px;">
+            <div style="font-weight: 700; font-size: 0.95rem; letter-spacing: 0.5px;">
+                🏛️ <strong>FAMILIA DE MARCAS CEMBU</strong> &nbsp;|&nbsp; Centro de Estudios Manuel Baldomero Ugarte
+            </div>
             <div style="display: flex; align-items: center;">
                 <a href="{url_whatsapp}" target="_blank" class="social-link" title="WhatsApp">
                     <svg width="20" height="20" fill="#25D366" viewBox="0 0 24 24"><path d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984 0 1.758.459 3.474 1.33 4.982l-1.413 5.161 5.283-1.386a9.937 9.937 0 004.782 1.228h.005c5.507 0 9.991-4.479 9.991-9.986 0-2.668-1.038-5.176-2.925-7.063A9.927 9.927 0 0012.012 2z"/></svg>
                 </a>
-                <a href="{url_x}" target="_blank" class="social-link" title="X (Twitter)">
+                <a href="{url_x}" target="_blank" class="social-link" title="X">
                     <svg width="18" height="18" fill="#FFFFFF" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                 </a>
                 <a href="{url_linkedin}" target="_blank" class="social-link" title="LinkedIn">
@@ -182,102 +175,154 @@ if "📰 Portada & Difusión" in opcion_menu:
                 <a href="{url_youtube}" target="_blank" class="social-link" title="YouTube">
                     <svg width="20" height="20" fill="#FF0000" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                 </a>
-                <a href="{url_instagram}" target="_blank" class="social-link" title="Instagram">
-                    <svg width="18" height="18" fill="#E4405F" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                </a>
-                <a href="{url_facebook}" target="_blank" class="social-link" title="Facebook">
-                    <svg width="18" height="18" fill="#1877F2" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                </a>
-                <a href="{url_telegram}" target="_blank" class="social-link" title="Telegram">
-                    <svg width="18" height="18" fill="#26A5E4" viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm5.262 7.26a.603.603 0 0 1 .582.077c.182.146.257.387.195.612l-2.09 9.84a.602.602 0 0 1-.84.415l-3.37-1.39-1.63 1.57a.603.603 0 0 1-1.02-.43v-2.32l5.72-5.17c.13-.12.05-.34-.12-.31l-7.08 4.47-2.65-.83a.603.603 0 0 1-.02-1.14l11.66-4.5a.603.603 0 0 1 .71.105z"/></svg>
-                </a>
             </div>
         </div>
     """, unsafe_allow_html=True)
 
-    # CABECERA CON LOGO (SI EXISTE EL ARCHIVO DE IMAGEN)
-    col_logo, col_titulo = st.columns([1, 4])
-    with col_logo:
-        if logo_encontrado:
-            st.image(logo_encontrado, use_container_width=True)
-    with col_titulo:
-        st.markdown("<div class='cembu-super'>CENTRO DE ESTUDIOS MANUEL BALDOMERO UGARTE</div>", unsafe_allow_html=True)
-        st.markdown("<div class='cembu-title'>Observatorio de Coyuntura, Modelización & Territorio</div>", unsafe_allow_html=True)
-        st.markdown("<div class='cembu-sub'>Generación de conocimiento y herramientas predictivas para el desarrollo soberano</div>", unsafe_allow_html=True)
+    # 2. SECCIÓN HERO (TÍTULO PRINCIPAL)
+    st.markdown("""
+        <div class="hero-container">
+            <div class="hero-title">Observatorio de Coyuntura, Modelización & Territorio</div>
+            <div class="hero-sub">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div>
+        </div>
+    """, unsafe_allow_html=True)
+
+    # 3. LAS TRES PUNTAS DEL TRIÁNGULO (ARTICULACIÓN ESTRATÉGICA)
+    st.markdown("### 🔺 **Las tres puntas del triángulo**")
+    st.caption("Marco conceptual de articulación para la gestión de políticas públicas y modelización territorial.")
+
+    col_t1, col_t2, col_t3 = st.columns(3)
+
+    with col_t1:
+        st.markdown("""
+            <div class="triangle-item">
+                <div class="triangle-letter">A. Decisión & Ejecución</div>
+                <div class="triangle-desc"><strong>Quienes deciden, crean y ejecutan las políticas públicas:</strong> Ministros y secretarías nacionales, provinciales y municipales.</div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    with col_t2:
+        st.markdown("""
+            <div class="triangle-item">
+                <div class="triangle-letter">B. Análisis & Modelización</div>
+                <div class="triangle-desc"><strong>Quienes estudian las complejidades socioeconómicas:</strong> Academia, universidades e institutos de investigación.</div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    with col_t3:
+        st.markdown("""
+            <div class="triangle-item">
+                <div class="triangle-letter">C. Transformación Real</div>
+                <div class="triangle-desc"><strong>Quienes protagonizan los avances sociales en lo real:</strong> Actores territoriales, trabajadores y sectores productivos.</div>
+            </div>
+        """, unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    # 4. TABLERO DE CONTROL DE IMPACTO (MAPA + MODELIZACIÓN EN PARALELO)
+    st.markdown("### 🛰️ **Tablero de Control Territorial & Modelización**")
+    st.caption("Visor interactivo de indicadores socioeconómicos georeferenciados y trayectorias predictivas.")
+
+    col_mapa, col_grafico = st.columns([1.3, 1], gap="medium")
+
+    with col_mapa:
+        st.markdown("**📌 Monitor Territorial: Región Metropolitana / AMBA**")
+        
+        # Datos simulados de nodos territoriales AMBA para la demostración
+        df_mapa = pd.DataFrame({
+            'lat': [-34.6037, -34.6625, -34.5583, -34.7242, -34.9214, -34.6150],
+            'lon': [-58.3816, -58.3647, -58.4622, -58.3800, -57.9545, -58.4333],
+            'nodo': ['CABA Central', 'Avellaneda', 'General San Martín', 'Quilmes', 'La Plata', 'Mataderos (UPS)'],
+            'densidad': [85, 62, 74, 58, 90, 68]
+        })
+
+        # Renderizado de mapa de densidad/zonas
+        fig_mapa = px.scatter_mapbox(
+            df_mapa,
+            lat="lat",
+            lon="lon",
+            hover_name="nodo",
+            size="densidad",
+            color="densidad",
+            color_continuous_scale="Reds",
+            size_max=22,
+            zoom=9,
+            mapbox_style="carto-positron"
+        )
+        fig_mapa.update_layout(
+            margin={"r": 0, "t": 0, "l": 0, "b": 0},
+            height=420
+        )
+        st.plotly_chart(fig_mapa, use_container_width=True)
+
+    with col_grafico:
+        st.markdown("**📈 Curvas Epidémicas / Proyección de Modelos**")
+        
+        # Simulación de curvas de modelos epidemiológicos/socioeconómicos (SIR / Simulación)
+        df_model = pd.DataFrame({
+            'Días': list(range(100)),
+            'Infectados / Vulnerables': [0.1 * (x**1.5) * (1 - x/100) for x in range(100)],
+            'Recuperados / Mitigados': [100 / (1 + 2.71**(-0.1 * (x - 50))) for x in range(100)],
+            'Susceptibles': [100 - (100 / (1 + 2.71**(-0.1 * (x - 50)))) for x in range(100)]
+        })
+
+        fig_lines = go.Figure()
+        fig_lines.add_trace(go.Scatter(x=df_model['Días'], y=df_model['Infectados / Vulnerables'], name='Afectados / Alerta', line=dict(color='#DC2626', width=2.5)))
+        fig_lines.add_trace(go.Scatter(x=df_model['Días'], y=df_model['Recuperados / Mitigados'], name='Intervención / Cobertura', line=dict(color='#16A34A', width=2.5)))
+        fig_lines.add_trace(go.Scatter(x=df_model['Días'], y=df_model['Susceptibles'], name='Población Objetivo', line=dict(color='#2563EB', width=2)))
+
+        fig_lines.update_layout(
+            margin={"r": 10, "t": 10, "l": 10, "b": 10},
+            height=420,
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+            paper_bgcolor='rgba(0,0,0,0)',
+            plot_bgcolor='rgba(248,250,252,1)'
+        )
+        st.plotly_chart(fig_lines, use_container_width=True)
 
     st.divider()
 
-    st.markdown("### 📰 **Destacados & Publicaciones Gancho de la Semana**")
-    st.caption("Contenido sincronizado con nuestras campañas de difusión en redes sociales.")
-
-    col_principal, col_secundaria = st.columns([2.2, 1.2], gap="large")
-
-    with col_principal:
-        st.markdown(f'<span class="badge-tag" style="background-color: #E3532B;">{noticia.get("etiqueta", "Destacado")}</span>', unsafe_allow_html=True)
-        
-        st.image(
-            noticia.get("imagen_url"), 
-            caption=noticia.get("epirafe_img", ""),
-            use_container_width=True
-        )
-        
-        st.markdown(f"<h2 style='color: #111111; margin-top: 10px; font-weight: 700;'>{noticia.get('titulo')}</h2>", unsafe_allow_html=True)
-        st.write(noticia.get("copete"))
-        
-        c1, c2 = st.columns([1, 1])
-        with c1:
-            st.button("📖 Leer Publicación Completa", key="btn_pub_main", use_container_width=True)
-        with c2:
-            st.button("📥 Descargar Base de Datos", key="btn_data_main", use_container_width=True)
-
-    with col_secundaria:
+    # 5. ACCESOS DIRECTOS A PUBLICACIONES & INFORMES
+    col_inf1, col_inf2, col_inf3 = st.columns(3)
+    
+    with col_inf1:
         st.markdown("""
-            <div class="card-gancho" style="border-left: 5px solid #E3532B;">
-                <span class="badge-tag" style="background-color: #E3532B;">CEMBU LAB</span>
-                <h4 style="margin: 4px 0 8px 0; color: #111;">Modelización Predictiva & Indicadores</h4>
-                <p style="font-size: 0.88rem; color: #555; margin-bottom: 10px;">Estimación de tendencia de la actividad económica mediante modelos de alta frecuencia.</p>
+            <div style="background:#FFF; padding:16px; border-radius:8px; border:1px solid #E2E8F0;">
+                <span style="background:#DC2626; color:#FFF; font-size:0.7rem; font-weight:700; padding:3px 8px; border-radius:4px;">CEMBU LAB</span>
+                <h4 style="margin:8px 0 4px 0;">Modelos & Algoritmos</h4>
+                <p style="font-size:0.85rem; color:#64748B;">Planificación del desarrollo mediante simulaciones de agentes y alta frecuencia.</p>
             </div>
         """, unsafe_allow_html=True)
-        st.button("Ver Panel de Coyuntura →", key="btn_lab_side", use_container_width=True)
+        st.button("Ver Modelos LAB →", key="btn_lab", use_container_width=True)
 
+    with col_inf2:
         st.markdown("""
-            <div class="card-gancho" style="border-left: 5px solid #338B85;">
-                <span class="badge-tag" style="background-color: #338B85;">CEMBU MATRIA</span>
-                <h4 style="margin: 4px 0 8px 0; color: #111;">Unidades de Producción Soberana (UPS)</h4>
-                <p style="font-size: 0.88rem; color: #555; margin-bottom: 10px;">Relevamiento territorial de encadenamientos productivos y ZEE.</p>
+            <div style="background:#FFF; padding:16px; border-radius:8px; border:1px solid #E2E8F0;">
+                <span style="background:#0D9488; color:#FFF; font-size:0.7rem; font-weight:700; padding:3px 8px; border-radius:4px;">MATRIA</span>
+                <h4 style="margin:8px 0 4px 0;">Unidades de Producción (UPS)</h4>
+                <p style="font-size:0.85rem; color:#64748B;">Relevamiento territorial de encadenamientos productivos estratégicos.</p>
             </div>
         """, unsafe_allow_html=True)
-        st.button("Explorar Mapa Productivo →", key="btn_matria_side", use_container_width=True)
+        st.button("Explorar Territorio →", key="btn_matria", use_container_width=True)
 
+    with col_inf3:
         st.markdown("""
-            <div class="card-gancho" style="border-left: 5px solid #77569B;">
-                <span class="badge-tag" style="background-color: #77569B;">MICRODATOS</span>
-                <h4 style="margin: 4px 0 8px 0; color: #111;">Consultor Interactivo EPH</h4>
-                <p style="font-size: 0.88rem; color: #555; margin-bottom: 10px;">Acceso a microdatos normalizados de empleo e ingresos.</p>
+            <div style="background:#FFF; padding:16px; border-radius:8px; border:1px solid #E2E8F0;">
+                <span style="background:#7C3AED; color:#FFF; font-size:0.7rem; font-weight:700; padding:3px 8px; border-radius:4px;">OHD MONETARIO</span>
+                <h4 style="margin:8px 0 4px 0;">Tasas & Liquidez Global</h4>
+                <p style="font-size:0.85rem; color:#64748B;">Seguimiento semanal de tasas Fed, BCE, BoJ e indicadores internacionales.</p>
             </div>
         """, unsafe_allow_html=True)
-        st.button("Consultar Microdatos →", key="btn_data_side", use_container_width=True)
+        st.button("Ver Monitor OHD →", key="btn_ohd", use_container_width=True)
 
-
-# -----------------------------------------------------------------------------
-# 6. RESTO DE SECCIONES
-# -----------------------------------------------------------------------------
+# Resto de secciones...
 elif "📊 CEMBU LAB" in opcion_menu:
-    st.markdown("<div class='cembu-super'>LABORATORIO DE COYUNTURA</div>", unsafe_allow_html=True)
-    st.markdown("<div class='cembu-title'>CEMBU LAB</div>", unsafe_allow_html=True)
-
-elif "🌐 CEMBU MATRIA" in opcion_menu:
-    st.markdown("<div class='cembu-super'>TERRITORIO & PLANIFICACIÓN</div>", unsafe_allow_html=True)
-    st.markdown("<div class='cembu-title'>CEMBU MATRIA</div>", unsafe_allow_html=True)
-
+    st.title("📊 CEMBU LAB - Modelización & Algoritmos")
+elif "🗺️ CEMBU MATRIA" in opcion_menu:
+    st.title("🗺️ CEMBU MATRIA - Unidades de Producción Soberana")
 elif "📈 CEMBU OHD" in opcion_menu:
-    st.markdown("<div class='cembu-super'>SISTEMA FINANCIERO INTERNACIONAL</div>", unsafe_allow_html=True)
-    st.markdown("<div class='cembu-title'>CEMBU OHD</div>", unsafe_allow_html=True)
-
+    st.title("📈 CEMBU OHD - Sistema Financiero e Indicadores")
 elif "📂 Base de Microdatos" in opcion_menu:
-    st.markdown("<div class='cembu-super'>REPOSITORIO ABIERTO</div>", unsafe_allow_html=True)
-    st.markdown("<div class='cembu-title'>Microdatos Normalizados</div>", unsafe_allow_html=True)
-
+    st.title("📂 Base de Microdatos EPH / Censos")
 elif "🏛️ Institucional" in opcion_menu:
-    st.markdown("<div class='cembu-super'>ACERCA DEL CENTRO DE ESTUDIOS</div>", unsafe_allow_html=True)
-    st.markdown("<div class='cembu-title'>Centro Ugarte (CEMBU)</div>", unsafe_allow_html=True)
+    st.title("🏛️ Institucional & Equipo")
