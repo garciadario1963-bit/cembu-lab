@@ -33,6 +33,8 @@ st.markdown("""
         text-align: center;
         border-bottom: 3px solid #EA580C;
         position: relative;
+        width: 100%;
+        box-sizing: border-box;
     }
 
     /* REDES SOCIALES ESQUINA SUPERIOR DERECHA */
@@ -160,8 +162,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. HEADER NEGRO CON REDES SOCIALES A LA DERECHA
-st.markdown('''
+# 3. HEADER NEGRO CON REDES SOCIALES A LA DERECHA (SINTAXIS CORREGIDA)
+st.markdown("""
 <div class="top-black-banner">
     <div class="social-icons-container">
         <a href="#" class="social-icon" title="Instagram">📷</a>
@@ -169,10 +171,8 @@ st.markdown('''
         <a href="#" class="social-icon" title="LinkedIn">in</a>
         <a href="#" class="social-icon" title="YouTube">▶</a>
     </div>
-    
     <div class="cembu-logo-title">CEMBU</div>
     <div class="cembu-subtitle">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div>
-    
     <div class="top-nav-bar">
         <span class="nav-item active">Tablero de Control</span>
         <span class="nav-item">CEMBU LAB</span>
@@ -182,7 +182,7 @@ st.markdown('''
         <span class="nav-item">Institucional</span>
     </div>
 </div>
-''', unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 # 4. CONTENIDO PRINCIPAL
 st.markdown('<div class="content-container">', unsafe_allow_html=True)
@@ -333,7 +333,6 @@ with col_left:
             showSlide(currentSlide);
         }
 
-        // Rotación automática cada 3.5 segundos
         setInterval(nextSlide, 3500);
     </script>
 
