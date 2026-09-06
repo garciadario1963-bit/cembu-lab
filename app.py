@@ -1,6 +1,8 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
+import base64
+import os
 
 # 1. CONFIGURACIÓN DE PÁGINA
 st.set_page_config(
@@ -10,10 +12,17 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# LOGO
-LOGO_URL = "https://img.icons8.com/color/96/000000/open-book.png"
+# 2. CARGA DE LOGO LOCAL EN BASE64
+def get_base64_image(image_path):
+    if os.path.exists(image_path):
+        with open(image_path, "rb") as img_file:
+            return f"data:image/png;base64,{base64.b64encode(img_file.read()).decode()}"
+    # Fallback por si aún no subiste el archivo al repo
+    return "https://img.icons8.com/color/96/000000/open-book.png"
 
-# 2. ESTILOS CSS PERSONALIZADOS
+logo_src = get_base64_image("logo_cembu.png")
+
+# 3. ESTILOS CSS PERSONALIZADOS
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap');
@@ -43,14 +52,14 @@ st.markdown("""
     /* LOGO ESQUINA SUPERIOR IZQUIERDA */
     .logo-container {
         position: absolute;
-        top: 18px;
+        top: 16px;
         left: 40px;
         display: flex;
         align-items: center;
     }
 
     .logo-container img {
-        height: 50px;
+        height: 42px; /* Tamaño ajustado para que quede proporcionado */
         width: auto;
         object-fit: contain;
     }
@@ -180,12 +189,12 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. HEADER NEGRO EN LÍNEA ÚNICA
-header_html = f'<div class="top-black-banner"><div class="logo-container"><img src="{LOGO_URL}" alt="Logo CEMBU"></div><div class="social-icons-container"><a href="#" class="social-icon" title="Instagram">📷</a><a href="#" class="social-icon" title="X (Twitter)">𝕏</a><a href="#" class="social-icon" title="LinkedIn">in</a><a href="#" class="social-icon" title="YouTube">▶</a></div><div class="cembu-logo-title">CEMBU</div><div class="cembu-subtitle">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div><div class="top-nav-bar"><span class="nav-item active">Tablero de Control</span><span class="nav-item">CEMBU LAB</span><span class="nav-item">CEMBU MATRIA</span><span class="nav-item">CEMBU OHD</span><span class="nav-item">Microdatos</span><span class="nav-item">Institucional</span></div></div>'
+# 4. HEADER NEGRO EN LÍNEA ÚNICA
+header_html = f'<div class="top-black-banner"><div class="logo-container"><img src="{logo_src}" alt="Logo CEMBU"></div><div class="social-icons-container"><a href="#" class="social-icon" title="Instagram">📷</a><a href="#" class="social-icon" title="X (Twitter)">𝕏</a><a href="#" class="social-icon" title="LinkedIn">in</a><a href="#" class="social-icon" title="YouTube">▶</a></div><div class="cembu-logo-title">CEMBU</div><div class="cembu-subtitle">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div><div class="top-nav-bar"><span class="nav-item active">Tablero de Control</span><span class="nav-item">CEMBU LAB</span><span class="nav-item">CEMBU MATRIA</span><span class="nav-item">CEMBU OHD</span><span class="nav-item">Microdatos</span><span class="nav-item">Institucional</span></div></div>'
 
 st.markdown(header_html, unsafe_allow_html=True)
 
-# 4. CONTENIDO PRINCIPAL
+# 5. CONTENIDO PRINCIPAL
 st.markdown('<div class="content-container">', unsafe_allow_html=True)
 
 # A) Tres puntas del triángulo
