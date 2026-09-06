@@ -10,7 +10,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. ESTILOS CSS
+# 2. ESTILOS CSS PERSONALIZADOS
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap');
@@ -32,6 +32,28 @@ st.markdown("""
         padding: 24px 40px 14px 40px;
         text-align: center;
         border-bottom: 3px solid #EA580C;
+        position: relative;
+    }
+
+    /* REDES SOCIALES ESQUINA SUPERIOR DERECHA */
+    .social-icons-container {
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+    }
+
+    .social-icon {
+        color: #94A3B8;
+        font-size: 1rem;
+        text-decoration: none;
+        transition: color 0.2s ease;
+    }
+
+    .social-icon:hover {
+        color: #EA580C;
     }
 
     .cembu-logo-title {
@@ -138,11 +160,19 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. HEADER NEGRO SUPERIOR
+# 3. HEADER NEGRO CON REDES SOCIALES A LA DERECHA
 st.markdown('''
 <div class="top-black-banner">
+    <div class="social-icons-container">
+        <a href="#" class="social-icon" title="Instagram">📷</a>
+        <a href="#" class="social-icon" title="X (Twitter)">𝕏</a>
+        <a href="#" class="social-icon" title="LinkedIn">in</a>
+        <a href="#" class="social-icon" title="YouTube">▶</a>
+    </div>
+    
     <div class="cembu-logo-title">CEMBU</div>
     <div class="cembu-subtitle">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div>
+    
     <div class="top-nav-bar">
         <span class="nav-item active">Tablero de Control</span>
         <span class="nav-item">CEMBU LAB</span>
@@ -198,7 +228,7 @@ with col_left:
         </div>
     """, unsafe_allow_html=True)
     
-    # HTML + JS AUTOROTATIVO DEL CARRUSEL DE 2 IMÁGENES
+    # HTML + JS AUTOROTATIVO DEL CARRUSEL DE IMÁGENES
     carrusel_html = """
     <!DOCTYPE html>
     <html>
