@@ -10,6 +10,9 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
+# RUTA O URL DEL LOGO
+LOGO_URL = "https://via.placeholder.com/180x60/0B0F19/EA580C?text=LOGO+CEMBU" 
+
 # 2. ESTILOS CSS PERSONALIZADOS
 st.markdown("""
 <style>
@@ -29,12 +32,27 @@ st.markdown("""
     .top-black-banner {
         background-color: #0B0F19;
         color: #FFFFFF;
-        padding: 24px 40px 14px 40px;
+        padding: 20px 40px 14px 40px;
         text-align: center;
         border-bottom: 3px solid #EA580C;
         position: relative;
         width: 100%;
         box-sizing: border-box;
+    }
+
+    /* LOGO INSTITUCIONAL ESQUINA SUPERIOR IZQUIERDA */
+    .logo-container {
+        position: absolute;
+        top: 16px;
+        left: 40px;
+        display: flex;
+        align-items: center;
+    }
+
+    .logo-container img {
+        height: 55px;
+        width: auto;
+        object-fit: contain;
     }
 
     /* REDES SOCIALES ESQUINA SUPERIOR DERECHA */
@@ -162,17 +180,23 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. HEADER NEGRO CON REDES SOCIALES A LA DERECHA (SINTAXIS CORREGIDA)
-st.markdown("""
+# 3. HEADER NEGRO CON LOGO A LA IZQUIERDA Y REDES A LA DERECHA
+st.markdown(f"""
 <div class="top-black-banner">
+    <div class="logo-container">
+        <img src="{LOGO_URL}" alt="Logo CEMBU">
+    </div>
+
     <div class="social-icons-container">
         <a href="#" class="social-icon" title="Instagram">📷</a>
         <a href="#" class="social-icon" title="X (Twitter)">𝕏</a>
         <a href="#" class="social-icon" title="LinkedIn">in</a>
         <a href="#" class="social-icon" title="YouTube">▶</a>
     </div>
+    
     <div class="cembu-logo-title">CEMBU</div>
     <div class="cembu-subtitle">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div>
+    
     <div class="top-nav-bar">
         <span class="nav-item active">Tablero de Control</span>
         <span class="nav-item">CEMBU LAB</span>
