@@ -11,19 +11,16 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# CARGA DE IMAGEN DE LOGO EN BASE64 (O RUTA POR DEFECTO)
+# CARGA DE IMAGEN DE LOGO EN BASE64
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode()
 
 try:
-    # Si tenés el archivo de imagen guardado en la misma carpeta (ej: logo.png)
     logo_base64 = get_base64_image("logo.png")
     logo_src = f"data:image/png;base64,{logo_base64}"
 except Exception:
-    # Imagen por defecto si aún no está el archivo local
     logo_src = "https://via.placeholder.com/180x60/0B0F19/EA580C?text=LOGO+CEMBU"
-
 
 # 2. ESTILOS CSS PERSONALIZADOS
 st.markdown("""
@@ -192,33 +189,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. HEADER NEGRO CON LOGO Y REDES SOCIALES (MÉTODO SEGURO DE REEMPLAZO)
-header_html = """
-<div class="top-black-banner">
-    <div class="logo-container">
-        <img src="{LOGO_SRC}" alt="Logo CEMBU">
-    </div>
-
-    <div class="social-icons-container">
-        <a href="#" class="social-icon" title="Instagram">📷</a>
-        <a href="#" class="social-icon" title="X (Twitter)">𝕏</a>
-        <a href="#" class="social-icon" title="LinkedIn">in</a>
-        <a href="#" class="social-icon" title="YouTube">▶</a>
-    </div>
-    
-    <div class="cembu-logo-title">CEMBU</div>
-    <div class="cembu-subtitle">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div>
-    
-    <div class="top-nav-bar">
-        <span class="nav-item active">Tablero de Control</span>
-        <span class="nav-item">CEMBU LAB</span>
-        <span class="nav-item">CEMBU MATRIA</span>
-        <span class="nav-item">CEMBU OHD</span>
-        <span class="nav-item">Microdatos</span>
-        <span class="nav-item">Institucional</span>
-    </div>
-</div>
-""".replace("{LOGO_SRC}", logo_src)
+# 3. HEADER NEGRO EN LÍNEA ÚNICA PARA EVITAR QUE STREAMLIT LO ESCAPE
+header_html = f'<div class="top-black-banner"><div class="logo-container"><img src="{logo_src}" alt="Logo CEMBU"></div><div class="social-icons-container"><a href="#" class="social-icon" title="Instagram">📷</a><a href="#" class="social-icon" title="X (Twitter)">𝕏</a><a href="#" class="social-icon" title="LinkedIn">in</a><a href="#" class="social-icon" title="YouTube">▶</a></div><div class="cembu-logo-title">CEMBU</div><div class="cembu-subtitle">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div><div class="top-nav-bar"><span class="nav-item active">Tablero de Control</span><span class="nav-item">CEMBU LAB</span><span class="nav-item">CEMBU MATRIA</span><span class="nav-item">CEMBU OHD</span><span class="nav-item">Microdatos</span><span class="nav-item">Institucional</span></div></div>'
 
 st.markdown(header_html, unsafe_allow_html=True)
 
@@ -229,28 +201,13 @@ st.markdown('<div class="content-container">', unsafe_allow_html=True)
 col1, col2, col3 = st.columns(3, gap="small")
 
 with col1:
-    st.markdown("""
-        <div class="triangle-card card-a">
-            <div class="tri-title-a">1. Decisión & Ejecución</div>
-            <div class="tri-desc">Quienes deciden, crean y ejecutan las políticas públicas: ministerios y secretarías.</div>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="triangle-card card-a"><div class="tri-title-a">1. Decisión & Ejecución</div><div class="tri-desc">Quienes deciden, crean y ejecutan las políticas públicas: ministerios y secretarías.</div></div>', unsafe_allow_html=True)
 
 with col2:
-    st.markdown("""
-        <div class="triangle-card card-b">
-            <div class="tri-title-b">2. Análisis & Modelización</div>
-            <div class="tri-desc">Quienes estudian las complejidades socioeconómicas: academias e institutos.</div>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="triangle-card card-b"><div class="tri-title-b">2. Análisis & Modelización</div><div class="tri-desc">Quienes estudian las complejidades socioeconómicas: academias e institutos.</div></div>', unsafe_allow_html=True)
 
 with col3:
-    st.markdown("""
-        <div class="triangle-card card-c">
-            <div class="tri-title-c">3. Transformación Real</div>
-            <div class="tri-desc">Quienes protagonizan los avances sociales: actores territoriales y trabajadores.</div>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="triangle-card card-c"><div class="tri-title-c">3. Transformación Real</div><div class="tri-desc">Quienes protagonizan los avances sociales: actores territoriales y trabajadores.</div></div>', unsafe_allow_html=True)
 
 st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
@@ -258,100 +215,43 @@ st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 col_left, col_right = st.columns([1.1, 1], gap="small")
 
 with col_left:
-    st.markdown("""
-        <div class="white-block" style="padding-bottom: 8px;">
-            <span class="badge badge-red">NOVEDADES & ACTIVIDADES</span>
-            <div class="block-title">CLACSO EN LA FILUNI & MONITOR TERRITORIAL</div>
-            <div class="block-sub" style="margin-bottom: 8px;">Nuestras últimas actividades académicas y avances en análisis regional.</div>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="white-block" style="padding-bottom: 8px;"><span class="badge badge-red">NOVEDADES & ACTIVIDADES</span><div class="block-title">CLACSO EN LA FILUNI & MONITOR TERRITORIAL</div><div class="block-sub" style="margin-bottom: 8px;">Nuestras últimas actividades académicas y avances en análisis regional.</div></div>', unsafe_allow_html=True)
     
-    # HTML + JS AUTOROTATIVO DEL CARRUSEL DE IMÁGENES
     carrusel_html = """
     <!DOCTYPE html>
     <html>
     <head>
     <style>
         body { margin: 0; font-family: 'Inter', sans-serif; background: transparent; }
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            height: 220px;
-            overflow: hidden;
-            border-radius: 6px;
-        }
-        .slide {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-        .slide.active {
-            opacity: 1;
-        }
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .caption {
-            position: absolute;
-            bottom: 0;
-            background: rgba(15, 23, 42, 0.85);
-            color: #fff;
-            width: 100%;
-            padding: 8px 12px;
-            font-size: 12px;
-            box-sizing: border-box;
-        }
-        .dots-container {
-            position: absolute;
-            top: 10px;
-            right: 12px;
-            display: flex;
-            gap: 6px;
-            z-index: 10;
-        }
-        .dot {
-            width: 10px;
-            height: 10px;
-            background-color: rgba(255,255,255,0.5);
-            border-radius: 50%;
-            display: inline-block;
-            cursor: pointer;
-        }
-        .dot.active-dot {
-            background-color: #EA580C;
-        }
+        .carousel-container { position: relative; width: 100%; height: 220px; overflow: hidden; border-radius: 6px; }
+        .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out; }
+        .slide.active { opacity: 1; }
+        .slide img { width: 100%; height: 100%; object-fit: cover; }
+        .caption { position: absolute; bottom: 0; background: rgba(15, 23, 42, 0.85); color: #fff; width: 100%; padding: 8px 12px; font-size: 12px; box-sizing: border-box; }
+        .dots-container { position: absolute; top: 10px; right: 12px; display: flex; gap: 6px; z-index: 10; }
+        .dot { width: 10px; height: 10px; background-color: rgba(255,255,255,0.5); border-radius: 50%; display: inline-block; cursor: pointer; }
+        .dot.active-dot { background-color: #EA580C; }
     </style>
     </head>
     <body>
-
     <div class="carousel-container">
         <div class="dots-container">
             <span class="dot active-dot" onclick="setSlide(0)"></span>
             <span class="dot" onclick="setSlide(1)"></span>
         </div>
-
-        <!-- Slide 1: Evento CLACSO -->
         <div class="slide active">
             <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=700&auto=format&fit=crop&q=60" alt="CLACSO">
             <div class="caption"><b>1 / 2 — CLACSO EN LA FILUNI:</b> Participación institucional en México.</div>
         </div>
-
-        <!-- Slide 2: Mapa / Cartografía -->
         <div class="slide">
             <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=700&auto=format&fit=crop&q=60" alt="Monitor Territorial">
             <div class="caption"><b>2 / 2 — MONITOR TERRITORIAL:</b> Mapeo dinámico e infraestructura regional.</div>
         </div>
     </div>
-
     <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
         const dots = document.querySelectorAll('.dot');
-
         function showSlide(index) {
             slides.forEach((slide, i) => {
                 slide.classList.remove('active');
@@ -360,32 +260,23 @@ with col_left:
             slides[index].classList.add('active');
             dots[index].classList.add('active-dot');
         }
-
         function nextSlide() {
             currentSlide = (currentSlide + 1) % slides.length;
             showSlide(currentSlide);
         }
-
         function setSlide(index) {
             currentSlide = index;
             showSlide(currentSlide);
         }
-
         setInterval(nextSlide, 3500);
     </script>
-
     </body>
     </html>
     """
     components.html(carrusel_html, height=230)
 
 with col_right:
-    st.markdown("""
-        <div class="white-block">
-            <div class="block-title">📍 Tablero de Control Territorial & Modelización</div>
-            <div class="block-sub">📌 Monitor Territorial: Región Metropolitana / AMBA</div>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="white-block"><div class="block-title">📍 Tablero de Control Territorial & Modelización</div><div class="block-sub">📌 Monitor Territorial: Región Metropolitana / AMBA</div></div>', unsafe_allow_html=True)
     
     df_mapa = pd.DataFrame({
         'lat': [-34.6037, -34.6625, -34.5583, -34.7242, -34.9214],
@@ -399,30 +290,12 @@ st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 m1, m2, m3 = st.columns(3, gap="small")
 
 with m1:
-    st.markdown("""
-        <div class="white-block">
-            <span class="badge badge-red">CEMBU LAB</span>
-            <div class="block-title">Modelos & Algoritmos</div>
-            <div class="block-sub">Planificación del desarrollo mediante simulaciones de agentes y coyuntura.</div>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="white-block"><span class="badge badge-red">CEMBU LAB</span><div class="block-title">Modelos & Algoritmos</div><div class="block-sub">Planificación del desarrollo mediante simulaciones de agentes y coyuntura.</div></div>', unsafe_allow_html=True)
 
 with m2:
-    st.markdown("""
-        <div class="white-block">
-            <span class="badge badge-teal">MATRIA</span>
-            <div class="block-title">Unidades de Producción (UPS)</div>
-            <div class="block-sub">Relevamiento territorial de encadenamientos productivos y matriz insumo-producto.</div>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="white-block"><span class="badge badge-teal">MATRIA</span><div class="block-title">Unidades de Producción (UPS)</div><div class="block-sub">Relevamiento territorial de encadenamientos productivos y matriz insumo-producto.</div></div>', unsafe_allow_html=True)
 
 with m3:
-    st.markdown("""
-        <div class="white-block">
-            <span class="badge badge-purple">OHD MONETARIO</span>
-            <div class="block-title">Tasas & Liquidez Global</div>
-            <div class="block-sub">Seguimiento semanal de tasas Fed, BCE, BoJ e indicadores monetarios.</div>
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="white-block"><span class="badge badge-purple">OHD MONETARIO</span><div class="block-title">Tasas & Liquidez Global</div><div class="block-sub">Seguimiento semanal de tasas Fed, BCE, BoJ e indicadores monetarios.</div></div>', unsafe_allow_html=True)
 
 st.markdown('</div>', unsafe_allow_html=True)
