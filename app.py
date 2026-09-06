@@ -68,7 +68,7 @@ st.markdown("""
         color: #94A3B8;
         font-weight: 400;
         margin-bottom: 0px;
-        max-width: 720px;
+        max-width: 650px;
     }
     
     /* Tarjetas del Triángulo */
@@ -188,35 +188,27 @@ if "🌐 Tablero de Control" in opcion_menu or "📰 Portada" in opcion_menu:
         </div>
     """, unsafe_allow_html=True)
 
-    # BANNER HERO CON TIPOGRAFÍA EGANTE Y DIAGRAMA DEL TRIÁNGULO INTEGRADO
+    # BANNER HERO CON EL DIAGRAMA RENDERIZADO CORRECTAMENTE
     st.markdown("""
         <div class="hero-container">
             <div>
                 <div class="hero-title">Observatorio de Coyuntura, Modelización & Territorio</div>
                 <div class="hero-sub">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div>
             </div>
-            <!-- Diagrama Vectorial del Triángulo con Nodos (Estilo Jornadas JMAP) -->
             <div style="flex-shrink: 0; margin-left: 20px;">
-                <svg width="170" height="90" viewBox="0 0 200 110" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Líneas del triángulo -->
-                    <line x1="30" y1="20" x2="170" y2="20" stroke="#EA580C" stroke-width="2.5" stroke-dasharray="3 3" opacity="0.85"/>
-                    <line x1="170" y1="20" x2="100" y2="95" stroke="#38BDF8" stroke-width="2.5" opacity="0.85"/>
-                    <line x1="100" y1="95" x2="30" y2="20" stroke="#818CF8" stroke-width="2.5" opacity="0.85"/>
-                    
-                    <!-- Vértice A: Decisión -->
-                    <circle cx="30" cy="20" r="10" fill="#EA580C" />
-                    <text x="30" y="24" fill="#FFFFFF" font-size="11" font-weight="800" text-anchor="middle">A</text>
-                    <text x="30" y="8" fill="#FDBA74" font-size="9" font-weight="700" text-anchor="middle">Decisión</text>
-                    
-                    <!-- Vértice B: Análisis -->
-                    <circle cx="170" cy="20" r="10" fill="#0284C7" />
-                    <text x="170" y="24" fill="#FFFFFF" font-size="11" font-weight="800" text-anchor="middle">B</text>
-                    <text x="170" y="8" fill="#38BDF8" font-size="9" font-weight="700" text-anchor="middle">Análisis</text>
-                    
-                    <!-- Vértice C: Transformación -->
-                    <circle cx="100" cy="95" r="10" fill="#6366F1" />
-                    <text x="100" y="99" fill="#FFFFFF" font-size="11" font-weight="800" text-anchor="middle">C</text>
-                    <text x="100" y="110" fill="#A5B4FC" font-size="9" font-weight="700" text-anchor="middle">Transformación</text>
+                <svg width="180" height="100" viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="30" y1="25" x2="170" y2="25" stroke="#EA580C" stroke-width="2" stroke-dasharray="3 3"/>
+                    <line x1="170" y1="25" x2="100" y2="100" stroke="#38BDF8" stroke-width="2"/>
+                    <line x1="100" y1="100" x2="30" y2="25" stroke="#818CF8" stroke-width="2"/>
+                    <circle cx="30" cy="25" r="9" fill="#EA580C" />
+                    <text x="30" y="29" fill="#FFFFFF" font-size="10" font-weight="800" text-anchor="middle">A</text>
+                    <text x="30" y="12" fill="#FDBA74" font-size="9" font-weight="700" text-anchor="middle">Decisión</text>
+                    <circle cx="170" cy="25" r="9" fill="#0284C7" />
+                    <text x="170" y="29" fill="#FFFFFF" font-size="10" font-weight="800" text-anchor="middle">B</text>
+                    <text x="170" y="12" fill="#38BDF8" font-size="9" font-weight="700" text-anchor="middle">Análisis</text>
+                    <circle cx="100" cy="100" r="9" fill="#6366F1" />
+                    <text x="100" y="104" fill="#FFFFFF" font-size="10" font-weight="800" text-anchor="middle">C</text>
+                    <text x="100" y="116" fill="#A5B4FC" font-size="9" font-weight="700" text-anchor="middle">Transformación</text>
                 </svg>
             </div>
         </div>
