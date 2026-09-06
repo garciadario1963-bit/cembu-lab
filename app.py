@@ -71,27 +71,25 @@ st.markdown("""
     }
     
     .triangle-item {
-        background-color: #F8FAFC;
+        background-color: #FFFFFF;
         border: 1px solid #E2E8F0;
         border-radius: 8px;
-        padding: 14px 16px;
+        padding: 16px;
         height: 100%;
-        transition: transform 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
-    .triangle-item:hover {
-        transform: translateY(-2px);
-        border-color: #CBD5E1;
-    }
+    
     .triangle-letter {
         font-weight: 800;
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         color: #EA580C;
-        margin-bottom: 4px;
+        margin-bottom: 6px;
     }
+    
     .triangle-desc {
         font-size: 0.9rem;
         color: #334155;
-        line-height: 1.4;
+        line-height: 1.45;
     }
 
     /* Redes sociales en barra */
@@ -197,7 +195,7 @@ if "🌐 Tablero de Control" in opcion_menu or "📰 Portada" in opcion_menu:
         st.markdown("""
             <div class="triangle-item">
                 <div class="triangle-letter">A. Decisión & Ejecución</div>
-                <div class="triangle-desc"><strong>Quienes deciden, crean y ejecutan las políticas públicas:</strong> Ministros y secretarías nacionales, provinciales y municipales.</div>
+                <div class="triangle-desc"><strong>Quienes deciden, crean y ejecutan las políticas públicas:</strong> ministros y secretarías nacionales, provinciales y municipales.</div>
             </div>
         """, unsafe_allow_html=True)
 
@@ -205,7 +203,7 @@ if "🌐 Tablero de Control" in opcion_menu or "📰 Portada" in opcion_menu:
         st.markdown("""
             <div class="triangle-item">
                 <div class="triangle-letter">B. Análisis & Modelización</div>
-                <div class="triangle-desc"><strong>Quienes estudian las complejidades socioeconómicas:</strong> Academia, universidades e institutos de investigación.</div>
+                <div class="triangle-desc"><strong>Quienes estudian las complejidades socioeconómicas:</strong> Academias, universidades e institutos de investigación.</div>
             </div>
         """, unsafe_allow_html=True)
 
@@ -213,67 +211,50 @@ if "🌐 Tablero de Control" in opcion_menu or "📰 Portada" in opcion_menu:
         st.markdown("""
             <div class="triangle-item">
                 <div class="triangle-letter">C. Transformación Real</div>
-                <div class="triangle-desc"><strong>Quienes protagonizan los avances sociales en lo real:</strong> Actores territoriales, trabajadores y sectores productivos.</div>
+                <div class="triangle-desc"><strong>Quienes protagonizan los avances sociales en lo real:</strong> actores territoriales, trabajadores y sectores productivos.</div>
             </div>
         """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # 4. TABLERO DE CONTROL DE IMPACTO (MAPA + MODELIZACIÓN EN PARALELO)
+    # 4. TABLERO DE CONTROL DE IMPACTO (MAPA NATIVO + MODELIZACIÓN EN PARALELO)
     st.markdown("### 🛰️ **Tablero de Control Territorial & Modelización**")
     st.caption("Visor interactivo de indicadores socioeconómicos georeferenciados y trayectorias predictivas.")
 
-    col_mapa, col_grafico = st.columns([1.3, 1], gap="medium")
+    col_mapa, col_grafico = st.columns([1.2, 1], gap="medium")
 
     with col_mapa:
         st.markdown("**📌 Monitor Territorial: Región Metropolitana / AMBA**")
         
-        # Datos simulados de nodos territoriales AMBA para la demostración
+        # Datos geográficos del AMBA (Nodos territoriales y productivos)
         df_mapa = pd.DataFrame({
-            'lat': [-34.6037, -34.6625, -34.5583, -34.7242, -34.9214, -34.6150],
-            'lon': [-58.3816, -58.3647, -58.4622, -58.3800, -57.9545, -58.4333],
-            'nodo': ['CABA Central', 'Avellaneda', 'General San Martín', 'Quilmes', 'La Plata', 'Mataderos (UPS)'],
-            'densidad': [85, 62, 74, 58, 90, 68]
+            'lat': [-34.6037, -34.6625, -34.5583, -34.7242, -34.9214, -34.6150, -34.4500, -34.7600],
+            'lon': [-58.3816, -58.3647, -58.4622, -58.3800, -57.9545, -58.4333, -58.5500, -58.2100],
+            'nodo': ['CABA Central', 'Avellaneda', 'General San Martín', 'Quilmes', 'La Plata', 'Mataderos (UPS)', 'Tigre', 'Berazategui']
         })
 
-        # Renderizado de mapa de densidad/zonas
-        fig_mapa = px.scatter_mapbox(
-            df_mapa,
-            lat="lat",
-            lon="lon",
-            hover_name="nodo",
-            size="densidad",
-            color="densidad",
-            color_continuous_scale="Reds",
-            size_max=22,
-            zoom=9,
-            mapbox_style="carto-positron"
-        )
-        fig_mapa.update_layout(
-            margin={"r": 0, "t": 0, "l": 0, "b": 0},
-            height=420
-        )
-        st.plotly_chart(fig_mapa, use_container_width=True)
+        # Visor de mapa nativo interactivo de Streamlit (Robusto y sin errores)
+        st.map(df_mapa, latitude='lat', longitude='lon', zoom=9)
 
     with col_grafico:
         st.markdown("**📈 Curvas Epidémicas / Proyección de Modelos**")
         
-        # Simulación de curvas de modelos epidemiológicos/socioeconómicos (SIR / Simulación)
+        # Simulación de curvas socioeconómicas / epidemiológicas (Modelo SIR / Dinámico)
         df_model = pd.DataFrame({
             'Días': list(range(100)),
-            'Infectados / Vulnerables': [0.1 * (x**1.5) * (1 - x/100) for x in range(100)],
-            'Recuperados / Mitigados': [100 / (1 + 2.71**(-0.1 * (x - 50))) for x in range(100)],
-            'Susceptibles': [100 - (100 / (1 + 2.71**(-0.1 * (x - 50)))) for x in range(100)]
+            'Afectados / Vulnerables': [0.1 * (x**1.5) * (1 - x/100) for x in range(100)],
+            'Intervención / Cobertura': [100 / (1 + 2.71**(-0.1 * (x - 50))) for x in range(100)],
+            'Población Objetivo': [100 - (100 / (1 + 2.71**(-0.1 * (x - 50)))) for x in range(100)]
         })
 
         fig_lines = go.Figure()
-        fig_lines.add_trace(go.Scatter(x=df_model['Días'], y=df_model['Infectados / Vulnerables'], name='Afectados / Alerta', line=dict(color='#DC2626', width=2.5)))
-        fig_lines.add_trace(go.Scatter(x=df_model['Días'], y=df_model['Recuperados / Mitigados'], name='Intervención / Cobertura', line=dict(color='#16A34A', width=2.5)))
-        fig_lines.add_trace(go.Scatter(x=df_model['Días'], y=df_model['Susceptibles'], name='Población Objetivo', line=dict(color='#2563EB', width=2)))
+        fig_lines.add_trace(go.Scatter(x=df_model['Días'], y=df_model['Afectados / Vulnerables'], name='Afectados / Alerta', line=dict(color='#DC2626', width=2.5)))
+        fig_lines.add_trace(go.Scatter(x=df_model['Días'], y=df_model['Intervención / Cobertura'], name='Intervención / Cobertura', line=dict(color='#16A34A', width=2.5)))
+        fig_lines.add_trace(go.Scatter(x=df_model['Días'], y=df_model['Población Objetivo'], name='Población Objetivo', line=dict(color='#2563EB', width=2)))
 
         fig_lines.update_layout(
             margin={"r": 10, "t": 10, "l": 10, "b": 10},
-            height=420,
+            height=380,
             legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(248,250,252,1)'
@@ -315,14 +296,19 @@ if "🌐 Tablero de Control" in opcion_menu or "📰 Portada" in opcion_menu:
         """, unsafe_allow_html=True)
         st.button("Ver Monitor OHD →", key="btn_ohd", use_container_width=True)
 
-# Resto de secciones...
+# Resto de secciones de navegación lateral
 elif "📊 CEMBU LAB" in opcion_menu:
     st.title("📊 CEMBU LAB - Modelización & Algoritmos")
+    st.info("Sección en desarrollo de modelos predictivos y algoritmos de simulación.")
 elif "🗺️ CEMBU MATRIA" in opcion_menu:
-    st.title("🗺️ CEMBU MATRIA - Unidades de Producción Soberana")
+    st.title("🗺️ CEMBU MATRIA - Unidades de Producción Soberana (UPS)")
+    st.info("Relevamiento de encadenamientos productivos regionales.")
 elif "📈 CEMBU OHD" in opcion_menu:
     st.title("📈 CEMBU OHD - Sistema Financiero e Indicadores")
+    st.info("Monitoreo de política monetaria e indicadores de coyuntura.")
 elif "📂 Base de Microdatos" in opcion_menu:
     st.title("📂 Base de Microdatos EPH / Censos")
+    st.info("Acceso y consulta de microdatos socioeconómicos.")
 elif "🏛️ Institucional" in opcion_menu:
     st.title("🏛️ Institucional & Equipo")
+    st.info("Centro de Estudios Manuel Baldomero Ugarte.")
