@@ -14,13 +14,14 @@ st.set_page_config(
 )
 
 # -----------------------------------------------------------------------------
-# 2. ESTILOS CSS COMPACTOS PARA IMPACTO VISUAL INMEDIATO
+# 2. ESTILOS CSS CON TIPOGRAFÍA JMAP Y ESQUEMA DEL TRIÁNGULO
 # -----------------------------------------------------------------------------
 st.markdown("""
 <style>
-    /* Reducción general de padding superior para subir la interfaz */
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Inter:wght@400;600;700&display=swap');
+
     .block-container {
-        padding-top: 1.2rem !important;
+        padding-top: 1rem !important;
         padding-bottom: 1rem !important;
         max-width: 98% !important;
     }
@@ -39,23 +40,27 @@ st.markdown("""
         color: #E2E8F0 !important;
     }
     
-    /* Hero Banner ultra compacto */
+    /* Hero Banner con Diagrama Integrado */
     .hero-container {
         background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
         border-radius: 8px;
-        padding: 12px 20px;
+        padding: 16px 24px;
         color: #FFFFFF;
         margin-bottom: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
     
     .hero-title {
-        font-size: 1.55rem;
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 1.85rem;
         font-weight: 800;
         color: #FFFFFF;
         letter-spacing: -0.3px;
-        margin-bottom: 2px;
-        line-height: 1.2;
+        margin-bottom: 4px;
+        line-height: 1.15;
     }
     
     .hero-sub {
@@ -63,9 +68,10 @@ st.markdown("""
         color: #94A3B8;
         font-weight: 400;
         margin-bottom: 0px;
+        max-width: 720px;
     }
     
-    /* Tarjetas del Triángulo compactas */
+    /* Tarjetas del Triángulo */
     .triangle-item {
         background-color: #FFFFFF;
         border: 1px solid #E2E8F0;
@@ -77,8 +83,9 @@ st.markdown("""
     }
     
     .triangle-letter {
-        font-weight: 700;
-        font-size: 0.88rem;
+        font-family: 'Playfair Display', Georgia, serif;
+        font-weight: 800;
+        font-size: 0.95rem;
         color: #EA580C;
         margin-bottom: 2px;
     }
@@ -90,14 +97,14 @@ st.markdown("""
     }
 
     .section-label {
-        font-size: 1rem;
-        font-weight: 700;
+        font-family: 'Playfair Display', Georgia, serif;
+        font-size: 1.1rem;
+        font-weight: 800;
         color: #0F172A;
         margin-top: 6px;
         margin-bottom: 6px;
     }
 
-    /* Redes sociales en barra */
     .social-link {
         color: #FFFFFF !important;
         margin-left: 12px;
@@ -158,7 +165,7 @@ if "🌐 Tablero de Control" in opcion_menu or "📰 Portada" in opcion_menu:
     url_linkedin = "https://linkedin.com/"
     url_youtube  = "https://youtube.com/"
     
-    # 1. BARRA INSTITUCIONAL SUPERIOR (COMPACTA)
+    # BARRA INSTITUCIONAL SUPERIOR
     st.markdown(f"""
         <div style="display: flex; justify-content: space-between; align-items: center; background: #0F172A; color: #FFFFFF; padding: 6px 16px; border-radius: 6px; margin-bottom: 8px;">
             <div style="font-weight: 700; font-size: 0.82rem; letter-spacing: 0.4px;">
@@ -181,15 +188,41 @@ if "🌐 Tablero de Control" in opcion_menu or "📰 Portada" in opcion_menu:
         </div>
     """, unsafe_allow_html=True)
 
-    # 2. SECCIÓN HERO DE TÍTULO (COMPACTA)
+    # BANNER HERO CON TIPOGRAFÍA EGANTE Y DIAGRAMA DEL TRIÁNGULO INTEGRADO
     st.markdown("""
         <div class="hero-container">
-            <div class="hero-title">Observatorio de Coyuntura, Modelización & Territorio</div>
-            <div class="hero-sub">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div>
+            <div>
+                <div class="hero-title">Observatorio de Coyuntura, Modelización & Territorio</div>
+                <div class="hero-sub">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div>
+            </div>
+            <!-- Diagrama Vectorial del Triángulo con Nodos (Estilo Jornadas JMAP) -->
+            <div style="flex-shrink: 0; margin-left: 20px;">
+                <svg width="170" height="90" viewBox="0 0 200 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Líneas del triángulo -->
+                    <line x1="30" y1="20" x2="170" y2="20" stroke="#EA580C" stroke-width="2.5" stroke-dasharray="3 3" opacity="0.85"/>
+                    <line x1="170" y1="20" x2="100" y2="95" stroke="#38BDF8" stroke-width="2.5" opacity="0.85"/>
+                    <line x1="100" y1="95" x2="30" y2="20" stroke="#818CF8" stroke-width="2.5" opacity="0.85"/>
+                    
+                    <!-- Vértice A: Decisión -->
+                    <circle cx="30" cy="20" r="10" fill="#EA580C" />
+                    <text x="30" y="24" fill="#FFFFFF" font-size="11" font-weight="800" text-anchor="middle">A</text>
+                    <text x="30" y="8" fill="#FDBA74" font-size="9" font-weight="700" text-anchor="middle">Decisión</text>
+                    
+                    <!-- Vértice B: Análisis -->
+                    <circle cx="170" cy="20" r="10" fill="#0284C7" />
+                    <text x="170" y="24" fill="#FFFFFF" font-size="11" font-weight="800" text-anchor="middle">B</text>
+                    <text x="170" y="8" fill="#38BDF8" font-size="9" font-weight="700" text-anchor="middle">Análisis</text>
+                    
+                    <!-- Vértice C: Transformación -->
+                    <circle cx="100" cy="95" r="10" fill="#6366F1" />
+                    <text x="100" y="99" fill="#FFFFFF" font-size="11" font-weight="800" text-anchor="middle">C</text>
+                    <text x="100" y="110" fill="#A5B4FC" font-size="9" font-weight="700" text-anchor="middle">Transformación</text>
+                </svg>
+            </div>
         </div>
     """, unsafe_allow_html=True)
 
-    # 3. LAS TRES PUNTAS DEL TRIÁNGULO (REDIMENSIONADO Y ELEVADO)
+    # LAS TRES PUNTAS DEL TRIÁNGULO
     st.markdown('<div class="section-label">🔺 Las tres puntas del triángulo</div>', unsafe_allow_html=True)
 
     col_t1, col_t2, col_t3 = st.columns(3)
@@ -218,9 +251,9 @@ if "🌐 Tablero de Control" in opcion_menu or "📰 Portada" in opcion_menu:
             </div>
         """, unsafe_allow_html=True)
 
-    st.markdown("<div style='margin-bottom: 10px;'></div>", unsafe_allow_html=True)
+    st.markdown("<div style='margin-bottom: 8px;'></div>", unsafe_allow_html=True)
 
-    # 4. TABLERO DE CONTROL (MAPA + CURVAS DE MODELO EN PRIMER PLANO)
+    # TABLERO DE CONTROL (MAPA + CURVAS)
     st.markdown('<div class="section-label">🛰️ Tablero de Control Territorial & Modelización</div>', unsafe_allow_html=True)
 
     col_mapa, col_grafico = st.columns([1.1, 1], gap="small")
@@ -234,7 +267,7 @@ if "🌐 Tablero de Control" in opcion_menu or "📰 Portada" in opcion_menu:
             'nodo': ['CABA Central', 'Avellaneda', 'General San Martín', 'Quilmes', 'La Plata', 'Mataderos (UPS)', 'Tigre', 'Berazategui']
         })
 
-        st.map(df_mapa, latitude='lat', longitude='lon', zoom=9, height=280)
+        st.map(df_mapa, latitude='lat', longitude='lon', zoom=9, height=270)
 
     with col_grafico:
         st.caption("📈 **Curvas Epidémicas / Proyección de Modelos**")
@@ -253,23 +286,23 @@ if "🌐 Tablero de Control" in opcion_menu or "📰 Portada" in opcion_menu:
 
         fig_lines.update_layout(
             margin={"r": 5, "t": 5, "l": 5, "b": 5},
-            height=280,
+            height=270,
             legend=dict(orientation="h", yanchor="bottom", y=1.01, xanchor="right", x=1, font=dict(size=10)),
             paper_bgcolor='rgba(0,0,0,0)',
             plot_bgcolor='rgba(248,250,252,1)'
         )
         st.plotly_chart(fig_lines, use_container_width=True)
 
-    st.markdown("<hr style='margin: 12px 0;'>", unsafe_allow_html=True)
+    st.markdown("<hr style='margin: 10px 0;'>", unsafe_allow_html=True)
 
-    # 5. ACCESOS DIRECTOS A PUBLICACIONES & INFORMES
+    # ACCESOS DIRECTOS DE SECCIONES
     col_inf1, col_inf2, col_inf3 = st.columns(3)
     
     with col_inf1:
         st.markdown("""
             <div style="background:#FFF; padding:12px; border-radius:6px; border:1px solid #E2E8F0;">
                 <span style="background:#DC2626; color:#FFF; font-size:0.68rem; font-weight:700; padding:2px 6px; border-radius:3px;">CEMBU LAB</span>
-                <h4 style="margin:6px 0 2px 0; font-size: 0.95rem;">Modelos & Algoritmos</h4>
+                <h4 style="margin:6px 0 2px 0; font-size: 0.95rem; font-family:'Playfair Display', serif;">Modelos & Algoritmos</h4>
                 <p style="font-size:0.78rem; color:#64748B; margin-bottom: 0;">Planificación del desarrollo mediante simulaciones de agentes.</p>
             </div>
         """, unsafe_allow_html=True)
@@ -279,7 +312,7 @@ if "🌐 Tablero de Control" in opcion_menu or "📰 Portada" in opcion_menu:
         st.markdown("""
             <div style="background:#FFF; padding:12px; border-radius:6px; border:1px solid #E2E8F0;">
                 <span style="background:#0D9488; color:#FFF; font-size:0.68rem; font-weight:700; padding:2px 6px; border-radius:3px;">MATRIA</span>
-                <h4 style="margin:6px 0 2px 0; font-size: 0.95rem;">Unidades de Producción (UPS)</h4>
+                <h4 style="margin:6px 0 2px 0; font-size: 0.95rem; font-family:'Playfair Display', serif;">Unidades de Producción (UPS)</h4>
                 <p style="font-size:0.78rem; color:#64748B; margin-bottom: 0;">Relevamiento territorial de encadenamientos productivos.</p>
             </div>
         """, unsafe_allow_html=True)
@@ -289,7 +322,7 @@ if "🌐 Tablero de Control" in opcion_menu or "📰 Portada" in opcion_menu:
         st.markdown("""
             <div style="background:#FFF; padding:12px; border-radius:6px; border:1px solid #E2E8F0;">
                 <span style="background:#7C3AED; color:#FFF; font-size:0.68rem; font-weight:700; padding:2px 6px; border-radius:3px;">OHD MONETARIO</span>
-                <h4 style="margin:6px 0 2px 0; font-size: 0.95rem;">Tasas & Liquidez Global</h4>
+                <h4 style="margin:6px 0 2px 0; font-size: 0.95rem; font-family:'Playfair Display', serif;">Tasas & Liquidez Global</h4>
                 <p style="font-size:0.78rem; color:#64748B; margin-bottom: 0;">Seguimiento semanal de tasas Fed, BCE, BoJ e indicadores.</p>
             </div>
         """, unsafe_allow_html=True)
