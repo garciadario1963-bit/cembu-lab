@@ -1,8 +1,6 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
-import base64
-import os
 
 # 1. CONFIGURACIÓN DE PÁGINA
 st.set_page_config(
@@ -12,23 +10,22 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. CARGA DINÁMICA DE LOGO LOCAL EN BASE64
-def get_base64_image():
-    posibles_nombres = [
-        "logo_cembu.png.png", 
-        "logo_cembu.png", 
-        "logo mini CEMBU.png",
-        "1_CEMBU.png"
-    ]
-    for nombre in posibles_nombres:
-        if os.path.exists(nombre):
-            with open(nombre, "rb") as img_file:
-                return f"data:image/png;base64,{base64.b64encode(img_file.read()).decode()}"
-    return "https://img.icons8.com/color/96/000000/open-book.png"
+# LOGO CEMBU EN SVG CON TRANSPARENCIA NATIVA (LIBRO ABIERTO)
+LOGO_SVG = """
+<svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Lado Izquierdo del Libro (Naranja CEMBU) -->
+  <path d="M15 28C15 28 32 23 47 33V80C32 70 15 75 15 75V28Z" fill="#EA580C"/>
+  <!-- Lado Derecho del Libro (Rojo Accento) -->
+  <path d="M85 28C85 28 68 23 53 33V80C68 70 85 75 85 75V28Z" fill="#DC2626"/>
+  <!-- Hojas Interiores (Detalle Blanco/Crema) -->
+  <path d="M47 33C32 25 18 29 18 29V33C18 33 32 29 47 37V33Z" fill="#FFFFFF" opacity="0.9"/>
+  <path d="M53 33C68 25 82 29 82 29V33C82 33 68 29 53 37V33Z" fill="#FFFFFF" opacity="0.9"/>
+  <!-- Lomo Central -->
+  <path d="M47 33V80C49 81 51 81 53 80V33C51 34 49 34 47 33Z" fill="#C2410C"/>
+</svg>
+"""
 
-logo_src = get_base64_image()
-
-# 3. ESTILOS CSS PERSONALIZADOS
+# 2. ESTILOS CSS PERSONALIZADOS
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap');
@@ -55,27 +52,17 @@ st.markdown("""
         box-sizing: border-box;
     }
 
-    /* CONTENEDOR BLANCO DESTACADO PARA EL LOGO */
+    /* CONTENEDOR DEL LOGO TRANSPARENTE */
     .logo-container {
         position: absolute;
-        top: 14px;
+        top: 18px;
         left: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 52px;
-        height: 52px;
-        background-color: #FFFFFF;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
-        padding: 4px;
-        box-sizing: border-box;
-    }
-
-    .logo-container img {
-        max-height: 100%;
-        max-width: 100%;
-        object-fit: contain;
+        width: 48px;
+        height: 48px;
+        background: transparent;
     }
 
     /* REDES SOCIALES ESQUINA SUPERIOR DERECHA */
@@ -203,12 +190,34 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 4. HEADER NEGRO EN LÍNEA ÚNICA
-header_html = f'<div class="top-black-banner"><div class="logo-container"><img src="{logo_src}" alt="Logo CEMBU"></div><div class="social-icons-container"><a href="#" class="social-icon" title="Instagram">📷</a><a href="#" class="social-icon" title="X (Twitter)">𝕏</a><a href="#" class="social-icon" title="LinkedIn">in</a><a href="#" class="social-icon" title="YouTube">▶</a></div><div class="cembu-logo-title">CEMBU</div><div class="cembu-subtitle">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div><div class="top-nav-bar"><span class="nav-item active">Tablero de Control</span><span class="nav-item">CEMBU LAB</span><span class="nav-item">CEMBU MATRIA</span><span class="nav-item">CEMBU OHD</span><span class="nav-item">Microdatos</span><span class="nav-item">Institucional</span></div></div>'
+# 3. HEADER NEGRO
+header_html = f'''
+<div class="top-black-banner">
+    <div class="logo-container">
+        {LOGO_SVG}
+    </div>
+    <div class="social-icons-container">
+        <a href="#" class="social-icon" title="Instagram">📷</a>
+        <a href="#" class="social-icon" title="X (Twitter)">𝕏</a>
+        <a href="#" class="social-icon" title="LinkedIn">in</a>
+        <a href="#" class="social-icon" title="YouTube">▶</a>
+    </div>
+    <div class="cembu-logo-title">CEMBU</div>
+    <div class="cembu-subtitle">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div>
+    <div class="top-nav-bar">
+        <span class="nav-item active">Tablero de Control</span>
+        <span class="nav-item">CEMBU LAB</span>
+        <span class="nav-item">CEMBU MATRIA</span>
+        <span class="nav-item">CEMBU OHD</span>
+        <span class="nav-item">Microdatos</span>
+        <span class="nav-item">Institucional</span>
+    </div>
+</div>
+'''
 
 st.markdown(header_html, unsafe_allow_html=True)
 
-# 5. CONTENIDO PRINCIPAL
+# 4. CONTENIDO PRINCIPAL
 st.markdown('<div class="content-container">', unsafe_allow_html=True)
 
 # A) Tres puntas del triángulo
