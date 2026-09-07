@@ -14,7 +14,6 @@ st.set_page_config(
 
 # 2. CARGA DINÁMICA DE LOGO LOCAL EN BASE64
 def get_base64_image():
-    # Intenta buscar todas las posibles variantes con las que se guardó el archivo
     posibles_nombres = [
         "logo_cembu.png.png", 
         "logo_cembu.png", 
@@ -25,7 +24,6 @@ def get_base64_image():
         if os.path.exists(nombre):
             with open(nombre, "rb") as img_file:
                 return f"data:image/png;base64,{base64.b64encode(img_file.read()).decode()}"
-    # Imagen de respaldo si no encuentra ninguna local
     return "https://img.icons8.com/color/96/000000/open-book.png"
 
 logo_src = get_base64_image()
@@ -57,23 +55,27 @@ st.markdown("""
         box-sizing: border-box;
     }
 
-    /* CONTENEDOR Y TRATAMIENTO DEL LOGO */
+    /* CONTENEDOR BLANCO DESTACADO PARA EL LOGO */
     .logo-container {
         position: absolute;
-        top: 16px;
+        top: 14px;
         left: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 52px;
+        height: 52px;
+        background-color: #FFFFFF;
+        border-radius: 8px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+        padding: 4px;
+        box-sizing: border-box;
     }
 
     .logo-container img {
-        height: 58px;
-        width: auto;
+        max-height: 100%;
+        max-width: 100%;
         object-fit: contain;
-        /* Mezcla el fondo blanco con el fondo oscuro si la imagen no fuera transparente */
-        mix-blend-mode: multiply;
-        filter: contrast(110%);
     }
 
     /* REDES SOCIALES ESQUINA SUPERIOR DERECHA */
