@@ -12,15 +12,23 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 2. CARGA DE LOGO LOCAL EN BASE64
-def get_base64_image(image_path):
-    if os.path.exists(image_path):
-        with open(image_path, "rb") as img_file:
-            return f"data:image/png;base64,{base64.b64encode(img_file.read()).decode()}"
-    # Fallback por si aún no subiste el archivo al repo
+# 2. CARGA DINÁMICA DE LOGO LOCAL EN BASE64
+def get_base64_image():
+    # Intenta buscar todas las posibles variantes con las que se guardó el archivo
+    posibles_nombres = [
+        "logo_cembu.png.png", 
+        "logo_cembu.png", 
+        "logo mini CEMBU.png",
+        "1_CEMBU.png"
+    ]
+    for nombre in posibles_nombres:
+        if os.path.exists(nombre):
+            with open(nombre, "rb") as img_file:
+                return f"data:image/png;base64,{base64.b64encode(img_file.read()).decode()}"
+    # Imagen de respaldo si no encuentra ninguna local
     return "https://img.icons8.com/color/96/000000/open-book.png"
 
-logo_src = get_base64_image("logo_cembu.png")
+logo_src = get_base64_image()
 
 # 3. ESTILOS CSS PERSONALIZADOS
 st.markdown("""
@@ -49,19 +57,23 @@ st.markdown("""
         box-sizing: border-box;
     }
 
-    /* LOGO ESQUINA SUPERIOR IZQUIERDA */
+    /* CONTENEDOR Y TRATAMIENTO DEL LOGO */
     .logo-container {
         position: absolute;
         top: 16px;
         left: 40px;
         display: flex;
         align-items: center;
+        justify-content: center;
     }
 
     .logo-container img {
-        height: 42px; /* Tamaño ajustado para que quede proporcionado */
+        height: 58px;
         width: auto;
         object-fit: contain;
+        /* Mezcla el fondo blanco con el fondo oscuro si la imagen no fuera transparente */
+        mix-blend-mode: multiply;
+        filter: contrast(110%);
     }
 
     /* REDES SOCIALES ESQUINA SUPERIOR DERECHA */
