@@ -29,7 +29,7 @@ st.markdown("""
     .top-black-banner {
         background-color: #0B0F19;
         color: #FFFFFF;
-        padding: 20px 40px 14px 40px;
+        padding: 22px 40px 16px 40px;
         text-align: center;
         border-bottom: 3px solid #EA580C;
         position: relative;
@@ -37,16 +37,16 @@ st.markdown("""
         box-sizing: border-box;
     }
 
-    /* CONTENEDOR DEL LOGO TRANSPARENTE */
+    /* CONTENEDOR DEL LOGO TRANSPARENTE (MÁS GRANDE) */
     .logo-container {
         position: absolute;
-        top: 18px;
+        top: 14px;
         left: 40px;
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 48px;
-        height: 48px;
+        width: 68px;
+        height: 68px;
         background: transparent;
     }
 
@@ -73,7 +73,7 @@ st.markdown("""
 
     .cembu-logo-title {
         font-family: 'Playfair Display', serif;
-        font-size: 3.2rem;
+        font-size: 3.4rem;
         font-weight: 900;
         color: #EA580C;
         letter-spacing: 2px;
@@ -82,9 +82,11 @@ st.markdown("""
     }
 
     .cembu-subtitle {
-        font-size: 0.88rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.95rem;
         color: #CBD5E1;
-        font-weight: 400;
+        font-weight: 500;
+        letter-spacing: 0.3px;
         margin-bottom: 18px;
     }
 
@@ -175,11 +177,11 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. HEADER NEGRO CON LOGO SVG INTEGRO
+# 3. HEADER NEGRO CON NUEVA BAJADA Y LOGO MÁS GRANDE
 st.markdown("""
 <div class="top-black-banner">
     <div class="logo-container">
-        <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <svg width="68" height="68" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M15 28C15 28 32 23 47 33V80C32 70 15 75 15 75V28Z" fill="#EA580C"/>
           <path d="M85 28C85 28 68 23 53 33V80C68 70 85 75 85 75V28Z" fill="#DC2626"/>
           <path d="M47 33C32 25 18 29 18 29V33C18 33 32 29 47 37V33Z" fill="#FFFFFF" opacity="0.9"/>
@@ -194,7 +196,7 @@ st.markdown("""
         <a href="#" class="social-icon" title="YouTube">▶</a>
     </div>
     <div class="cembu-logo-title">CEMBU</div>
-    <div class="cembu-subtitle">Generación de conocimiento, algoritmos y herramientas predictivas para la planificación del desarrollo soberano.</div>
+    <div class="cembu-subtitle">Conocimiento territorial para el desarrollo soberano</div>
     <div class="top-nav-bar">
         <span class="nav-item active">Tablero de Control</span>
         <span class="nav-item">CEMBU LAB</span>
