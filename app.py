@@ -10,21 +10,6 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# LOGO CEMBU EN SVG CON TRANSPARENCIA NATIVA (LIBRO ABIERTO)
-LOGO_SVG = """
-<svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Lado Izquierdo del Libro (Naranja CEMBU) -->
-  <path d="M15 28C15 28 32 23 47 33V80C32 70 15 75 15 75V28Z" fill="#EA580C"/>
-  <!-- Lado Derecho del Libro (Rojo Accento) -->
-  <path d="M85 28C85 28 68 23 53 33V80C68 70 85 75 85 75V28Z" fill="#DC2626"/>
-  <!-- Hojas Interiores (Detalle Blanco/Crema) -->
-  <path d="M47 33C32 25 18 29 18 29V33C18 33 32 29 47 37V33Z" fill="#FFFFFF" opacity="0.9"/>
-  <path d="M53 33C68 25 82 29 82 29V33C82 33 68 29 53 37V33Z" fill="#FFFFFF" opacity="0.9"/>
-  <!-- Lomo Central -->
-  <path d="M47 33V80C49 81 51 81 53 80V33C51 34 49 34 47 33Z" fill="#C2410C"/>
-</svg>
-"""
-
 # 2. ESTILOS CSS PERSONALIZADOS
 st.markdown("""
 <style>
@@ -190,11 +175,17 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. HEADER NEGRO
-header_html = f'''
+# 3. HEADER NEGRO CON LOGO SVG INTEGRO
+st.markdown("""
 <div class="top-black-banner">
     <div class="logo-container">
-        {LOGO_SVG}
+        <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M15 28C15 28 32 23 47 33V80C32 70 15 75 15 75V28Z" fill="#EA580C"/>
+          <path d="M85 28C85 28 68 23 53 33V80C68 70 85 75 85 75V28Z" fill="#DC2626"/>
+          <path d="M47 33C32 25 18 29 18 29V33C18 33 32 29 47 37V33Z" fill="#FFFFFF" opacity="0.9"/>
+          <path d="M53 33C68 25 82 29 82 29V33C82 33 68 29 53 37V33Z" fill="#FFFFFF" opacity="0.9"/>
+          <path d="M47 33V80C49 81 51 81 53 80V33C51 34 49 34 47 33Z" fill="#C2410C"/>
+        </svg>
     </div>
     <div class="social-icons-container">
         <a href="#" class="social-icon" title="Instagram">📷</a>
@@ -213,9 +204,7 @@ header_html = f'''
         <span class="nav-item">Institucional</span>
     </div>
 </div>
-'''
-
-st.markdown(header_html, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 
 # 4. CONTENIDO PRINCIPAL
 st.markdown('<div class="content-container">', unsafe_allow_html=True)
