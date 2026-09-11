@@ -1,8 +1,7 @@
 import streamlit as st
-import streamlit.components.v1 as components
 import pandas as pd
 
-# 1. CONFIGURACIÓN DE LA PÁGINA
+# 1. CONFIGURACIÓN DE PÁGINA
 st.set_page_config(
     page_title="CEMBU - Conocimiento territorial para el desarrollo soberano",
     page_icon="🏛️",
@@ -10,7 +9,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Meta tags para redes sociales (Open Graph)
+# Meta tags para vista previa en WhatsApp y redes sociales (Open Graph)
 st.markdown(
     """
     <head>
@@ -23,56 +22,50 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 2. INYECCIÓN DE ESTILOS CSS COMPLETOS
+# 2. ESTILOS CSS PERSONALIZADOS
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap');
 
-/* Fondo general de la aplicación */
 .stApp {
     background-color: #F8FAFC !important;
 }
 
-/* Ocultar padding por defecto de Streamlit arriba */
-.block-container {
-    padding-top: 2rem !important;
-    padding-bottom: 2rem !important;
-}
-
-/* Banner Superior Negro */
+/* Header Negro Superior */
 .top-black-banner {
-    background-color: #0d0d0d !important;
-    padding: 20px 40px !important;
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    border-bottom: 4px solid #C23B22 !important;
-    margin-bottom: 20px !important;
-    border-radius: 4px;
+    background-color: #0d0d0d;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #C23B22;
+    margin: -60px -50px 20px -50px;
 }
 
 .logo-container {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     flex-grow: 1;
 }
 
 .brand-title {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 44px !important;
-    font-weight: 900 !important;
-    color: #E25822 !important;
-    letter-spacing: 3px !important;
-    margin: 0 !important;
-    line-height: 1 !important;
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 900;
+    color: #E25822;
+    letter-spacing: 2px;
+    margin: 0;
+    line-height: 1;
 }
 
 .brand-subtitle {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 13px !important;
-    color: #CCCCCC !important;
-    font-weight: 500 !important;
-    letter-spacing: 1px !important;
-    margin-top: 6px !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #CCCCCC;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-top: 5px;
 }
 
 .social-links {
@@ -82,20 +75,21 @@ st.markdown("""
 }
 
 .social-icon {
-    color: #888888 !important;
-    text-decoration: none !important;
+    color: #888888;
     transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
 }
 
 .social-icon:hover {
-    color: #E25822 !important;
+    color: #E25822;
 }
 
-/* Menú de Navegación */
+/* Navegación Principal */
 .nav-container {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 25px;
     background-color: #111111;
     padding: 12px;
     border-radius: 4px;
@@ -104,88 +98,80 @@ st.markdown("""
 
 .nav-link {
     color: #FFFFFF !important;
-    text-decoration: none !important;
-    font-family: 'Inter', sans-serif !important;
-    font-size: 13px !important;
-    font-weight: 600 !important;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    padding: 6px 12px;
-    border-bottom: 2px solid transparent;
+    padding: 5px 10px;
+    transition: all 0.2s ease;
 }
 
-.nav-link.active, .nav-link:hover {
+.nav-link:hover, .nav-link.active {
     color: #E25822 !important;
-    border-bottom: 2px solid #E25822 !important;
+    border-bottom: 2px solid #E25822;
 }
 
-/* Tarjetas de los 3 Pilares */
+/* Cards Informativas */
 .info-card {
-    background: #FFFFFF !important;
-    border-left: 5px solid #C23B22 !important;
-    padding: 22px !important;
-    border-radius: 6px !important;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.08) !important;
-    min-height: 160px !important;
+    background: #FFFFFF;
+    border-left: 4px solid #C23B22;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    height: 100%;
 }
 
 .card-number {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 19px !important;
-    font-weight: 800 !important;
-    color: #C23B22 !important;
-    margin-bottom: 8px !important;
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #C23B22;
+    margin-bottom: 5px;
 }
 
 .card-title {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 15px !important;
-    font-weight: 700 !important;
-    color: #0F172A !important;
-    margin-bottom: 8px !important;
-    line-height: 1.3 !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1E293B;
+    margin-bottom: 8px;
 }
 
 .card-desc {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 13px !important;
-    color: #64748B !important;
-    line-height: 1.4 !important;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #64748B;
+    line-height: 1.5;
 }
 
-/* Banners y Títulos de Secciones Inferiores */
-.section-badge {
-    background-color: #C23B22 !important;
-    color: #FFFFFF !important;
-    padding: 6px 12px !important;
-    font-family: 'Inter', sans-serif !important;
-    font-size: 11px !important;
-    font-weight: 700 !important;
-    text-transform: uppercase !important;
-    letter-spacing: 1px !important;
-    display: inline-block !important;
-    border-radius: 3px !important;
-    margin-bottom: 12px !important;
+/* Banners y Secciones */
+.section-banner {
+    background-color: #C23B22;
+    color: white;
+    padding: 6px 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-block;
+    border-radius: 2px;
+    margin-bottom: 15px;
 }
 
-.section-title-large {
-    font-family: 'Playfair Display', serif !important;
-    font-size: 24px !important;
-    font-weight: 900 !important;
-    color: #0F172A !important;
-    margin-bottom: 8px !important;
-    letter-spacing: 0.5px !important;
-}
-
-.section-subtitle {
-    font-family: 'Inter', sans-serif !important;
-    font-size: 13px !important;
-    color: #64748B !important;
+.section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: #0F172A;
+    margin-bottom: 15px;
 }
 </style>
 """, unsafe_allow_html=True)
 
-# 3. ENCABEZADO NEGRO PRINCIPAL Y REDES SOCIALES
+# 3. HEADER NEGRO CON REDES SOCIALES INSTITUCIONALES
 st.markdown("""
 <div class="top-black-banner">
     <div style="width: 150px;"></div>
@@ -216,7 +202,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 4. BARRA DE NAVEGACIÓN PRINCIPAL
+# 4. BARRA DE NAVEGACIÓN
 st.markdown("""
 <div class="nav-container">
     <a href="#" class="nav-link active">Tablero de Control</a>
@@ -228,7 +214,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# 5. PILARES EN 3 COLUMNAS
+# 5. CONTENIDO PRINCIPAL - TRES PILARES
 col1, col2, col3 = st.columns(3)
 
 with col1:
@@ -261,14 +247,14 @@ with col3:
 st.write("")
 st.write("")
 
-# 6. SECCIÓN INFERIOR
+# 6. NOVEDADES Y MONITOR
 c_left, c_right = st.columns(2)
 
 with c_left:
-    st.markdown('<div class="section-badge">Novedades & Actividades</div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-title-large">CLACSO EN LA FILUNI & MONITOR TERRITORIAL</div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-subtitle">Nuestras últimas actividades académicas y avances en análisis regional.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-banner">Novedades & Actividades</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-title">CLACSO EN LA FILUNI & MONITOR TERRITORIAL</div>', unsafe_allow_html=True)
+    st.caption("Nuestras últimas actividades académicas y avances en análisis regional.")
 
 with c_right:
-    st.markdown('<div class="section-badge">📍 Tablero de Control Territorial & Modelización</div>', unsafe_allow_html=True)
-    st.markdown('<div class="section-subtitle" style="font-weight: 600; color: #1E293B; margin-top: 10px;">📌 Monitor Territorial: Región Metropolitana / AMBA</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-banner">📍 Tablero de Control Territorial & Modelización</div>', unsafe_allow_html=True)
+    st.caption("📌 Monitor Territorial: Región Metropolitana / AMBA")
