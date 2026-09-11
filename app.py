@@ -177,7 +177,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# 3. HEADER NEGRO CON NUEVA BAJADA Y LOGO MÁS GRANDE
+# 3. HEADER NEGRO CON REDES SOCIALES Y CONTACTO CONECTADOS
 st.markdown("""
 <div class="top-black-banner">
     <div class="logo-container">
@@ -190,10 +190,11 @@ st.markdown("""
         </svg>
     </div>
     <div class="social-icons-container">
-        <a href="#" class="social-icon" title="Instagram">📷</a>
-        <a href="#" class="social-icon" title="X (Twitter)">𝕏</a>
-        <a href="#" class="social-icon" title="LinkedIn">in</a>
-        <a href="#" class="social-icon" title="YouTube">▶</a>
+        <a href="https://www.instagram.com/cembuorg" target="_blank" class="social-icon" title="Instagram">📷</a>
+        <a href="https://x.com/cembuce" target="_blank" class="social-icon" title="X (Twitter)">𝕏</a>
+        <a href="https://www.linkedin.com/company/cembuorg" target="_blank" class="social-icon" title="LinkedIn">in</a>
+        <a href="https://www.facebook.com/profile.php?id=61594481903042" target="_blank" class="social-icon" title="Facebook">f</a>
+        <a href="https://www.youtube.com/@cembuorg" target="_blank" class="social-icon" title="YouTube">▶</a>
     </div>
     <div class="cembu-logo-title">CEMBU</div>
     <div class="cembu-subtitle">Conocimiento territorial para el desarrollo soberano</div>
@@ -203,7 +204,7 @@ st.markdown("""
         <span class="nav-item">CEMBU MATRIA</span>
         <span class="nav-item">CEMBU OHD</span>
         <span class="nav-item">Microdatos</span>
-        <span class="nav-item">Institucional</span>
+        <a href="mailto:contacto@cembu.com.ar" class="nav-item" style="text-decoration: none;">Contacto</a>
     </div>
 </div>
 """, unsafe_allow_html=True)
