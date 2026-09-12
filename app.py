@@ -15,13 +15,12 @@ st.set_page_config(
 )
 
 # ============================================================
-# 2. ESTILOS CSS (FULL-BLEED + BANNER NEGRO CONTINUO)
+# 2. ESTILOS CSS
 # ============================================================
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap');
 
-    /* ---------- RESET Y FULL-BLEED ---------- */
     html, body, .stApp {
         background-color: #F8FAFC !important;
         font-family: 'Inter', sans-serif;
@@ -34,7 +33,6 @@ st.markdown("""
 
     .stApp > header { display: none !important; }
     section.main > div:first-child { padding-top: 0 !important; }
-
     #MainMenu, footer, header[data-testid="stHeader"] { visibility: hidden; }
 
     /* ---------- BANNER NEGRO SUPERIOR ---------- */
@@ -62,6 +60,10 @@ st.markdown("""
         justify-content: center;
         width: 72px;
         height: 72px;
+        background-color: #FFFFFF;
+        border-radius: 8px;
+        padding: 6px;
+        box-sizing: border-box;
     }
 
     .logo-container img {
@@ -114,17 +116,18 @@ st.markdown("""
         margin-bottom: 0;
     }
 
-    /* ---------- BARRA DE NAVEGACIÓN NEGRA FULL-WIDTH ---------- */
+    /* ---------- BARRA DE NAVEGACIÓN BLANCA FULL-WIDTH ---------- */
     div[data-testid="stRadio"] {
-        background-color: #0B0F19;
+        background-color: #FFFFFF;
         width: 100vw;
         position: relative;
         left: 50%;
         right: 50%;
         margin-left: -50vw;
         margin-right: -50vw;
-        padding: 12px 0 14px 0;
+        padding: 14px 0 16px 0;
         border-bottom: 3px solid #EA580C;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
         box-sizing: border-box;
     }
 
@@ -133,35 +136,36 @@ st.markdown("""
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        gap: 12px;
+        gap: 10px;
         flex-wrap: wrap;
-        max-width: 1200px;
+        max-width: 1400px;
         margin: 0 auto;
         padding: 0 20px;
     }
 
-    /* Ocultar SOLO el círculo del radio, no el texto */
+    /* Ocultar SOLO el círculo del radio */
     div[data-testid="stRadio"] label > div:first-child {
         display: none !important;
     }
 
-    /* Estilo base de cada opción del menú - LETRAS CLARAS */
+    /* Estilo base de cada opción - LETRAS OSCURAS sobre fondo blanco */
     div[data-testid="stRadio"] label {
         background-color: transparent !important;
-        color: #E2E8F0 !important;
-        font-size: 0.88rem !important;
-        font-weight: 600 !important;
-        padding: 8px 18px !important;
+        color: #334155 !important;
+        font-size: 0.82rem !important;
+        font-weight: 700 !important;
+        padding: 8px 16px !important;
         border-radius: 4px !important;
         cursor: pointer;
         transition: all 0.2s ease;
         border-bottom: 2px solid transparent;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
     }
 
     div[data-testid="stRadio"] label:hover {
-        color: #FFFFFF !important;
-        background-color: rgba(234, 88, 12, 0.12) !important;
+        color: #EA580C !important;
+        background-color: rgba(234, 88, 12, 0.08) !important;
     }
 
     div[data-testid="stRadio"] label:has(input:checked) {
@@ -237,6 +241,7 @@ st.markdown("""
     .badge-teal { background-color: #0D9488; }
     .badge-purple { background-color: #7C3AED; }
     .badge-blue { background-color: #0284C7; }
+    .badge-orange { background-color: #EA580C; }
 
     /* ---------- TARJETAS DE UNIDADES CON LOGO ---------- */
     .unit-card {
@@ -330,7 +335,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ============================================================
-# 3. HEADER NEGRO (con LOGO REAL del repo + redes sociales)
+# 3. HEADER NEGRO
 # ============================================================
 st.markdown("""
 <div class="top-black-banner">
@@ -360,25 +365,21 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ============================================================
-# 4. MENÚ HORIZONTAL (fondo negro full-width, letras claras)
+# 4. MENÚ HORIZONTAL (fondo BLANCO, 7 opciones)
 # ============================================================
 pestana = st.radio(
     "nav",
-    ["Menú", "CEMBU LAB", "CEMBU MATRIA", "CEMBU OHD", "Microdatos", "Contacto"],
+    ["MENÚ", "MATRIA", "OHD", "PROYS", "SERV_CONS", "PUBS_DIF", "CEMBU LAB"],
     horizontal=True,
     label_visibility="collapsed",
     key="main_nav"
 )
 
-# Truco: si elige "Menú", mostramos el Tablero de Control
-if pestana == "Menú":
-    pestana = "Tablero de Control"
-
 # ============================================================
 # 5. CONTENIDO POR PESTAÑA
 # ============================================================
 
-if pestana == "Tablero de Control":
+if pestana == "MENÚ":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
 
     # A) Tres puntas del triángulo
@@ -470,7 +471,8 @@ if pestana == "Tablero de Control":
 
     st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
-    # C) Fila 1: CEMBU LAB, MATRIA, OHD
+    # C) Las 6 tarjetas de unidades con logos
+    # Fila 1: LAB, MATRIA, OHD
     m1, m2, m3 = st.columns(3, gap="small")
 
     with m1:
@@ -505,7 +507,7 @@ if pestana == "Tablero de Control":
 
     st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
-    # D) Fila 2: PROYECTOS y SERVICIOS & CONSULTORÍA
+    # Fila 2: PROYECTOS y SERVICIOS & CONSULTORÍA
     p1, p2 = st.columns(2, gap="small")
 
     with p1:
@@ -530,7 +532,7 @@ if pestana == "Tablero de Control":
 
     st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
-    # E) Fila 3: PUBLICACIONES Y DIFUSIÓN (centrada)
+    # Fila 3: PUBLICACIONES Y DIFUSIÓN (centrada)
     c1, c2, c3 = st.columns([1, 2, 1], gap="small")
     with c2:
         st.markdown("""
@@ -544,34 +546,92 @@ if pestana == "Tablero de Control":
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-elif pestana == "CEMBU LAB":
-    st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown('<div class="white-block"><span class="badge badge-red">CEMBU LAB</span><div class="block-title">Laboratorio de Innovación y Métodos</div><div class="block-sub">Sección en desarrollo: modelos, algoritmos y simulaciones territoriales.</div></div></div>', unsafe_allow_html=True)
-
-elif pestana == "CEMBU MATRIA":
-    st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown('<div class="white-block"><span class="badge badge-teal">MATRIA</span><div class="block-title">Observatorio de Desarrollo Territorial</div><div class="block-sub">Sección en desarrollo: encadenamientos productivos y matriz insumo-producto.</div></div></div>', unsafe_allow_html=True)
-
-elif pestana == "CEMBU OHD":
-    st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown('<div class="white-block"><span class="badge badge-purple">OHD MONETARIO</span><div class="block-title">Análisis Macroeconómico y Financiero</div><div class="block-sub">Sección en desarrollo: tasas Fed, BCE, BoJ e indicadores monetarios globales.</div></div></div>', unsafe_allow_html=True)
-
-elif pestana == "Microdatos":
-    st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown('<div class="white-block"><div class="block-title">📊 Repositorio de Microdatos</div><div class="block-sub">Sección en desarrollo: bases de datos y series estadísticas.</div></div></div>', unsafe_allow_html=True)
-
-elif pestana == "Contacto":
+# ------------------------------------------------------------
+# MATRIA
+# ------------------------------------------------------------
+elif pestana == "MATRIA":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
     st.markdown("""
-    <div class="white-block">
-        <div class="block-title">📬 Contacto CEMBU</div>
-        <div class="block-sub">Podés comunicarte con nuestro equipo por los siguientes medios:</div>
-        <div style="margin-top: 14px; line-height: 2;">
-            📧 <b>Email:</b> <span class="footer-copy-box">contacto@cembu.org</span><br>
-            📱 <b>WhatsApp:</b> <a href="https://wa.me/5491149938695" target="_blank" class="footer-link">11-4993-8695</a><br>
-            📞 <b>Teléfono:</b> 11-4993-8695<br>
-            📍 <b>Ubicación:</b> Ciudad Autónoma de Buenos Aires (CABA), Argentina
-        </div>
+    <div class="white-block" style="text-align:center;">
+        <img src="https://raw.githubusercontent.com/garciadario1963-bit/cembu-lab/main/assets/2_MATRIA.png" style="max-width:100px; margin-bottom:12px;">
+        <span class="badge badge-teal">MATRIA</span>
+        <div class="block-title">Unidades de Producción (UPS)</div>
+        <div class="block-sub">Relevamiento territorial de encadenamientos productivos y matriz insumo-producto.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# ------------------------------------------------------------
+# OHD
+# ------------------------------------------------------------
+elif pestana == "OHD":
+    st.markdown('<div class="content-container">', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="white-block" style="text-align:center;">
+        <img src="https://raw.githubusercontent.com/garciadario1963-bit/cembu-lab/main/assets/3_OHD.png" style="max-width:100px; margin-bottom:12px;">
+        <span class="badge badge-purple">OHD MONETARIO</span>
+        <div class="block-title">Tasas & Liquidez Global</div>
+        <div class="block-sub">Seguimiento semanal de tasas Fed, BCE, BoJ e indicadores monetarios.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# ------------------------------------------------------------
+# PROYS
+# ------------------------------------------------------------
+elif pestana == "PROYS":
+    st.markdown('<div class="content-container">', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="white-block" style="text-align:center;">
+        <img src="https://raw.githubusercontent.com/garciadario1963-bit/cembu-lab/main/assets/4_PROYS.png" style="max-width:100px; margin-bottom:12px;">
+        <span class="badge badge-blue">PROYECTOS</span>
+        <div class="block-title">Proyectos Estratégicos</div>
+        <div class="block-sub">Diseño y ejecución de proyectos de desarrollo territorial y planificación estratégica.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# ------------------------------------------------------------
+# SERV_CONS
+# ------------------------------------------------------------
+elif pestana == "SERV_CONS":
+    st.markdown('<div class="content-container">', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="white-block" style="text-align:center;">
+        <img src="https://raw.githubusercontent.com/garciadario1963-bit/cembu-lab/main/assets/5_SERV_CONS.png" style="max-width:100px; margin-bottom:12px;">
+        <span class="badge badge-red">SERVICIOS & CONSULTORÍA</span>
+        <div class="block-title">Asistencia Técnica</div>
+        <div class="block-sub">Servicios profesionales de consultoría para organismos públicos y privados.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# ------------------------------------------------------------
+# PUBS_DIF
+# ------------------------------------------------------------
+elif pestana == "PUBS_DIF":
+    st.markdown('<div class="content-container">', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="white-block" style="text-align:center;">
+        <img src="https://raw.githubusercontent.com/garciadario1963-bit/cembu-lab/main/assets/6_PUBS_DIF.png" style="max-width:100px; margin-bottom:12px;">
+        <span class="badge badge-teal">PUBLICACIONES & DIFUSIÓN</span>
+        <div class="block-title">Producción Académica</div>
+        <div class="block-sub">Papers, informes técnicos y materiales de divulgación del conocimiento territorial.</div>
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# ------------------------------------------------------------
+# CEMBU LAB
+# ------------------------------------------------------------
+elif pestana == "CEMBU LAB":
+    st.markdown('<div class="content-container">', unsafe_allow_html=True)
+    st.markdown("""
+    <div class="white-block" style="text-align:center;">
+        <img src="https://raw.githubusercontent.com/garciadario1963-bit/cembu-lab/main/assets/CEMBU_LAB_logo.png" style="max-width:100px; margin-bottom:12px;">
+        <span class="badge badge-red">CEMBU LAB</span>
+        <div class="block-title">Modelos & Algoritmos</div>
+        <div class="block-sub">Laboratorio de innovación, datos y metodologías territoriales.</div>
     </div>
     """, unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
