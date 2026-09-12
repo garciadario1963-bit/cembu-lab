@@ -1,7 +1,5 @@
 import streamlit as st
 import streamlit.components.v1 as components
-import folium
-from streamlit_folium import st_folium
 
 # 1. Configuración de la página
 st.set_page_config(
@@ -81,6 +79,21 @@ st.markdown("""
         color: #555555;
         font-size: 0.95rem;
         line-height: 1.4;
+    }
+
+    /* Caja para visualización de mapa */
+    .map-placeholder {
+        background-color: #ffffff;
+        border: 1px solid #e1e4e8;
+        border-radius: 8px;
+        height: 380px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: #586069;
+        text-align: center;
+        padding: 20px;
     }
 
     /* Pie de página (Footer) */
@@ -238,13 +251,13 @@ if pestana == "Tablero de Control":
         st.markdown("#### 📍 Tablero de Control Territorial & Modelización")
         st.caption("Monitor Territorial: Región Metropolitana / AMBA")
         
-        m = folium.Map(location=[-34.6037, -58.3816], zoom_start=10)
-        folium.Marker(
-            [-34.6037, -58.3816],
-            popup="CABA / AMBA - Centro de Análisis CEMBU",
-            tooltip="Ver AMBA"
-        ).add_to(m)
-        st_folium(m, width="100%", height=350)
+        st.markdown("""
+        <div class="map-placeholder">
+            <h3 style="margin:0 0 10px 0; color:#1f77b4;">🗺️ Monitor AMBA / CABA</h3>
+            <p>Visualización interactiva de indicadores territoriales y socioeconómicos.</p>
+            <p style="font-size:0.85rem; color:#888;">Coordenadas de referencia: -34.6037, -58.3816</p>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.markdown("---")
 
