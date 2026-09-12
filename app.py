@@ -116,7 +116,7 @@ st.markdown("""
         margin-bottom: 0;
     }
 
-    /* ---------- BARRA DE NAVEGACIÓN BLANCA FULL-WIDTH ---------- */
+    /* ---------- BARRA DE NAVEGACIÓN BLANCA (2 FILAS) ---------- */
     div[data-testid="stRadio"] {
         background-color: #FFFFFF;
         width: 100vw;
@@ -125,32 +125,36 @@ st.markdown("""
         right: 50%;
         margin-left: -50vw;
         margin-right: -50vw;
-        padding: 14px 0 16px 0;
+        padding: 14px 20px 16px 20px;
         border-bottom: 3px solid #EA580C;
         box-shadow: 0 2px 6px rgba(0,0,0,0.06);
         box-sizing: border-box;
     }
 
+    /* Envoltorio del radiogroup: forzamos que las opciones se acomoden en varias filas */
     div[data-testid="stRadio"] > div[role="radiogroup"] {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 4px;
-        flex-wrap: wrap;
-        max-width: 100%;
-        margin: 0 auto;
-        padding: 0 16px;
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 4px !important;
+        max-width: 1300px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+        padding: 0 !important;
     }
 
+    /* Ocultar SOLO el círculo del radio */
     div[data-testid="stRadio"] label > div:first-child {
         display: none !important;
     }
 
+    /* Cada opción del menú */
     div[data-testid="stRadio"] label {
         background-color: transparent !important;
         color: #334155 !important;
-        font-size: 0.76rem !important;
+        font-size: 0.78rem !important;
         font-weight: 700 !important;
         padding: 8px 12px !important;
         border-radius: 4px !important;
@@ -160,6 +164,9 @@ st.markdown("""
         letter-spacing: 0.3px;
         text-transform: uppercase;
         white-space: nowrap;
+        flex: 0 0 auto !important;
+        width: auto !important;
+        min-width: auto !important;
     }
 
     div[data-testid="stRadio"] label:hover {
@@ -178,10 +185,6 @@ st.markdown("""
         color: inherit !important;
         font-size: inherit !important;
         margin: 0 !important;
-    }
-
-    div[data-testid="stRadio"] > div {
-        width: 100% !important;
     }
 
     /* ---------- CONTENEDOR PRINCIPAL ---------- */
@@ -254,6 +257,8 @@ st.markdown("""
     .unit-logo {
         max-width: 80px;
         max-height: 80px;
+        width: auto;
+        height: auto;
         object-fit: contain;
         margin: 0 auto 10px auto;
         display: block;
@@ -386,7 +391,7 @@ pestana = st.radio(
     key="main_nav"
 )
 
-# URLs base para los logos (raw de GitHub)
+# URLs base para los logos
 BASE_URL = "https://raw.githubusercontent.com/garciadario1963-bit/cembu-lab/main/assets/"
 LOGO_LAB = BASE_URL + "CEMBU_LAB_logo.png"
 LOGO_MATRIA = BASE_URL + "2_MATRIA.png"
@@ -402,7 +407,6 @@ LOGO_PUBS = BASE_URL + "6_PUBS_DIF.png"
 if pestana == "MENÚ":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
 
-    # A) Tres puntas del triángulo
     col1, col2, col3 = st.columns(3, gap="small")
     with col1:
         st.markdown('<div class="triangle-card card-a"><div class="tri-title-a">1. Decisión & Ejecución</div><div class="tri-desc">Quienes deciden, crean y ejecutan las políticas públicas: ministerios y secretarías.</div></div>', unsafe_allow_html=True)
@@ -413,7 +417,6 @@ if pestana == "MENÚ":
 
     st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
-    # B) Carrusel + Mapa
     col_left, col_right = st.columns([1.1, 1], gap="small")
 
     with col_left:
@@ -491,7 +494,6 @@ if pestana == "MENÚ":
 
     st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
-    # C) Las 6 tarjetas de unidades con logos (con URLs GitHub)
     # Fila 1: LAB, MATRIA, OHD
     m1, m2, m3 = st.columns(3, gap="small")
 
@@ -591,118 +593,4 @@ elif pestana == "OHD":
         <img class="unit-logo" src="{LOGO_OHD}" alt="OHD" style="max-width:110px;">
         <span class="badge badge-purple">OHD MONETARIO</span>
         <div class="block-title">Tasas & Liquidez Global</div>
-        <div class="block-sub">Seguimiento semanal de tasas Fed, BCE, BoJ e indicadores monetarios.</div>
-    </div>
-    ''', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# ------------------------------------------------------------
-# PROYS
-# ------------------------------------------------------------
-elif pestana == "PROYS":
-    st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown(f'''
-    <div class="white-block" style="text-align:center;">
-        <img class="unit-logo" src="{LOGO_PROYS}" alt="PROYECTOS" style="max-width:110px;">
-        <span class="badge badge-blue">PROYECTOS</span>
-        <div class="block-title">Proyectos Estratégicos</div>
-        <div class="block-sub">Diseño y ejecución de proyectos de desarrollo territorial y planificación estratégica.</div>
-    </div>
-    ''', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# ------------------------------------------------------------
-# SERV_CONS
-# ------------------------------------------------------------
-elif pestana == "SERV_CONS":
-    st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown(f'''
-    <div class="white-block" style="text-align:center;">
-        <img class="unit-logo" src="{LOGO_SERV}" alt="SERVICIOS" style="max-width:110px;">
-        <span class="badge badge-red">SERVICIOS & CONSULTORÍA</span>
-        <div class="block-title">Asistencia Técnica</div>
-        <div class="block-sub">Servicios profesionales de consultoría para organismos públicos y privados.</div>
-    </div>
-    ''', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# ------------------------------------------------------------
-# PUBS_DIF
-# ------------------------------------------------------------
-elif pestana == "PUBS_DIF":
-    st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown(f'''
-    <div class="white-block" style="text-align:center;">
-        <img class="unit-logo" src="{LOGO_PUBS}" alt="PUBLICACIONES" style="max-width:110px;">
-        <span class="badge badge-teal">PUBLICACIONES & DIFUSIÓN</span>
-        <div class="block-title">Producción Académica</div>
-        <div class="block-sub">Papers, informes técnicos y materiales de divulgación del conocimiento territorial.</div>
-    </div>
-    ''', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# ------------------------------------------------------------
-# CEMBU LAB
-# ------------------------------------------------------------
-elif pestana == "CEMBU LAB":
-    st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown(f'''
-    <div class="white-block" style="text-align:center;">
-        <img class="unit-logo" src="{LOGO_LAB}" alt="CEMBU LAB" style="max-width:110px;">
-        <span class="badge badge-red">CEMBU LAB</span>
-        <div class="block-title">Modelos & Algoritmos</div>
-        <div class="block-sub">Laboratorio de innovación, datos y metodologías territoriales.</div>
-    </div>
-    ''', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# ------------------------------------------------------------
-# CONTACTO
-# ------------------------------------------------------------
-elif pestana == "CONTACTO":
-    st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown("""
-    <div class="white-block">
-        <div class="block-title">📬 Contacto CEMBU</div>
-        <div class="block-sub">Podés comunicarte con nuestro equipo por los siguientes medios:</div>
-        <div style="margin-top: 14px; line-height: 2.2; font-size: 1rem;">
-            📧 <b>Email:</b> <span class="footer-copy-box">contacto@cembu.org</span><br>
-            📱 <b>WhatsApp:</b> <a href="https://wa.me/5491149938695" target="_blank" class="footer-link">11-4993-8695</a><br>
-            📞 <b>Teléfono:</b> 11-4993-8695<br>
-            📍 <b>Ubicación:</b> Ciudad Autónoma de Buenos Aires (CABA), Argentina
-        </div>
-        <div style="margin-top: 20px;">
-            <a href="https://wa.me/5491149938695" target="_blank" class="btn-contacto btn-whatsapp">💬 Enviar WhatsApp</a>
-            <a href="mailto:contacto@cembu.org" class="btn-contacto btn-email">✉️ Enviar Email</a>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# ============================================================
-# 6. FOOTER FULL-WIDTH
-# ============================================================
-st.markdown("""
-<div class="cembu-footer">
-    <div class="footer-grid">
-        <div class="footer-col">
-            <div class="footer-title">CEMBU</div>
-            <div style="font-size:0.9rem; color:#8b949e; line-height:1.5;">
-                Centro de Estudios Manuel Baldomero Ugarte.<br>
-                Conocimiento territorial para el desarrollo soberano.
-            </div>
-        </div>
-        <div class="footer-col">
-            <div class="footer-title">Contacto Directo</div>
-            <div class="footer-item">📧 <b>Email:</b> <span class="footer-copy-box">contacto@cembu.org</span></div>
-            <div class="footer-item">📱 <b>WhatsApp:</b> <a href="https://wa.me/5491149938695" target="_blank" class="footer-link">11-4993-8695</a></div>
-            <div class="footer-item">📞 <b>Teléfono:</b> 11-4993-8695</div>
-        </div>
-        <div class="footer-col">
-            <div class="footer-title">Ubicación</div>
-            <div class="footer-item">📍 Ciudad Autónoma de Buenos Aires (CABA), Argentina</div>
-        </div>
-    </div>
-    <div class="footer-bottom">© CEMBU - Todos los derechos reservados.</div>
-</div>
-""", unsafe_allow_html=True)
+        <div class="block-sub">Seguimiento semanal de tasas Fed, BCE,
