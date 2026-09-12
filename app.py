@@ -3,7 +3,6 @@ import streamlit.components.v1 as components
 import pandas as pd
 import folium
 from streamlit_folium import st_folium
-import os
 
 # ============================================================
 # 1. CONFIGURACIÓN DE PÁGINA
@@ -137,13 +136,11 @@ st.markdown("""
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        gap: 6px;
-        flex-wrap: nowrap;
-        overflow-x: auto;
+        gap: 4px;
+        flex-wrap: wrap;
         max-width: 100%;
         margin: 0 auto;
-        padding: 0 20px;
-        scrollbar-width: thin;
+        padding: 0 16px;
     }
 
     div[data-testid="stRadio"] label > div:first-child {
@@ -153,7 +150,7 @@ st.markdown("""
     div[data-testid="stRadio"] label {
         background-color: transparent !important;
         color: #334155 !important;
-        font-size: 0.78rem !important;
+        font-size: 0.76rem !important;
         font-weight: 700 !important;
         padding: 8px 12px !important;
         border-radius: 4px !important;
@@ -253,10 +250,13 @@ st.markdown("""
         box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         text-align: center;
         height: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
+    }
+    .unit-logo {
+        max-width: 80px;
+        max-height: 80px;
+        object-fit: contain;
+        margin: 0 auto 10px auto;
+        display: block;
     }
     .unit-title {
         font-family: 'Playfair Display', serif;
@@ -328,6 +328,20 @@ st.markdown("""
     }
     .footer-link { color: #25d366; text-decoration: none; font-weight: bold; }
     .footer-link:hover { text-decoration: underline; }
+
+    /* ---------- BOTONES CONTACTO ---------- */
+    .btn-contacto {
+        display: inline-block;
+        padding: 10px 22px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: bold;
+        margin-right: 10px;
+        margin-top: 6px;
+        color: #FFF !important;
+    }
+    .btn-whatsapp { background-color: #25D366; }
+    .btn-email { background-color: #EA580C; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -362,7 +376,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ============================================================
-# 4. MENÚ HORIZONTAL (fondo BLANCO, 8 opciones con Contacto)
+# 4. MENÚ HORIZONTAL (8 opciones con CONTACTO)
 # ============================================================
 pestana = st.radio(
     "nav",
@@ -372,21 +386,14 @@ pestana = st.radio(
     key="main_nav"
 )
 
-# ============================================================
-# FUNCIÓN AUXILIAR PARA CARGAR LOGOS LOCALMENTE
-# ============================================================
-def mostrar_logo(nombre_archivo, ancho=90):
-    """Intenta cargar el logo desde assets/ local, si falla muestra un placeholder."""
-    ruta = f"assets/{nombre_archivo}"
-    if os.path.exists(ruta):
-        st.image(ruta, width=ancho)
-    else:
-        st.markdown(
-            f"<div style='height:{ancho}px; display:flex; align-items:center; justify-content:center; "
-            f"background:#F1F5F9; border:1px dashed #CBD5E1; border-radius:8px; color:#94A3B8; "
-            f"font-size:0.7rem; width:{ancho}px; margin:0 auto;'>LOGO<br>{nombre_archivo}</div>",
-            unsafe_allow_html=True
-        )
+# URLs base para los logos (raw de GitHub)
+BASE_URL = "https://raw.githubusercontent.com/garciadario1963-bit/cembu-lab/main/assets/"
+LOGO_LAB = BASE_URL + "CEMBU_LAB_logo.png"
+LOGO_MATRIA = BASE_URL + "2_MATRIA.png"
+LOGO_OHD = BASE_URL + "3_OHD.png"
+LOGO_PROYS = BASE_URL + "4_PROYS.png"
+LOGO_SERV = BASE_URL + "5_SERV_CONS.png"
+LOGO_PUBS = BASE_URL + "6_PUBS_DIF.png"
 
 # ============================================================
 # 5. CONTENIDO POR PESTAÑA
@@ -406,7 +413,7 @@ if pestana == "MENÚ":
 
     st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
-    # B) Carrusel + Mapa Folium
+    # B) Carrusel + Mapa
     col_left, col_right = st.columns([1.1, 1], gap="small")
 
     with col_left:
@@ -484,24 +491,39 @@ if pestana == "MENÚ":
 
     st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
-    # C) Las 6 tarjetas de unidades con logos (cargados localmente)
+    # C) Las 6 tarjetas de unidades con logos (con URLs GitHub)
     # Fila 1: LAB, MATRIA, OHD
     m1, m2, m3 = st.columns(3, gap="small")
 
     with m1:
-        st.markdown('<div class="unit-card">', unsafe_allow_html=True)
-        mostrar_logo("CEMBU_LAB_logo.png", ancho=90)
-        st.markdown('<span class="badge badge-red">CEMBU LAB</span><div class="unit-title">Modelos & Algoritmos</div><div class="unit-desc">Planificación del desarrollo mediante simulaciones de agentes y coyuntura.</div></div>', unsafe_allow_html=True)
+        st.markdown(f'''
+        <div class="unit-card">
+            <img class="unit-logo" src="{LOGO_LAB}" alt="CEMBU LAB">
+            <span class="badge badge-red">CEMBU LAB</span>
+            <div class="unit-title">Modelos & Algoritmos</div>
+            <div class="unit-desc">Planificación del desarrollo mediante simulaciones de agentes y coyuntura.</div>
+        </div>
+        ''', unsafe_allow_html=True)
 
     with m2:
-        st.markdown('<div class="unit-card">', unsafe_allow_html=True)
-        mostrar_logo("2_MATRIA.png", ancho=90)
-        st.markdown('<span class="badge badge-teal">MATRIA</span><div class="unit-title">Unidades de Producción (UPS)</div><div class="unit-desc">Relevamiento territorial de encadenamientos productivos y matriz insumo-producto.</div></div>', unsafe_allow_html=True)
+        st.markdown(f'''
+        <div class="unit-card">
+            <img class="unit-logo" src="{LOGO_MATRIA}" alt="MATRIA">
+            <span class="badge badge-teal">MATRIA</span>
+            <div class="unit-title">Unidades de Producción (UPS)</div>
+            <div class="unit-desc">Relevamiento territorial de encadenamientos productivos y matriz insumo-producto.</div>
+        </div>
+        ''', unsafe_allow_html=True)
 
     with m3:
-        st.markdown('<div class="unit-card">', unsafe_allow_html=True)
-        mostrar_logo("3_OHD.png", ancho=90)
-        st.markdown('<span class="badge badge-purple">OHD MONETARIO</span><div class="unit-title">Tasas & Liquidez Global</div><div class="unit-desc">Seguimiento semanal de tasas Fed, BCE, BoJ e indicadores monetarios.</div></div>', unsafe_allow_html=True)
+        st.markdown(f'''
+        <div class="unit-card">
+            <img class="unit-logo" src="{LOGO_OHD}" alt="OHD">
+            <span class="badge badge-purple">OHD MONETARIO</span>
+            <div class="unit-title">Tasas & Liquidez Global</div>
+            <div class="unit-desc">Seguimiento semanal de tasas Fed, BCE, BoJ e indicadores monetarios.</div>
+        </div>
+        ''', unsafe_allow_html=True)
 
     st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
@@ -509,23 +531,38 @@ if pestana == "MENÚ":
     p1, p2 = st.columns(2, gap="small")
 
     with p1:
-        st.markdown('<div class="unit-card">', unsafe_allow_html=True)
-        mostrar_logo("4_PROYS.png", ancho=90)
-        st.markdown('<span class="badge badge-blue">PROYECTOS</span><div class="unit-title">Proyectos Estratégicos</div><div class="unit-desc">Diseño y ejecución de proyectos de desarrollo territorial y planificación estratégica.</div></div>', unsafe_allow_html=True)
+        st.markdown(f'''
+        <div class="unit-card">
+            <img class="unit-logo" src="{LOGO_PROYS}" alt="PROYECTOS">
+            <span class="badge badge-blue">PROYECTOS</span>
+            <div class="unit-title">Proyectos Estratégicos</div>
+            <div class="unit-desc">Diseño y ejecución de proyectos de desarrollo territorial y planificación estratégica.</div>
+        </div>
+        ''', unsafe_allow_html=True)
 
     with p2:
-        st.markdown('<div class="unit-card">', unsafe_allow_html=True)
-        mostrar_logo("5_SERV_CONS.png", ancho=90)
-        st.markdown('<span class="badge badge-red">SERVICIOS & CONSULTORÍA</span><div class="unit-title">Asistencia Técnica</div><div class="unit-desc">Servicios profesionales de consultoría para organismos públicos y privados.</div></div>', unsafe_allow_html=True)
+        st.markdown(f'''
+        <div class="unit-card">
+            <img class="unit-logo" src="{LOGO_SERV}" alt="SERVICIOS Y CONSULTORÍA">
+            <span class="badge badge-red">SERVICIOS & CONSULTORÍA</span>
+            <div class="unit-title">Asistencia Técnica</div>
+            <div class="unit-desc">Servicios profesionales de consultoría para organismos públicos y privados.</div>
+        </div>
+        ''', unsafe_allow_html=True)
 
     st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
     # Fila 3: PUBLICACIONES Y DIFUSIÓN (centrada)
     c1, c2, c3 = st.columns([1, 2, 1], gap="small")
     with c2:
-        st.markdown('<div class="unit-card">', unsafe_allow_html=True)
-        mostrar_logo("6_PUBS_DIF.png", ancho=90)
-        st.markdown('<span class="badge badge-teal">PUBLICACIONES & DIFUSIÓN</span><div class="unit-title">Producción Académica</div><div class="unit-desc">Papers, informes técnicos y materiales de divulgación del conocimiento territorial.</div></div>', unsafe_allow_html=True)
+        st.markdown(f'''
+        <div class="unit-card">
+            <img class="unit-logo" src="{LOGO_PUBS}" alt="PUBLICACIONES">
+            <span class="badge badge-teal">PUBLICACIONES & DIFUSIÓN</span>
+            <div class="unit-title">Producción Académica</div>
+            <div class="unit-desc">Papers, informes técnicos y materiales de divulgación del conocimiento territorial.</div>
+        </div>
+        ''', unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -534,9 +571,14 @@ if pestana == "MENÚ":
 # ------------------------------------------------------------
 elif pestana == "MATRIA":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown('<div class="white-block" style="text-align:center;">', unsafe_allow_html=True)
-    mostrar_logo("2_MATRIA.png", ancho=110)
-    st.markdown('<span class="badge badge-teal">MATRIA</span><div class="block-title">Unidades de Producción (UPS)</div><div class="block-sub">Relevamiento territorial de encadenamientos productivos y matriz insumo-producto.</div></div>', unsafe_allow_html=True)
+    st.markdown(f'''
+    <div class="white-block" style="text-align:center;">
+        <img class="unit-logo" src="{LOGO_MATRIA}" alt="MATRIA" style="max-width:110px;">
+        <span class="badge badge-teal">MATRIA</span>
+        <div class="block-title">Unidades de Producción (UPS)</div>
+        <div class="block-sub">Relevamiento territorial de encadenamientos productivos y matriz insumo-producto.</div>
+    </div>
+    ''', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ------------------------------------------------------------
@@ -544,9 +586,14 @@ elif pestana == "MATRIA":
 # ------------------------------------------------------------
 elif pestana == "OHD":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown('<div class="white-block" style="text-align:center;">', unsafe_allow_html=True)
-    mostrar_logo("3_OHD.png", ancho=110)
-    st.markdown('<span class="badge badge-purple">OHD MONETARIO</span><div class="block-title">Tasas & Liquidez Global</div><div class="block-sub">Seguimiento semanal de tasas Fed, BCE, BoJ e indicadores monetarios.</div></div>', unsafe_allow_html=True)
+    st.markdown(f'''
+    <div class="white-block" style="text-align:center;">
+        <img class="unit-logo" src="{LOGO_OHD}" alt="OHD" style="max-width:110px;">
+        <span class="badge badge-purple">OHD MONETARIO</span>
+        <div class="block-title">Tasas & Liquidez Global</div>
+        <div class="block-sub">Seguimiento semanal de tasas Fed, BCE, BoJ e indicadores monetarios.</div>
+    </div>
+    ''', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ------------------------------------------------------------
@@ -554,9 +601,14 @@ elif pestana == "OHD":
 # ------------------------------------------------------------
 elif pestana == "PROYS":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown('<div class="white-block" style="text-align:center;">', unsafe_allow_html=True)
-    mostrar_logo("4_PROYS.png", ancho=110)
-    st.markdown('<span class="badge badge-blue">PROYECTOS</span><div class="block-title">Proyectos Estratégicos</div><div class="block-sub">Diseño y ejecución de proyectos de desarrollo territorial y planificación estratégica.</div></div>', unsafe_allow_html=True)
+    st.markdown(f'''
+    <div class="white-block" style="text-align:center;">
+        <img class="unit-logo" src="{LOGO_PROYS}" alt="PROYECTOS" style="max-width:110px;">
+        <span class="badge badge-blue">PROYECTOS</span>
+        <div class="block-title">Proyectos Estratégicos</div>
+        <div class="block-sub">Diseño y ejecución de proyectos de desarrollo territorial y planificación estratégica.</div>
+    </div>
+    ''', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ------------------------------------------------------------
@@ -564,9 +616,14 @@ elif pestana == "PROYS":
 # ------------------------------------------------------------
 elif pestana == "SERV_CONS":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown('<div class="white-block" style="text-align:center;">', unsafe_allow_html=True)
-    mostrar_logo("5_SERV_CONS.png", ancho=110)
-    st.markdown('<span class="badge badge-red">SERVICIOS & CONSULTORÍA</span><div class="block-title">Asistencia Técnica</div><div class="block-sub">Servicios profesionales de consultoría para organismos públicos y privados.</div></div>', unsafe_allow_html=True)
+    st.markdown(f'''
+    <div class="white-block" style="text-align:center;">
+        <img class="unit-logo" src="{LOGO_SERV}" alt="SERVICIOS" style="max-width:110px;">
+        <span class="badge badge-red">SERVICIOS & CONSULTORÍA</span>
+        <div class="block-title">Asistencia Técnica</div>
+        <div class="block-sub">Servicios profesionales de consultoría para organismos públicos y privados.</div>
+    </div>
+    ''', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ------------------------------------------------------------
@@ -574,9 +631,14 @@ elif pestana == "SERV_CONS":
 # ------------------------------------------------------------
 elif pestana == "PUBS_DIF":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown('<div class="white-block" style="text-align:center;">', unsafe_allow_html=True)
-    mostrar_logo("6_PUBS_DIF.png", ancho=110)
-    st.markdown('<span class="badge badge-teal">PUBLICACIONES & DIFUSIÓN</span><div class="block-title">Producción Académica</div><div class="block-sub">Papers, informes técnicos y materiales de divulgación del conocimiento territorial.</div></div>', unsafe_allow_html=True)
+    st.markdown(f'''
+    <div class="white-block" style="text-align:center;">
+        <img class="unit-logo" src="{LOGO_PUBS}" alt="PUBLICACIONES" style="max-width:110px;">
+        <span class="badge badge-teal">PUBLICACIONES & DIFUSIÓN</span>
+        <div class="block-title">Producción Académica</div>
+        <div class="block-sub">Papers, informes técnicos y materiales de divulgación del conocimiento territorial.</div>
+    </div>
+    ''', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ------------------------------------------------------------
@@ -584,9 +646,14 @@ elif pestana == "PUBS_DIF":
 # ------------------------------------------------------------
 elif pestana == "CEMBU LAB":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown('<div class="white-block" style="text-align:center;">', unsafe_allow_html=True)
-    mostrar_logo("CEMBU_LAB_logo.png", ancho=110)
-    st.markdown('<span class="badge badge-red">CEMBU LAB</span><div class="block-title">Modelos & Algoritmos</div><div class="block-sub">Laboratorio de innovación, datos y metodologías territoriales.</div></div>', unsafe_allow_html=True)
+    st.markdown(f'''
+    <div class="white-block" style="text-align:center;">
+        <img class="unit-logo" src="{LOGO_LAB}" alt="CEMBU LAB" style="max-width:110px;">
+        <span class="badge badge-red">CEMBU LAB</span>
+        <div class="block-title">Modelos & Algoritmos</div>
+        <div class="block-sub">Laboratorio de innovación, datos y metodologías territoriales.</div>
+    </div>
+    ''', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ------------------------------------------------------------
@@ -605,8 +672,8 @@ elif pestana == "CONTACTO":
             📍 <b>Ubicación:</b> Ciudad Autónoma de Buenos Aires (CABA), Argentina
         </div>
         <div style="margin-top: 20px;">
-            <a href="https://wa.me/5491149938695" target="_blank" style="background-color:#25D366; color:white; padding:10px 20px; border-radius:6px; text-decoration:none; font-weight:bold; margin-right:10px;">💬 Enviar WhatsApp</a>
-            <a href="mailto:contacto@cembu.org" style="background-color:#EA580C; color:white; padding:10px 20px; border-radius:6px; text-decoration:none; font-weight:bold;">✉️ Enviar Email</a>
+            <a href="https://wa.me/5491149938695" target="_blank" class="btn-contacto btn-whatsapp">💬 Enviar WhatsApp</a>
+            <a href="mailto:contacto@cembu.org" class="btn-contacto btn-email">✉️ Enviar Email</a>
         </div>
     </div>
     """, unsafe_allow_html=True)
