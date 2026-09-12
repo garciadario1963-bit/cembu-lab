@@ -16,31 +16,46 @@ st.markdown("""
         max-width: 1100px;
     }
 
-    /* Contenedor del Banner Negro Header */
-    .header-box {
+    /* Recuadro Banner Principal totalmente Negro */
+    .header-banner {
         background-color: #0e1117;
-        padding: 20px 30px;
+        padding: 25px 30px;
         border-radius: 8px;
-        border-bottom: 3px solid #ea580c;
-        margin-bottom: 15px;
+        border-bottom: 4px solid #ea580c;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+
+    .header-logo-container {
+        flex: 0 0 auto;
+    }
+
+    .header-text-container {
+        flex: 1;
+        text-align: center;
+        padding-right: 90px; /* Compensa el ancho del logo para centrar exactamente el texto */
     }
 
     .header-title {
         color: #ea580c;
-        font-size: 2.2rem;
-        font-weight: bold;
+        font-size: 2.6rem;
+        font-weight: 800;
         margin: 0;
         line-height: 1.1;
+        letter-spacing: 2px;
     }
 
     .header-subtitle {
-        color: #d1d5db;
-        font-size: 0.95rem;
-        margin-top: 4px;
+        color: #e5e7eb;
+        font-size: 1.05rem;
+        margin-top: 6px;
         margin-bottom: 0;
+        font-weight: 300;
     }
 
-    /* Ajuste para que las imágenes se centren dentro de sus contenedores */
+    /* Centrado de imágenes en tarjetas inferiores */
     [data-testid="stImage"] img {
         margin: 0 auto;
         display: block;
@@ -48,20 +63,20 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 1. BARRA NEGRA SUPERIOR (Logo + Título dentro)
-st.markdown('<div class="header-box">', unsafe_allow_html=True)
-col_logo, col_text = st.columns([1, 5])
+# 1. BARRA / RECUADRO NEGRO SUPERIOR (Logo a la izquierda + Texto bien centrado adentro)
+st.markdown("""
+    <div class="header-banner">
+        <div class="header-logo-container">
+            <img src="app/static/assets/1_CEMBU.png" height="90" alt="Logo CEMBU" onerror="this.src='assets/1_CEMBU.png';">
+        </div>
+        <div class="header-text-container">
+            <h1 class="header-title">CEMBU</h1>
+            <p class="header-subtitle">Conocimiento territorial para el desarrollo soberano</p>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
 
-with col_logo:
-    st.image("assets/1_CEMBU.png", width=90)
-
-with col_text:
-    st.markdown('<p class="header-title">CEMBU</p>', unsafe_allow_html=True)
-    st.markdown('<p class="header-subtitle">Conocimiento territorial para el desarrollo soberano</p>', unsafe_allow_html=True)
-
-st.markdown('</div>', unsafe_allow_html=True)
-
-# 2. MENÚ DE NAVEGACIÓN (Debajo de la barra negra)
+# 2. MENÚ DE NAVEGACIÓN (Ubicado justo debajo del banner negro)
 menu_opcion = st.radio(
     "",
     ["Página Principal", "CEMBU LAB", "CEMBU MATRIA", "CEMBU OHD", "Microdatos", "Contacto"],
@@ -95,7 +110,7 @@ if menu_opcion == "Página Principal":
         st.markdown("""
         <div style="border-left: 4px solid #9333ea; padding-left: 10px;">
             <h4 style="color: #9333ea; margin:0;">3. Transformación Real</h4>
-            <p style="font-size: 0.85rem; color: #555;">Quienes protagonizan los advances sociales: actores territoriales y trabajadores.</p>
+            <p style="font-size: 0.85rem; color: #555;">Quienes protagonizan los avances sociales: actores territoriales y trabajadores.</p>
         </div>
         """, unsafe_allow_html=True)
 
