@@ -10,52 +10,51 @@ st.set_page_config(
 # Estilos CSS personalizados
 st.markdown("""
     <style>
+    /* Ampliar el ancho general para aprovechar mejor la pantalla */
     .block-container {
-        padding-top: 1.5rem;
+        padding-top: 1rem;
         padding-bottom: 2rem;
-        max-width: 1100px;
+        max-width: 95% !important;
     }
 
-    /* Recuadro Banner Principal totalmente Negro */
-    .header-banner {
-        background-color: #0e1117;
-        padding: 25px 30px;
-        border-radius: 8px;
-        border-bottom: 4px solid #ea580c;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+    /* Banner Negro de Ancho Completo */
+    .header-banner-full {
+        background-color: #0b0e14;
+        padding: 25px 35px;
+        border-radius: 10px;
+        border-bottom: 5px solid #ff5722;
         margin-bottom: 20px;
+        width: 100%;
     }
 
-    .header-logo-container {
-        flex: 0 0 auto;
+    .header-title-orange {
+        color: #ff5722 !important;
+        font-size: 3.2rem !important;
+        font-weight: 900 !important;
+        margin: 0 !important;
+        line-height: 1 !important;
+        letter-spacing: 3px;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
 
-    .header-text-container {
-        flex: 1;
-        text-align: center;
-        padding-right: 90px; /* Compensa el ancho del logo para centrar exactamente el texto */
+    .header-subtitle-white {
+        color: #ffffff !important;
+        font-size: 1.15rem !important;
+        margin-top: 8px !important;
+        margin-bottom: 0 !important;
+        font-weight: 400 !important;
     }
 
-    .header-title {
-        color: #ea580c;
-        font-size: 2.6rem;
-        font-weight: 800;
-        margin: 0;
-        line-height: 1.1;
-        letter-spacing: 2px;
+    /* Fondo contenedor para el logo dentro del banner negro */
+    .logo-container-bg {
+        background-color: #ffffff;
+        padding: 8px;
+        border-radius: 12px;
+        display: inline-block;
+        box-shadow: 0 2px 8px rgba(255,255,255,0.2);
     }
 
-    .header-subtitle {
-        color: #e5e7eb;
-        font-size: 1.05rem;
-        margin-top: 6px;
-        margin-bottom: 0;
-        font-weight: 300;
-    }
-
-    /* Centrado de imágenes en tarjetas inferiores */
+    /* Centrado de imágenes en tarjetas */
     [data-testid="stImage"] img {
         margin: 0 auto;
         display: block;
@@ -63,20 +62,22 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# 1. BARRA / RECUADRO NEGRO SUPERIOR (Logo a la izquierda + Texto bien centrado adentro)
-st.markdown("""
-    <div class="header-banner">
-        <div class="header-logo-container">
-            <img src="app/static/assets/1_CEMBU.png" height="90" alt="Logo CEMBU" onerror="this.src='assets/1_CEMBU.png';">
-        </div>
-        <div class="header-text-container">
-            <h1 class="header-title">CEMBU</h1>
-            <p class="header-subtitle">Conocimiento territorial para el desarrollo soberano</p>
-        </div>
-    </div>
-""", unsafe_allow_html=True)
+# 1. BANNER NEGRO ANCHO COMPLETO (Con logo destacado y letras naranjas)
+st.markdown('<div class="header-banner-full">', unsafe_allow_html=True)
+col_logo, col_text = st.columns([1, 5], vertical_alignment="center")
 
-# 2. MENÚ DE NAVEGACIÓN (Ubicado justo debajo del banner negro)
+with col_logo:
+    st.markdown('<div class="logo-container-bg">', unsafe_allow_html=True)
+    st.image("assets/1_CEMBU.png", width=110)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+with col_text:
+    st.markdown('<p class="header-title-orange">CEMBU</p>', unsafe_allow_html=True)
+    st.markdown('<p class="header-subtitle-white">Conocimiento territorial para el desarrollo soberano</p>', unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+# 2. MENÚ DE NAVEGACIÓN (Debajo de la barra negra)
 menu_opcion = st.radio(
     "",
     ["Página Principal", "CEMBU LAB", "CEMBU MATRIA", "CEMBU OHD", "Microdatos", "Contacto"],
@@ -92,25 +93,25 @@ if menu_opcion == "Página Principal":
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown("""
-        <div style="border-left: 4px solid #ea580c; padding-left: 10px;">
-            <h4 style="color: #ea580c; margin:0;">1. Decisión & Ejecución</h4>
-            <p style="font-size: 0.85rem; color: #555;">Quienes deciden, crean y ejecutan las políticas públicas: ministerios y secretarías.</p>
+        <div style="border-left: 4px solid #ff5722; padding-left: 12px;">
+            <h4 style="color: #ff5722; margin:0;">1. Decisión & Ejecución</h4>
+            <p style="font-size: 0.9rem; color: #444;">Quienes deciden, crean y ejecutan las políticas públicas: ministerios y secretarías.</p>
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
         st.markdown("""
-        <div style="border-left: 4px solid #0284c7; padding-left: 10px;">
+        <div style="border-left: 4px solid #0284c7; padding-left: 12px;">
             <h4 style="color: #0284c7; margin:0;">2. Análisis & Modelización</h4>
-            <p style="font-size: 0.85rem; color: #555;">Quienes estudian las complejidades socioeconómicas: academias e institutos.</p>
+            <p style="font-size: 0.9rem; color: #444;">Quienes estudian las complejidades socioeconómicas: academias e institutos.</p>
         </div>
         """, unsafe_allow_html=True)
 
     with col3:
         st.markdown("""
-        <div style="border-left: 4px solid #9333ea; padding-left: 10px;">
+        <div style="border-left: 4px solid #9333ea; padding-left: 12px;">
             <h4 style="color: #9333ea; margin:0;">3. Transformación Real</h4>
-            <p style="font-size: 0.85rem; color: #555;">Quienes protagonizan los avances sociales: actores territoriales y trabajadores.</p>
+            <p style="font-size: 0.9rem; color: #444;">Quienes protagonizan los avances sociales: actores territoriales y trabajadores.</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -150,18 +151,18 @@ if menu_opcion == "Página Principal":
 
     # 6. Pie de Página
     st.markdown("""
-    <div style="background-color: #0e1117; color: white; padding: 25px; border-radius: 8px; margin-top: 30px;">
+    <div style="background-color: #0b0e14; color: white; padding: 25px; border-radius: 8px; margin-top: 30px;">
         <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
             <div>
-                <h4 style="color: #ea580c; margin-bottom: 5px;">CEMBU</h4>
+                <h4 style="color: #ff5722; margin-bottom: 5px;">CEMBU</h4>
                 <p style="font-size: 0.8rem; color: #aaa;">Centro de Estudios Multidisciplinarios Manuel Baldomero Ugarte.<br>Conocimiento territorial para el desarrollo soberano.</p>
             </div>
             <div>
-                <h4 style="color: #ea580c; margin-bottom: 5px;">Contacto Directo</h4>
+                <h4 style="color: #ff5722; margin-bottom: 5px;">Contacto Directo</h4>
                 <p style="font-size: 0.8rem; color: #aaa;">📧 Email: contacto@cembu.org<br>📱 WhatsApp: 11-4993-8695</p>
             </div>
             <div>
-                <h4 style="color: #ea580c; margin-bottom: 5px;">Ubicación</h4>
+                <h4 style="color: #ff5722; margin-bottom: 5px;">Ubicación</h4>
                 <p style="font-size: 0.8rem; color: #aaa;">📍 Ciudad Autónoma de Buenos Aires (CABA), Argentina</p>
             </div>
         </div>
