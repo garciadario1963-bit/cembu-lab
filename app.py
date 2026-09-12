@@ -1,4 +1,4 @@
-  import streamlit as st
+import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
 import folium
@@ -593,4 +593,13 @@ st.markdown("""
             <div class="footer-title">Contacto Directo</div>
             <div class="footer-item">📧 <b>Email:</b> <span class="footer-copy-box">contacto@cembu.org</span></div>
             <div class="footer-item">📱 <b>WhatsApp:</b> <a href="https://wa.me/5491149938695" target="_blank" class="footer-link">11-4993-8695</a></div>
-            <div class="footer-item">📞 <b>Teléfono:</b> 11-4993
+            <div class="footer-item">📞 <b>Teléfono:</b> 11-4993-8695</div>
+        </div>
+        <div class="footer-col">
+            <div class="footer-title">Ubicación</div>
+            <div class="footer-item">📍 Ciudad Autónoma de Buenos Aires (CABA), Argentina</div>
+        </div>
+    </div>
+    <div class="footer-bottom">© CEMBU - Todos los derechos reservados.</div>
+</div>
+""", unsafe_allow_html=True)
