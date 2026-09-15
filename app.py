@@ -35,7 +35,6 @@ st.markdown("""
     section.main > div:first-child { padding-top: 0 !important; }
     #MainMenu, footer, header[data-testid="stHeader"] { visibility: hidden; }
 
-    /* ---------- BANNER NEGRO SUPERIOR ---------- */
     .top-black-banner {
         background-color: #0B0F19;
         color: #FFFFFF;
@@ -109,7 +108,6 @@ st.markdown("""
         margin-bottom: 0;
     }
 
-    /* ---------- BARRA DE MENÚ CON BOTONES ---------- */
     .menu-bar-container {
         background-color: #FFFFFF;
         width: 100vw;
@@ -154,10 +152,8 @@ st.markdown("""
         border-bottom: 2px solid #EA580C !important;
     }
 
-    /* ---------- CONTENEDOR PRINCIPAL ---------- */
     .content-container { padding: 24px 40px 0 40px; }
 
-    /* ---------- TARJETAS DEL TRIÁNGULO ---------- */
     .triangle-card {
         background: #FFFFFF;
         border-radius: 6px;
@@ -174,7 +170,6 @@ st.markdown("""
     .tri-title-c { font-family: 'Playfair Display', serif; color: #4F46E5; font-weight: 700; font-size: 0.98rem; }
     .tri-desc { font-size: 0.75rem; color: #64748B; margin-top: 4px; line-height: 1.3; }
 
-    /* ---------- BLOQUES BLANCOS ---------- */
     .white-block {
         background: #FFFFFF;
         border-radius: 8px;
@@ -194,12 +189,11 @@ st.markdown("""
         margin-bottom: 12px;
     }
 
-    /* ---------- SECCIONES DE CONTENIDO ---------- */
     .section-header {
         display: flex;
         align-items: center;
         gap: 14px;
-        margin-bottom: 10px;
+        margin-bottom: 14px;
     }
     .section-logo {
         width: 70px;
@@ -224,7 +218,6 @@ st.markdown("""
         font-weight: 500;
     }
 
-    /* Párrafos del abstract */
     .abstract-text {
         font-size: 0.95rem;
         color: #334155;
@@ -233,7 +226,6 @@ st.markdown("""
     }
     .abstract-text strong { color: #0F172A; }
 
-    /* Bloques de estructura */
     .struct-block {
         background: #F8FAFC;
         border-left: 3px solid #EA580C;
@@ -246,7 +238,6 @@ st.markdown("""
     }
     .struct-block strong { color: #EA580C; }
 
-    /* Caja de "contenido futuro" */
     .placeholder-box {
         background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%);
         border: 2px dashed #CBD5E1;
@@ -263,7 +254,6 @@ st.markdown("""
         display: block;
     }
 
-    /* ---------- BADGES ---------- */
     .badge {
         font-size: 0.65rem;
         font-weight: 700;
@@ -279,7 +269,6 @@ st.markdown("""
     .badge-purple { background-color: #7C3AED; }
     .badge-blue { background-color: #0284C7; }
 
-    /* ---------- TARJETAS DE UNIDADES CON LOGO ---------- */
     .unit-card {
         background: #FFFFFF;
         border-radius: 8px;
@@ -310,7 +299,6 @@ st.markdown("""
         line-height: 1.4;
     }
 
-    /* ---------- FOOTER ---------- */
     .cembu-footer {
         background-color: #0B0F19;
         color: #c9d1d9;
@@ -368,7 +356,6 @@ st.markdown("""
     .footer-link { color: #25d366; text-decoration: none; font-weight: bold; }
     .footer-link:hover { text-decoration: underline; }
 
-    /* ---------- BOTONES CONTACTO ---------- */
     .btn-contacto {
         display: inline-block;
         padding: 10px 22px;
@@ -449,16 +436,14 @@ LOGO_PUBS = BASE_URL + "6_PUBS_DIF.png"
 # FUNCIÓN: bloque de contacto al final de cada sección
 # ============================================================
 def bloque_contacto():
-    st.markdown("""
-    <div class="white-block" style="background: #0B0F19; color: #E2E8F0; margin-top: 20px;">
-        <div style="font-family: 'Playfair Display', serif; font-size: 1.1rem; color: #EA580C; font-weight: 800; margin-bottom: 10px;">📬 Contacto</div>
-        <div style="font-size: 0.92rem; line-height: 2;">
-            <b>Darío Fabián García</b> — Director Ejecutivo<br>
-            📧 <a href="mailto:dariofgarcia@yahoo.com" style="color:#25D366; text-decoration:none; font-weight:bold;">dariofgarcia@yahoo.com</a><br>
-            📱 <a href="https://wa.me/5491149938695" target="_blank" style="color:#25D366; text-decoration:none; font-weight:bold;">(011) 15-4993-8695</a>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
+    html = '<div class="white-block" style="background: #0B0F19; color: #E2E8F0; margin-top: 20px;">'
+    html += '<div style="font-family: Playfair Display, serif; font-size: 1.1rem; color: #EA580C; font-weight: 800; margin-bottom: 10px;">📬 Contacto</div>'
+    html += '<div style="font-size: 0.92rem; line-height: 2;">'
+    html += '<b>Darío Fabián García</b> — Director Ejecutivo<br>'
+    html += '📧 <a href="mailto:dariofgarcia@yahoo.com" style="color:#25D366; text-decoration:none; font-weight:bold;">dariofgarcia@yahoo.com</a><br>'
+    html += '📱 <a href="https://wa.me/5491149938695" target="_blank" style="color:#25D366; text-decoration:none; font-weight:bold;">(011) 15-4993-8695</a>'
+    html += '</div></div>'
+    st.markdown(html, unsafe_allow_html=True)
 
 # ============================================================
 # 5. CONTENIDO POR PESTAÑA
@@ -484,7 +469,7 @@ if pestana == "MENÚ":
         st.markdown('<div class="white-block" style="padding-bottom: 8px;"><span class="badge badge-red">NOVEDADES & ACTIVIDADES</span><div class="block-title">CLACSO EN LA FILUNI & MONITOR TERRITORIAL</div><div class="block-sub" style="margin-bottom: 8px;">Nuestras últimas actividades académicas y avances en análisis regional.</div></div>', unsafe_allow_html=True)
         carrusel_html = """
         <!DOCTYPE html><html><head><style>
-            body { margin: 0; font-family: 'Inter', sans-serif; background: transparent; }
+            body { margin: 0; font-family: Inter, sans-serif; background: transparent; }
             .carousel-container { position: relative; width: 100%; height: 220px; overflow: hidden; border-radius: 6px; }
             .slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out; }
             .slide.active { opacity: 1; }
@@ -519,312 +504,144 @@ if pestana == "MENÚ":
 
     m1, m2, m3 = st.columns(3, gap="small")
     with m1:
-        st.markdown(f'''<div class="unit-card"><img class="unit-logo" src="{LOGO_LAB}" alt="CEMBU LAB"><span class="badge badge-red">CEMBU LAB</span><div class="unit-title">Modelos & Algoritmos</div><div class="unit-desc">Plataforma de inteligencia territorial: base de datos y modelos predictivos.</div></div>''', unsafe_allow_html=True)
+        st.markdown('<div class="unit-card"><img class="unit-logo" src="' + LOGO_LAB + '" alt="CEMBU LAB"><span class="badge badge-red">CEMBU LAB</span><div class="unit-title">Modelos & Algoritmos</div><div class="unit-desc">Plataforma de inteligencia territorial: base de datos y modelos predictivos.</div></div>', unsafe_allow_html=True)
     with m2:
-        st.markdown(f'''<div class="unit-card"><img class="unit-logo" src="{LOGO_MATRIA}" alt="MATRIA"><span class="badge badge-teal">MATRIA</span><div class="unit-title">Matriz Productiva Popular</div><div class="unit-desc">La data al servicio de la matriz productiva popular.</div></div>''', unsafe_allow_html=True)
+        st.markdown('<div class="unit-card"><img class="unit-logo" src="' + LOGO_MATRIA + '" alt="MATRIA"><span class="badge badge-teal">MATRIA</span><div class="unit-title">Matriz Productiva Popular</div><div class="unit-desc">La data al servicio de la matriz productiva popular.</div></div>', unsafe_allow_html=True)
     with m3:
-        st.markdown(f'''<div class="unit-card"><img class="unit-logo" src="{LOGO_OHD}" alt="OHD"><span class="badge badge-purple">OHD MONETARIO</span><div class="unit-title">Hegemonía del Dólar</div><div class="unit-desc">Seguimiento crítico del sistema monetario global.</div></div>''', unsafe_allow_html=True)
+        st.markdown('<div class="unit-card"><img class="unit-logo" src="' + LOGO_OHD + '" alt="OHD"><span class="badge badge-purple">OHD MONETARIO</span><div class="unit-title">Hegemonía del Dólar</div><div class="unit-desc">Seguimiento crítico del sistema monetario global.</div></div>', unsafe_allow_html=True)
 
     st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
     p1, p2 = st.columns(2, gap="small")
     with p1:
-        st.markdown(f'''<div class="unit-card"><img class="unit-logo" src="{LOGO_PROYS}" alt="PROYECTOS"><span class="badge badge-blue">PROYECTOS</span><div class="unit-title">Consultoría Territorial</div><div class="unit-desc">Líneas de base, monitoreo, evaluación y modelización predictiva.</div></div>''', unsafe_allow_html=True)
+        st.markdown('<div class="unit-card"><img class="unit-logo" src="' + LOGO_PROYS + '" alt="PROYECTOS"><span class="badge badge-blue">PROYECTOS</span><div class="unit-title">Consultoría Territorial</div><div class="unit-desc">Líneas de base, monitoreo, evaluación y modelización predictiva.</div></div>', unsafe_allow_html=True)
     with p2:
-        st.markdown(f'''<div class="unit-card"><img class="unit-logo" src="{LOGO_SERV}" alt="SERVICIOS"><span class="badge badge-red">SERVICIOS & CONSULTORÍA</span><div class="unit-title">Consultoría Electoral</div><div class="unit-desc">Segmentación electoral, historia del voto e identidades territoriales.</div></div>''', unsafe_allow_html=True)
+        st.markdown('<div class="unit-card"><img class="unit-logo" src="' + LOGO_SERV + '" alt="SERVICIOS"><span class="badge badge-red">SERVICIOS & CONSULTORÍA</span><div class="unit-title">Consultoría Electoral</div><div class="unit-desc">Segmentación electoral, historia del voto e identidades territoriales.</div></div>', unsafe_allow_html=True)
 
     st.markdown("<div style='margin-bottom: 16px;'></div>", unsafe_allow_html=True)
 
     c1, c2, c3 = st.columns([1, 2, 1], gap="small")
     with c2:
-        st.markdown(f'''<div class="unit-card"><img class="unit-logo" src="{LOGO_PUBS}" alt="PUBLICACIONES"><span class="badge badge-teal">PUBLICACIONES & DIFUSIÓN</span><div class="unit-title">Producción Académica</div><div class="unit-desc">Papers, informes técnicos y materiales de divulgación.</div></div>''', unsafe_allow_html=True)
+        st.markdown('<div class="unit-card"><img class="unit-logo" src="' + LOGO_PUBS + '" alt="PUBLICACIONES"><span class="badge badge-teal">PUBLICACIONES & DIFUSIÓN</span><div class="unit-title">Producción Académica</div><div class="unit-desc">Papers, informes técnicos y materiales de divulgación.</div></div>', unsafe_allow_html=True)
 
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------- CEMBU LAB --------------------
 elif pestana == "CEMBU LAB":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown(f'''
-    <div class="white-block">
-        <div class="section-header">
-            <img class="section-logo" src="{LOGO_LAB}" alt="CEMBU LAB">
-            <div>
-                <span class="badge badge-red">CEMBU LAB</span>
-                <h1 class="section-title-big">Plataforma de Inteligencia Territorial</h1>
-                <p class="section-subtitle">Base de datos y modelos predictivos para el desarrollo con soberanía</p>
-            </div>
-        </div>
-
-        <p class="abstract-text">
-            <strong>CEMBU Lab</strong> es la plataforma de inteligencia territorial del CEMBU, orientada a generar, procesar y modelizar datos para el diseño de políticas públicas de desarrollo territorial, con foco en la Provincia de Buenos Aires y CABA.
-        </p>
-
-        <div class="struct-block">
-            <strong>Justificación:</strong> La mayoría de los centros de estudios y gobiernos locales no cuentan con una infraestructura de datos robusta ni capacidades de modelización predictiva, lo que genera políticas reactivas y discontinuidad del acumulado técnico. CEMBU Lab se propone llenar ese vacío.
-        </div>
-
-        <div class="struct-block">
-            <strong>Estructura:</strong> Se organiza en tres capas: <br>
-            (1) <b>Infraestructura de datos</b> — 33 fuentes, 5 niveles, 8 unidades de análisis, series 1960-2026.<br>
-            (2) <strong>Modelos predictivos</strong> — complejidad económica, ABM, simulación sectorial, predicción de demanda.<br>
-            (3) <strong>Dashboards y transferencia</strong> — tableros interactivos, informes a medida, capacitación.
-        </div>
-
-        <div class="struct-block">
-            <strong>Árbol de Problemas:</strong> Aborda la fragmentación de datos, la fragmentación de capacidades técnicas y la baja articulación entre academia y gobiernos locales.
-        </div>
-
-        <div class="struct-block">
-            <strong>Características propias:</strong> Integración de fuentes, modelización avanzada, acceso abierto parcial y servicios a medida para gobiernos y organizaciones.
-        </div>
-
-        <div class="struct-block">
-            <strong>Gobernanza:</strong> Dirección Técnica, Comité Científico (universidades asociadas) y usuarios externos. Blindaje mediante acuerdos de confidencialidad y licencias que garantizan neutralidad técnica.
-        </div>
-
-        <div class="placeholder-box">
-            <span class="ph-icon">📊</span>
-            <b>Próximamente: Dashboard Interactivo</b><br>
-            Datos a nivel macro, meso y micro — Modelos predictivos — Series 1960-2026
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
+    html = '<div class="white-block">'
+    html += '<div class="section-header">'
+    html += '<img class="section-logo" src="' + LOGO_LAB + '" alt="CEMBU LAB">'
+    html += '<div><span class="badge badge-red">CEMBU LAB</span>'
+    html += '<h1 class="section-title-big">Plataforma de Inteligencia Territorial</h1>'
+    html += '<p class="section-subtitle">Base de datos y modelos predictivos para el desarrollo con soberanía</p></div></div>'
+    html += '<p class="abstract-text"><strong>CEMBU Lab</strong> es la plataforma de inteligencia territorial del CEMBU, orientada a generar, procesar y modelizar datos para el diseño de políticas públicas de desarrollo territorial, con foco en la Provincia de Buenos Aires y CABA.</p>'
+    html += '<div class="struct-block"><strong>Justificación:</strong> La mayoría de los centros de estudios y gobiernos locales no cuentan con una infraestructura de datos robusta ni capacidades de modelización predictiva, lo que genera políticas reactivas y discontinuidad del acumulado técnico. CEMBU Lab se propone llenar ese vacío.</div>'
+    html += '<div class="struct-block"><strong>Estructura:</strong> Se organiza en tres capas:<br>(1) <b>Infraestructura de datos</b> — 33 fuentes, 5 niveles, 8 unidades de análisis, series 1960-2026.<br>(2) <strong>Modelos predictivos</strong> — complejidad económica, ABM, simulación sectorial, predicción de demanda.<br>(3) <strong>Dashboards y transferencia</strong> — tableros interactivos, informes a medida, capacitación.</div>'
+    html += '<div class="struct-block"><strong>Árbol de Problemas:</strong> Aborda la fragmentación de datos, la fragmentación de capacidades técnicas y la baja articulación entre academia y gobiernos locales.</div>'
+    html += '<div class="struct-block"><strong>Características propias:</strong> Integración de fuentes, modelización avanzada, acceso abierto parcial y servicios a medida para gobiernos y organizaciones.</div>'
+    html += '<div class="struct-block"><strong>Gobernanza:</strong> Dirección Técnica, Comité Científico (universidades asociadas) y usuarios externos. Blindaje mediante acuerdos de confidencialidad y licencias que garantizan neutralidad técnica.</div>'
+    html += '<div class="placeholder-box"><span class="ph-icon">📊</span><b>Próximamente: Dashboard Interactivo</b><br>Datos a nivel macro, meso y micro — Modelos predictivos — Series 1960-2026</div>'
+    html += '</div>'
+    st.markdown(html, unsafe_allow_html=True)
     bloque_contacto()
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------- MATRIA --------------------
 elif pestana == "MATRIA":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown(f'''
-    <div class="white-block">
-        <div class="section-header">
-            <img class="section-logo" src="{LOGO_MATRIA}" alt="MATRIA">
-            <div>
-                <span class="badge badge-teal">MATRIA</span>
-                <h1 class="section-title-big">La Data al Servicio de la Matriz Productiva Popular</h1>
-                <p class="section-subtitle">Relevamiento territorial de encadenamientos productivos</p>
-            </div>
-        </div>
-
-        <p class="abstract-text">
-            <strong>MATRIA</strong> es el espacio del CEMBU dedicado al relevamiento y análisis de la matriz productiva popular, con foco en los encadenamientos productivos, las unidades de producción (UPS) y la construcción de una matriz insumo-producto desde el territorio.
-        </p>
-
-        <div class="struct-block">
-            <strong>Ejes de trabajo:</strong> Relevamiento de Unidades de Producción (UPS), análisis de encadenamientos productivos, construcción de matriz insumo-producto territorial, identificación de cuellos de botella y oportunidades.
-        </div>
-
-        <div class="struct-block">
-            <strong>Enfoque:</strong> Articulación entre actores territoriales, cooperativas, pequeñas unidades productivas y gobiernos locales para fortalecer la matriz productiva popular.
-        </div>
-
-        <div class="placeholder-box">
-            <span class="ph-icon">🗺️</span>
-            <b>Próximamente: Mapa Productivo Interactivo</b><br>
-            Relevamiento de UPS — Encadenamientos productivos — Matriz insumo-producto
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
+    html = '<div class="white-block">'
+    html += '<div class="section-header">'
+    html += '<img class="section-logo" src="' + LOGO_MATRIA + '" alt="MATRIA">'
+    html += '<div><span class="badge badge-teal">MATRIA</span>'
+    html += '<h1 class="section-title-big">La Data al Servicio de la Matriz Productiva Popular</h1>'
+    html += '<p class="section-subtitle">Relevamiento territorial de encadenamientos productivos</p></div></div>'
+    html += '<p class="abstract-text"><strong>MATRIA</strong> es el espacio del CEMBU dedicado al relevamiento y análisis de la matriz productiva popular, con foco en los encadenamientos productivos, las unidades de producción (UPS) y la construcción de una matriz insumo-producto desde el territorio.</p>'
+    html += '<div class="struct-block"><strong>Ejes de trabajo:</strong> Relevamiento de Unidades de Producción (UPS), análisis de encadenamientos productivos, construcción de matriz insumo-producto territorial, identificación de cuellos de botella y oportunidades.</div>'
+    html += '<div class="struct-block"><strong>Enfoque:</strong> Articulación entre actores territoriales, cooperativas, pequeñas unidades productivas y gobiernos locales para fortalecer la matriz productiva popular.</div>'
+    html += '<div class="placeholder-box"><span class="ph-icon">🗺️</span><b>Próximamente: Mapa Productivo Interactivo</b><br>Relevamiento de UPS — Encadenamientos productivos — Matriz insumo-producto</div>'
+    html += '</div>'
+    st.markdown(html, unsafe_allow_html=True)
     bloque_contacto()
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------- OHD --------------------
 elif pestana == "OHD":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown(f'''
-    <div class="white-block">
-        <div class="section-header">
-            <img class="section-logo" src="{LOGO_OHD}" alt="OHD">
-            <div>
-                <span class="badge badge-purple">OHD</span>
-                <h1 class="section-title-big">Observatorio de la Hegemonía del Dólar</h1>
-                <p class="section-subtitle">Análisis teórico-histórico de la moneda, los regímenes de acumulación y la crisis sistémica</p>
-            </div>
-        </div>
-
-        <p class="abstract-text">
-            El <strong>CEMBU OHD</strong> es un observatorio del CEMBU dedicado al análisis teórico-histórico de la moneda, los regímenes de acumulación y la crisis sistémica, desde una perspectiva crítico-materialista y de sociología histórica comparada.
-        </p>
-
-        <div class="struct-block">
-            <strong>Justificación:</strong> La hegemonía del dólar estadounidense está en crisis. La financiarización, la deslocalización industrial y el ascenso de China y los BRICS+ están desafiando el monopolio del dólar como moneda de reserva global. El CEMBU OHD se propone rastrear cómo la forma moneda, el mercado y la extracción del valor han mutado hasta la hegemonía contemporánea del dólar, y explorar las alternativas emergentes.
-        </div>
-
-        <div class="struct-block">
-            <strong>Enfoque metodológico — 3 ejes analíticos:</strong><br>
-            <b>1. Ley de los Grandes Números</b> como patrón de estabilización sistémica: a mayor masa de productores o aportantes, mayor capacidad del sistema para amortiguar perturbaciones.<br>
-            <b>2. Dialéctica Decisión vs. Ejecución:</b> contradicción recurrente entre la decisión centralizada y la ejecución fragmentada.<br>
-            <b>3. Moneda como cristalización de las relaciones sociales:</b> la historia de la moneda es la historia de las formas de expropiación del trabajo y de la lucha de clases.
-        </div>
-
-        <div class="struct-block">
-            <strong>Contenido del documento base:</strong><br>
-            • <b>Parte I:</b> Marco teórico-metodológico (ontología del sujeto histórico, ley de los grandes números, dialéctica decisión-ejecución).<br>
-            • <b>Parte II:</b> Sistema-mundo precapitalista (imperios tributarios de Eurasia, Asia Oriental, América y África; feudalismo europeo como región marginal).<br>
-            • <b>Parte III:</b> Transición al capitalismo y hegemonía del dólar (colonialismo atlántico, capitalismo industrial, régimen del petrodólar).<br>
-            • <b>Parte IV:</b> Conclusiones teóricas y líneas de investigación futuras.
-        </div>
-
-        <div class="struct-block">
-            <strong>Líneas de investigación futuras:</strong><br>
-            1. La transición del patrón oro al sistema Fiat (1971).<br>
-            2. La financiarización y la crisis de la deuda.<br>
-            3. El desafío de los BRICS+ y las alternativas al dólar.<br>
-            4. La moneda como cristalización de las nuevas relaciones de producción (economía de plataformas, trabajo precario, inteligencia artificial).
-        </div>
-
-        <div class="placeholder-box">
-            <span class="ph-icon">🌐</span>
-            <b>Próximamente: Mapas y Monitor Monetario</b><br>
-            Seguimiento de tasas Fed, BCE, BoJ — Flujos globales — Indicadores de desdolarización
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
+    html = '<div class="white-block">'
+    html += '<div class="section-header">'
+    html += '<img class="section-logo" src="' + LOGO_OHD + '" alt="OHD">'
+    html += '<div><span class="badge badge-purple">OHD</span>'
+    html += '<h1 class="section-title-big">Observatorio de la Hegemonía del Dólar</h1>'
+    html += '<p class="section-subtitle">Análisis teórico-histórico de la moneda, los regímenes de acumulación y la crisis sistémica</p></div></div>'
+    html += '<p class="abstract-text">El <strong>CEMBU OHD</strong> es un observatorio del CEMBU dedicado al análisis teórico-histórico de la moneda, los regímenes de acumulación y la crisis sistémica, desde una perspectiva crítico-materialista y de sociología histórica comparada.</p>'
+    html += '<div class="struct-block"><strong>Justificación:</strong> La hegemonía del dólar estadounidense está en crisis. La financiarización, la deslocalización industrial y el ascenso de China y los BRICS+ están desafiando el monopolio del dólar como moneda de reserva global. El CEMBU OHD se propone rastrear cómo la forma moneda, el mercado y la extracción del valor han mutado hasta la hegemonía contemporánea del dólar, y explorar las alternativas emergentes.</div>'
+    html += '<div class="struct-block"><strong>Enfoque metodológico — 3 ejes analíticos:</strong><br><b>1. Ley de los Grandes Números</b> como patrón de estabilización sistémica: a mayor masa de productores o aportantes, mayor capacidad del sistema para amortiguar perturbaciones.<br><b>2. Dialéctica Decisión vs. Ejecución:</b> contradicción recurrente entre la decisión centralizada y la ejecución fragmentada.<br><b>3. Moneda como cristalización de las relaciones sociales:</b> la historia de la moneda es la historia de las formas de expropiación del trabajo y de la lucha de clases.</div>'
+    html += '<div class="struct-block"><strong>Contenido del documento base:</strong><br>• <b>Parte I:</b> Marco teórico-metodológico (ontología del sujeto histórico, ley de los grandes números, dialéctica decisión-ejecución).<br>• <b>Parte II:</b> Sistema-mundo precapitalista (imperios tributarios de Eurasia, Asia Oriental, América y África; feudalismo europeo como región marginal).<br>• <b>Parte III:</b> Transición al capitalismo y hegemonía del dólar (colonialismo atlántico, capitalismo industrial, régimen del petrodólar).<br>• <b>Parte IV:</b> Conclusiones teóricas y líneas de investigación futuras.</div>'
+    html += '<div class="struct-block"><strong>Líneas de investigación futuras:</strong><br>1. La transición del patrón oro al sistema Fiat (1971).<br>2. La financiarización y la crisis de la deuda.<br>3. El desafío de los BRICS+ y las alternativas al dólar.<br>4. La moneda como cristalización de las nuevas relaciones de producción (economía de plataformas, trabajo precario, inteligencia artificial).</div>'
+    html += '<div class="placeholder-box"><span class="ph-icon">🌐</span><b>Próximamente: Mapas y Monitor Monetario</b><br>Seguimiento de tasas Fed, BCE, BoJ — Flujos globales — Indicadores de desdolarización</div>'
+    html += '</div>'
+    st.markdown(html, unsafe_allow_html=True)
     bloque_contacto()
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------- PROYS --------------------
 elif pestana == "PROYS":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown(f'''
-    <div class="white-block">
-        <div class="section-header">
-            <img class="section-logo" src="{LOGO_PROYS}" alt="PROYS">
-            <div>
-                <span class="badge badge-blue">PROYS</span>
-                <h1 class="section-title-big">Consultoría Territorial con Modelización Predictiva</h1>
-                <p class="section-subtitle">Líneas de base, monitoreo, evaluación y modelización predictiva</p>
-            </div>
-        </div>
-
-        <p class="abstract-text">
-            <strong>CEMBU Proys.</strong> es el servicio de consultoría territorial del CEMBU, orientado a proveer a gobiernos locales, organizaciones sociales y universidades de herramientas técnicas para el diseño, monitoreo y evaluación de políticas públicas y proyectos de desarrollo territorial.
-        </p>
-
-        <div class="struct-block">
-            <strong>Justificación:</strong> La mayoría de los municipios y organizaciones sociales carecen de capacidades técnicas para medir el impacto de sus intervenciones y de herramientas predictivas para anticipar escenarios. Esto genera proyectos reactivos, discontinuidad en la gestión y dificultades para acceder a financiamiento.
-        </div>
-
-        <div class="struct-block">
-            <strong>Estructura — 4 líneas de servicio:</strong><br>
-            (1) <b>Líneas de base</b> — diagnósticos territoriales rigurosos.<br>
-            (2) <b>Sistemas de monitoreo</b> — dashboards y tableros de control.<br>
-            (3) <b>Evaluación de impacto</b> — ex-post y longitudinal.<br>
-            (4) <b>Modelización predictiva</b> — simulación de escenarios.
-        </div>
-
-        <div class="struct-block">
-            <strong>Árbol de Problemas:</strong> Aborda las limitaciones en la gestión de programas estatales, la baja conexión entre universidad y gobiernos locales, y la dependencia del presupuesto público sin sistemas de medición de resultados.
-        </div>
-
-        <div class="struct-block">
-            <strong>Características propias:</strong> Enfoque integral (cubre todo el ciclo de un proyecto), basado en datos robustos del CEMBU Lab (33 fuentes, series 1960-2026), modelización predictiva aplicada, transferencia de capacidades a equipos locales, y facilitación del acceso a financiamiento internacional.
-        </div>
-
-        <div class="struct-block">
-            <strong>Gobernanza:</strong> Dirección Técnica, Comité Científico (CEMBU + Universidades) y usuarios externos. Blindaje mediante acuerdos de confidencialidad y licencias que garantizan neutralidad técnica.
-        </div>
-
-        <div class="placeholder-box">
-            <span class="ph-icon">📈</span>
-            <b>Próximamente: Tablero de Proyectos</b><br>
-            Casos de éxito — Metodologías — Simulación de escenarios
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
+    html = '<div class="white-block">'
+    html += '<div class="section-header">'
+    html += '<img class="section-logo" src="' + LOGO_PROYS + '" alt="PROYS">'
+    html += '<div><span class="badge badge-blue">PROYS</span>'
+    html += '<h1 class="section-title-big">Consultoría Territorial con Modelización Predictiva</h1>'
+    html += '<p class="section-subtitle">Líneas de base, monitoreo, evaluación y modelización predictiva</p></div></div>'
+    html += '<p class="abstract-text"><strong>CEMBU Proys.</strong> es el servicio de consultoría territorial del CEMBU, orientado a proveer a gobiernos locales, organizaciones sociales y universidades de herramientas técnicas para el diseño, monitoreo y evaluación de políticas públicas y proyectos de desarrollo territorial.</p>'
+    html += '<div class="struct-block"><strong>Justificación:</strong> La mayoría de los municipios y organizaciones sociales carecen de capacidades técnicas para medir el impacto de sus intervenciones y de herramientas predictivas para anticipar escenarios. Esto genera proyectos reactivos, discontinuidad en la gestión y dificultades para acceder a financiamiento.</div>'
+    html += '<div class="struct-block"><strong>Estructura — 4 líneas de servicio:</strong><br>(1) <b>Líneas de base</b> — diagnósticos territoriales rigurosos.<br>(2) <b>Sistemas de monitoreo</b> — dashboards y tableros de control.<br>(3) <b>Evaluación de impacto</b> — ex-post y longitudinal.<br>(4) <b>Modelización predictiva</b> — simulación de escenarios.</div>'
+    html += '<div class="struct-block"><strong>Árbol de Problemas:</strong> Aborda las limitaciones en la gestión de programas estatales, la baja conexión entre universidad y gobiernos locales, y la dependencia del presupuesto público sin sistemas de medición de resultados.</div>'
+    html += '<div class="struct-block"><strong>Características propias:</strong> Enfoque integral (cubre todo el ciclo de un proyecto), basado en datos robustos del CEMBU Lab (33 fuentes, series 1960-2026), modelización predictiva aplicada, transferencia de capacidades a equipos locales, y facilitación del acceso a financiamiento internacional.</div>'
+    html += '<div class="struct-block"><strong>Gobernanza:</strong> Dirección Técnica, Comité Científico (CEMBU + Universidades) y usuarios externos. Blindaje mediante acuerdos de confidencialidad y licencias que garantizan neutralidad técnica.</div>'
+    html += '<div class="placeholder-box"><span class="ph-icon">📈</span><b>Próximamente: Tablero de Proyectos</b><br>Casos de éxito — Metodologías — Simulación de escenarios</div>'
+    html += '</div>'
+    st.markdown(html, unsafe_allow_html=True)
     bloque_contacto()
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------- SERV_CONS --------------------
 elif pestana == "SERV_CONS":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown(f'''
-    <div class="white-block">
-        <div class="section-header">
-            <img class="section-logo" src="{LOGO_SERV}" alt="SERVICIOS">
-            <div>
-                <span class="badge badge-red">SERVICIOS & CONSULTORÍA</span>
-                <h1 class="section-title-big">Consultoría Electoral y Territorial</h1>
-                <p class="section-subtitle">Segmentación electoral, historia del voto e identidades territoriales</p>
-            </div>
-        </div>
-
-        <p class="abstract-text">
-            <strong>CEMBU Serv. Cons.</strong> es el servicio de consultoría electoral y territorial del CEMBU, orientado a proveer a partidos políticos, municipios y organizaciones sociales de información estratégica sobre el comportamiento electoral, la segmentación poblacional y las identidades territoriales.
-        </p>
-
-        <div class="struct-block">
-            <strong>Justificación:</strong> La mayoría de los actores políticos y territoriales carecen de información confiable, segmentada y dinámica sobre el electorado, lo que genera estrategias basadas en intuiciones o datos desactualizados.
-        </div>
-
-        <div class="struct-block">
-            <strong>Estructura — 5 líneas de servicio:</strong><br>
-            (1) <b>Radiografía del votante</b> — perfiles sociodemográficos, ideológicos, coyunturales.<br>
-            (2) <b>Consumos culturales</b> como indicadores de identidad.<br>
-            (3) <b>Horizontes de expectativas</b> y demandas ciudadanas.<br>
-            (4) <b>Mapeo de valores</b> y sentido común.<br>
-            (5) <b>Modelización predictiva electoral</b>.
-        </div>
-
-        <div class="struct-block">
-            <strong>Árbol de Problemas:</strong> Aborda la fragmentación de datos electorales, la ausencia de capacidades técnicas, y la baja articulación entre academia y actores políticos.
-        </div>
-
-        <div class="struct-block">
-            <strong>Características propias:</strong> Basado en datos robustos del CEMBU Lab, enfoque multidimensional, segmentación territorial, y alianza operativa con <b>Pulso Táctico</b> para trabajo de campo (encuestas, relevamientos). El CEMBU mantiene neutralidad institucional.
-        </div>
-
-        <div class="struct-block">
-            <strong>Gobernanza:</strong> Dirección Técnica del CEMBU, aliado operativo (Pulso Táctico) y usuarios externos. Blindaje mediante acuerdos de confidencialidad.
-        </div>
-
-        <div class="placeholder-box">
-            <span class="ph-icon">🗳️</span>
-            <b>Próximamente: Análisis Electoral</b><br>
-            Segmentación territorial — Mapa de identidades — Modelización de escenarios
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
+    html = '<div class="white-block">'
+    html += '<div class="section-header">'
+    html += '<img class="section-logo" src="' + LOGO_SERV + '" alt="SERVICIOS">'
+    html += '<div><span class="badge badge-red">SERVICIOS & CONSULTORÍA</span>'
+    html += '<h1 class="section-title-big">Consultoría Electoral y Territorial</h1>'
+    html += '<p class="section-subtitle">Segmentación electoral, historia del voto e identidades territoriales</p></div></div>'
+    html += '<p class="abstract-text"><strong>CEMBU Serv. Cons.</strong> es el servicio de consultoría electoral y territorial del CEMBU, orientado a proveer a partidos políticos, municipios y organizaciones sociales de información estratégica sobre el comportamiento electoral, la segmentación poblacional y las identidades territoriales.</p>'
+    html += '<div class="struct-block"><strong>Justificación:</strong> La mayoría de los actores políticos y territoriales carecen de información confiable, segmentada y dinámica sobre el electorado, lo que genera estrategias basadas en intuiciones o datos desactualizados.</div>'
+    html += '<div class="struct-block"><strong>Estructura — 5 líneas de servicio:</strong><br>(1) <b>Radiografía del votante</b> — perfiles sociodemográficos, ideológicos, coyunturales.<br>(2) <b>Consumos culturales</b> como indicadores de identidad.<br>(3) <b>Horizontes de expectativas</b> y demandas ciudadanas.<br>(4) <b>Mapeo de valores</b> y sentido común.<br>(5) <b>Modelización predictiva electoral</b>.</div>'
+    html += '<div class="struct-block"><strong>Árbol de Problemas:</strong> Aborda la fragmentación de datos electorales, la ausencia de capacidades técnicas, y la baja articulación entre academia y actores políticos.</div>'
+    html += '<div class="struct-block"><strong>Características propias:</strong> Basado en datos robustos del CEMBU Lab, enfoque multidimensional, segmentación territorial, y alianza operativa con <b>Pulso Táctico</b> para trabajo de campo (encuestas, relevamientos). El CEMBU mantiene neutralidad institucional.</div>'
+    html += '<div class="struct-block"><strong>Gobernanza:</strong> Dirección Técnica del CEMBU, aliado operativo (Pulso Táctico) y usuarios externos. Blindaje mediante acuerdos de confidencialidad.</div>'
+    html += '<div class="placeholder-box"><span class="ph-icon">🗳️</span><b>Próximamente: Análisis Electoral</b><br>Segmentación territorial — Mapa de identidades — Modelización de escenarios</div>'
+    html += '</div>'
+    st.markdown(html, unsafe_allow_html=True)
     bloque_contacto()
     st.markdown('</div>', unsafe_allow_html=True)
 
 # -------------------- PUBS_DIF --------------------
 elif pestana == "PUBS_DIF":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
-    st.markdown(f'''
-    <div class="white-block">
-        <div class="section-header">
-            <img class="section-logo" src="{LOGO_PUBS}" alt="PUBLICACIONES">
-            <div>
-                <span class="badge badge-teal">PUBLICACIONES & DIFUSIÓN</span>
-                <h1 class="section-title-big">Producción Académica y Divulgación</h1>
-                <p class="section-subtitle">Papers, informes técnicos y materiales de divulgación del conocimiento territorial</p>
-            </div>
-        </div>
-
-        <p class="abstract-text">
-            El área de <strong>Publicaciones y Difusión</strong> del CEMBU reúne la producción académica, los informes técnicos, los materiales de divulgación y las actividades de transferencia de conocimiento hacia la sociedad.
-        </p>
-
-        <div class="struct-block">
-            <strong>Tipos de producción:</strong><br>
-            • <b>Papers académicos</b> — investigaciones originales con rigor metodológico.<br>
-            • <b>Informes técnicos</b> — documentos aplicados para gobiernos y organizaciones.<br>
-            • <b>Working papers</b> — avances de investigación y discusión.<br>
-            • <b>Materiales de divulgación</b> — notas, artículos y contenidos para público general.
-        </div>
-
-        <div class="struct-block">
-            <strong>Actividades:</strong> Participación en congresos, seminarios, mesas de debate, presentaciones en universidades nacionales e internacionales, y articulación con centros de estudios afines.
-        </div>
-
-        <div class="placeholder-box">
-            <span class="ph-icon">📚</span>
-            <b>Próximamente: Repositorio de Publicaciones</b><br>
-            Papers — Informes técnicos — Notas de coyuntura — Materiales de divulgación
-        </div>
-    </div>
-    ''', unsafe_allow_html=True)
+    html = '<div class="white-block">'
+    html += '<div class="section-header">'
+    html += '<img class="section-logo" src="' + LOGO_PUBS + '" alt="PUBLICACIONES">'
+    html += '<div><span class="badge badge-teal">PUBLICACIONES & DIFUSIÓN</span>'
+    html += '<h1 class="section-title-big">Producción Académica y Divulgación</h1>'
+    html += '<p class="section-subtitle">Papers, informes técnicos y materiales de divulgación del conocimiento territorial</p></div></div>'
+    html += '<p class="abstract-text">El área de <strong>Publicaciones y Difusión</strong> del CEMBU reúne la producción académica, los informes técnicos, los materiales de divulgación y las actividades de transferencia de conocimiento hacia la sociedad.</p>'
+    html += '<div class="struct-block"><strong>Tipos de producción:</strong><br>• <b>Papers académicos</b> — investigaciones originales con rigor metodológico.<br>• <b>Informes técnicos</b> — documentos aplicados para gobiernos y organizaciones.<br>• <b>Working papers</b> — avances de investigación y discusión.<br>• <b>Materiales de divulgación</b> — notas, artículos y contenidos para público general.</div>'
+    html += '<div class="struct-block"><strong>Actividades:</strong> Participación en congresos, seminarios, mesas de debate, presentaciones en universidades nacionales e internacionales, y articulación con centros de estudios afines.</div>'
+    html += '<div class="placeholder-box"><span class="ph-icon">📚</span><b>Próximamente: Repositorio de Publicaciones</b><br>Papers — Informes técnicos — Notas de coyuntura — Materiales de divulgación</div>'
+    html += '</div>'
+    st.markdown(html, unsafe_allow_html=True)
     bloque_contacto()
     st.markdown('</div>', unsafe_allow_html=True)
 
@@ -832,22 +649,22 @@ elif pestana == "PUBS_DIF":
 elif pestana == "CONTACTO":
     st.markdown('<div class="content-container">', unsafe_allow_html=True)
     st.markdown("""
-    <div class="white-block">
-        <div class="block-title">📬 Contacto CEMBU</div>
-        <div class="block-sub">Podés comunicarte con nuestro equipo por los siguientes medios:</div>
-        <div style="margin-top: 14px; line-height: 2.2; font-size: 1rem;">
-            👤 <b>Director Ejecutivo:</b> Darío Fabián García<br>
-            📧 <b>Email:</b> <span class="footer-copy-box">dariofgarcia@yahoo.com</span><br>
-            📱 <b>WhatsApp:</b> <a href="https://wa.me/5491149938695" target="_blank" class="footer-link">(011) 15-4993-8695</a><br>
-            📞 <b>Teléfono:</b> (011) 15-4993-8695<br>
-            📍 <b>Ubicación:</b> Ciudad Autónoma de Buenos Aires (CABA), Argentina
-        </div>
-        <div style="margin-top: 20px;">
-            <a href="https://wa.me/5491149938695" target="_blank" class="btn-contacto btn-whatsapp">💬 Enviar WhatsApp</a>
-            <a href="mailto:dariofgarcia@yahoo.com" class="btn-contacto btn-email">✉️ Enviar Email</a>
-        </div>
+<div class="white-block">
+    <div class="block-title">📬 Contacto CEMBU</div>
+    <div class="block-sub">Podés comunicarte con nuestro equipo por los siguientes medios:</div>
+    <div style="margin-top: 14px; line-height: 2.2; font-size: 1rem;">
+        👤 <b>Director Ejecutivo:</b> Darío Fabián García<br>
+        📧 <b>Email:</b> <span class="footer-copy-box">dariofgarcia@yahoo.com</span><br>
+        📱 <b>WhatsApp:</b> <a href="https://wa.me/5491149938695" target="_blank" class="footer-link">(011) 15-4993-8695</a><br>
+        📞 <b>Teléfono:</b> (011) 15-4993-8695<br>
+        📍 <b>Ubicación:</b> Ciudad Autónoma de Buenos Aires (CABA), Argentina
     </div>
-    """, unsafe_allow_html=True)
+    <div style="margin-top: 20px;">
+        <a href="https://wa.me/5491149938695" target="_blank" class="btn-contacto btn-whatsapp">💬 Enviar WhatsApp</a>
+        <a href="mailto:dariofgarcia@yahoo.com" class="btn-contacto btn-email">✉️ Enviar Email</a>
+    </div>
+</div>
+""", unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 # ============================================================
