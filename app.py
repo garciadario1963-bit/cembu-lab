@@ -382,17 +382,38 @@ st.markdown("""
     }
     div[data-testid="stRadio"] label p { color: inherit !important; font-size: inherit !important; }
 
-    /* Botón de descarga del PDF */
+    /* Cuadro centrado al 60% para el bloque de descarga */
+    .download-box {
+        max-width: 60%;
+        margin: 20px auto 0 auto;
+        padding: 22px 26px;
+        background: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+        border: 2px solid #EA580C;
+        border-radius: 10px;
+        text-align: center;
+    }
+    .download-box .dl-title {
+        font-family: 'Playfair Display', serif;
+        font-weight: 800;
+        font-size: 1.1rem;
+        color: #0F172A;
+        margin-bottom: 8px;
+    }
+    .download-box .dl-sub {
+        font-size: 0.85rem;
+        color: #64748B;
+        margin-bottom: 16px;
+        line-height: 1.5;
+    }
     .btn-download {
         display: inline-block;
         background-color: #EA580C;
         color: #FFFFFF !important;
-        padding: 12px 28px;
+        padding: 12px 30px;
         border-radius: 6px;
         text-decoration: none;
         font-weight: bold;
         font-size: 0.95rem;
-        margin-top: 8px;
         transition: all 0.2s ease;
     }
     .btn-download:hover {
@@ -463,8 +484,8 @@ LOGO_PROYS = BASE_URL + "4_PROYS.png"
 LOGO_SERV = BASE_URL + "5_SERV_CONS.png"
 LOGO_PUBS = BASE_URL + "6_PUBS_DIF.png"
 
-# URL de descarga del PDF (subilo a la carpeta docs/ del repo)
-PDF_URL = "https://github.com/garciadario1963-bit/cembu-lab/raw/main/docs/OHD_Fundamentos_Teoricos.pdf"
+# URL CORREGIDA del PDF (raw.githubusercontent.com)
+PDF_URL = "https://raw.githubusercontent.com/garciadario1963-bit/cembu-lab/main/docs/OHD_Fundamentos_Teoricos.pdf"
 
 # ============================================================
 # FUNCIÓN: bloque de contacto
@@ -609,7 +630,7 @@ elif pestana == "OHD":
     html += '</div>'
     st.markdown(html, unsafe_allow_html=True)
 
-    # Sub-navegación interna con radio
+    # Sub-navegación interna
     subtab = st.radio(
         "Sub-sección OHD",
         ["🌍 Mundo Precapitalista", "💵 Hegemonía del Dólar (Siglo XX-XXI)"],
@@ -633,20 +654,21 @@ elif pestana == "OHD":
 
         html += '<p class="abstract-text">El resultado es un mapa orientativo de <strong>25 imperios y regímenes</strong> —desde Roma hasta los EE.UU. contemporáneos— que permite rastrear cómo el capitalismo, como universal concreto, ha operado su negación dialéctica sobre el sistema-mundo precapitalista.</p>'
 
-        # Botón de descarga del documento completo
-        html += '<div style="margin-top:20px; padding-top:20px; border-top:1px solid #E2E8F0;">'
-        html += '<div style="font-family: Playfair Display, serif; font-weight:800; font-size:1.05rem; color:#0F172A; margin-bottom:8px;">📄 Documento completo de trabajo</div>'
-        html += '<p style="font-size:0.88rem; color:#64748B; margin-bottom:12px;">Fundamentos teóricos e históricos de la acumulación, el mercado y la crisis sistémica — 60 páginas, con bibliografía completa.</p>'
-        html += '<a class="btn-download" href="' + PDF_URL + '" target="_blank">⬇️ Descargar PDF completo</a>'
-        html += '</div>'
         html += '</div>'
         st.markdown(html, unsafe_allow_html=True)
+
+        # Cuadro de descarga CENTRADO al 60% (ahora DEBAJO del texto)
+        html_dl = '<div class="download-box">'
+        html_dl += '<div class="dl-title">📄 Documento completo de trabajo</div>'
+        html_dl += '<div class="dl-sub">Fundamentos teóricos e históricos de la acumulación, el mercado y la crisis sistémica — 60 páginas, con bibliografía completa.</div>'
+        html_dl += '<a class="btn-download" href="' + PDF_URL + '" target="_blank">⬇️ Descargar PDF completo</a>'
+        html_dl += '</div>'
+        st.markdown(html_dl, unsafe_allow_html=True)
 
         # Línea de tiempo interactiva
         st.markdown('<div class="white-block" style="padding:0; overflow:hidden;">', unsafe_allow_html=True)
         st.markdown('<div style="padding:20px 28px 0 28px;"><span class="badge badge-red">LÍNEA DE TIEMPO INTERACTIVA</span><h2 class="section-title-big" style="font-size:1.4rem;">Ciclos imperiales: auge y declive</h2><p class="section-subtitle">25 imperios y regímenes a lo largo de 2600 años. Pasá el cursor sobre cada tramo para ver el detalle.</p></div>', unsafe_allow_html=True)
 
-        # Línea de tiempo embebida (el HTML que me pasaste)
         timeline_html = """
 <!DOCTYPE html>
 <html lang="es">
